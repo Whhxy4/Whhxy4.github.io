@@ -4,25 +4,6 @@
   
   
   <entry>
-    <title>HECTF2023</title>
-    <link href="/2023/11/20/HECTF2023/"/>
-    <url>/2023/11/20/HECTF2023/</url>
-    
-    <content type="html"><![CDATA[<h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="ezpcap"><a href="#ezpcap" class="headerlink" title="ezpcap"></a>ezpcap</h2><p>打开流量包</p><p>观察到HTTP状态码两百</p><p>点开看到里面有个压缩包，加密了</p><p>翻翻tcp流量得到密码</p><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">SEVMTE9IRUNURlgyejBVbTIzUkY</span><span class="hljs-operator">=</span><br>解出来<br>HELLOHECTFX2z0Um23RF<br>试了试密码是X2z0Um23RF<br></code></pre></td></tr></table></figure><p>打开得到flag</p>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>CTF-wp-Web&amp;Misc</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>AWD总结</title>
     <link href="/2023/11/17/AWD%E6%80%BB%E7%BB%93/"/>
     <url>/2023/11/17/AWD%E6%80%BB%E7%BB%93/</url>
