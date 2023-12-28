@@ -1,0 +1,976 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Whhxy4">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Java Cryptography - Introduction密码学是制作能够提供信息安全的密码系统的艺术和科学。 密码学处理数字数据的实际保护。 它指的是基于提供基本信息安全服务的数学算法的机制设计。 您可以将密码学视为在安全应用程序中包含不同技术的大型工具包的建立。 什么是密码分析？打破密文的艺术和科学被称为密码分析。 密码分析是密码学的姐妹分支，它们共存。 加密过程产生用于传输或存储的密文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java的Cryptography">
+<meta property="og:url" content="http://example.com/2023/12/03/Java%E7%9A%84Cryptography/index.html">
+<meta property="og:site_name" content="W火火">
+<meta property="og:description" content="Java Cryptography - Introduction密码学是制作能够提供信息安全的密码系统的艺术和科学。 密码学处理数字数据的实际保护。 它指的是基于提供基本信息安全服务的数学算法的机制设计。 您可以将密码学视为在安全应用程序中包含不同技术的大型工具包的建立。 什么是密码分析？打破密文的艺术和科学被称为密码分析。 密码分析是密码学的姐妹分支，它们共存。 加密过程产生用于传输或存储的密文">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/12/03/Java%E7%9A%84Cryptography/message_digest.jpg">
+<meta property="og:image" content="http://example.com/2023/12/03/Java%E7%9A%84Cryptography/creating_mac.jpg">
+<meta property="og:image" content="http://example.com/2023/12/03/Java%E7%9A%84Cryptography/creating_signature.jpg">
+<meta property="article:published_time" content="2023-12-03T02:00:06.000Z">
+<meta property="article:modified_time" content="2023-12-03T01:51:10.783Z">
+<meta property="article:author" content="Whhxy4">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/12/03/Java%E7%9A%84Cryptography/message_digest.jpg">
+  
+  
+  
+  <title>Java的Cryptography - W火火</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/macpanel.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>W火火</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Java的Cryptography"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-12-03 10:00" pubdate>
+          2023年12月3日 上午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          29k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          238 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Java的Cryptography</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="Java-Cryptography-Introduction"><a href="#Java-Cryptography-Introduction" class="headerlink" title="Java Cryptography - Introduction"></a>Java Cryptography - Introduction</h1><p>密码学是制作能够提供信息安全的密码系统的艺术和科学。</p>
+<p>密码学处理数字数据的实际保护。 它指的是基于提供基本信息安全服务的数学算法的机制设计。 您可以将密码学视为在安全应用程序中包含不同技术的大型工具包的建立。</p>
+<h2 id="什么是密码分析？"><a href="#什么是密码分析？" class="headerlink" title="什么是密码分析？"></a>什么是密码分析？</h2><p>打破密文的艺术和科学被称为密码分析。</p>
+<p>密码分析是密码学的姐妹分支，它们共存。 加密过程产生用于传输或存储的密文。 它涉及密码机制的研究，旨在打破它们。 在设计新的加密技术时也使用密码分析来测试它们的安全性。</p>
+<h2 id="密码学原语"><a href="#密码学原语" class="headerlink" title="密码学原语"></a>密码学原语</h2><p>密码学原语只不过是密码学中可以有选择地用于提供一组所需安全服务的工具和技术 -</p>
+<ul>
+<li>Encryption</li>
+<li>散列函数</li>
+<li>消息验证码（MAC）</li>
+<li>数字签名</li>
+</ul>
+<h2 id="Java中的密码学"><a href="#Java中的密码学" class="headerlink" title="Java中的密码学"></a>Java中的密码学</h2><p>Java密码体系结构（JCA）是一组API，用于实现现代密码术的概念，如数字签名，消息摘要，证书，加密，密钥生成和管理，以及安全随机数生成等。</p>
+<p>使用JCA开发人员可以构建集成安全性的应用程序。</p>
+<p>要在应用程序中集成安全性而不是依赖于复杂的安全算法，您可以轻松调用JCA中提供的相应API以获取所需的服务。</p>
+<h1 id="Java-Cryptography-Message-Digest"><a href="#Java-Cryptography-Message-Digest" class="headerlink" title="Java Cryptography - Message Digest"></a>Java Cryptography - Message Digest</h1><p>散列函数非常有用，几乎出现在所有信息安全应用程序中。</p>
+<p>哈希函数是将数字输入值转换为另一个压缩数值的数学函数。 散列函数的输入具有任意长度，但输出始终具有固定长度。</p>
+<p>散列函数返回的值称为<strong>message digest</strong>或简称<strong>hash values</strong> 。 下图说明了散列函数。</p>
+<p><img src="/2023/12/03/Java%E7%9A%84Cryptography/message_digest.jpg" srcset="/img/loading.gif" lazyload alt="信息摘要"></p>
+<p>Java提供了一个名为<strong>MessageDigest</strong>的类，它属于java.security包。 此类支持诸如SHA-1，SHA 256，MD5算法之类的算法，以将任意长度的消息转换为消息摘要。</p>
+<p>要将给定邮件转换为邮件摘要，请按照以下步骤进行操作 -</p>
+<h2 id="第1步-创建MessageDigest对象"><a href="#第1步-创建MessageDigest对象" class="headerlink" title="第1步:创建MessageDigest对象"></a>第1步:创建MessageDigest对象</h2><p>MessageDigest类提供了一个名为**getInstance()**的方法。 此方法接受String变量，该变量指定要使用的算法的名称，并返回实现指定算法的MessageDigest对象。</p>
+<p>使用**getInstance()**方法创建MessageDigest对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">MessageDigest</span> <span class="hljs-variable">md</span> <span class="hljs-operator">=</span> MessageDigest.getInstance(<span class="hljs-string">&quot;SHA-256&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第2步-将数据传递给创建的MessageDigest对象"><a href="#第2步-将数据传递给创建的MessageDigest对象" class="headerlink" title="第2步:将数据传递给创建的MessageDigest对象"></a>第2步:将数据传递给创建的MessageDigest对象</h2><p>创建消息摘要对象后，需要将消息&#x2F;数据传递给它。 您可以使用<strong>MessageDigest</strong>类的**update()**方法执行此操作，此方法接受表示消息的字节数组，并将其添加&#x2F;传递给上面创建的MessageDigest对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">md.update(msg.getBytes());<br></code></pre></td></tr></table></figure>
+
+<h2 id="第3步-生成消息摘要"><a href="#第3步-生成消息摘要" class="headerlink" title="第3步:生成消息摘要"></a>第3步:生成消息摘要</h2><p>您可以使用**digest()**方法生成消息摘要，MessageDigest类此方法计算当前对象的散列函数，并以字节数组的形式返回消息摘要。</p>
+<p>使用摘要方法生成消息摘要。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">byte</span>[] digest = md.digest();<br></code></pre></td></tr></table></figure>
+
+<h3 id="例子-Example"><a href="#例子-Example" class="headerlink" title="例子 (Example)"></a>例子 (Example)</h3><p>以下是从文件中读取数据并生成消息摘要并打印出来的示例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.security.MessageDigest;<br><span class="hljs-keyword">import</span> java.util.Scanner;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MessageDigestExample</span> &#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String args[])</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>      <span class="hljs-comment">//Reading data from user</span><br>      <span class="hljs-type">Scanner</span> <span class="hljs-variable">sc</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Scanner</span>(System.in);<br>      System.out.println(<span class="hljs-string">&quot;Enter the message&quot;</span>);<br>      <span class="hljs-type">String</span> <span class="hljs-variable">message</span> <span class="hljs-operator">=</span> sc.nextLine();<br>      <span class="hljs-comment">//Creating the MessageDigest object  </span><br>      <span class="hljs-type">MessageDigest</span> <span class="hljs-variable">md</span> <span class="hljs-operator">=</span> MessageDigest.getInstance(<span class="hljs-string">&quot;SHA-256&quot;</span>);<br>      <span class="hljs-comment">//Passing data to the created MessageDigest Object</span><br>      md.update(message.getBytes());<br>      <span class="hljs-comment">//Compute the message digest</span><br>      <span class="hljs-type">byte</span>[] digest = md.digest();      <br>      System.out.println(digest);  <br>      <span class="hljs-comment">//Converting the byte array in to HexString format</span><br>      <span class="hljs-type">StringBuffer</span> <span class="hljs-variable">hexString</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">StringBuffer</span>();<br>      <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;i&lt;digest.length;i++) &#123;<br>         hexString.append(Integer.toHexString(<span class="hljs-number">0xFF</span> &amp; digest[i]));<br>      &#125;<br>      System.out.println(<span class="hljs-string">&quot;Hex format : &quot;</span> + hexString.toString());     <br>   &#125;<br>&#125;<br><br><span class="hljs-comment">//Enter the message</span><br><span class="hljs-comment">//Hello how are you</span><br><span class="hljs-comment">//[B@55f96302</span><br><span class="hljs-comment">//Hex format: 2953d33828c395aebe8225236ba4e23fa75e6f13bd881b9056a3295cbd64d3</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Java-Cryptography-Creating-a-MAC"><a href="#Java-Cryptography-Creating-a-MAC" class="headerlink" title="Java Cryptography - Creating a MAC"></a>Java Cryptography - Creating a MAC</h1><p>MAC（ <strong>M</strong> essage <strong>A</strong> uessntication <strong>C</strong> ode）算法是一种对称密钥加密技术，用于提供消息认证。 为了建立MAC过程，发送方和接收方共享对称密钥K.</p>
+<p>实质上，MAC是在基础消息上生成的加密校验和，它与消息一起发送以确保消息验证。</p>
+<p>使用MAC进行身份验证的过程如下图所示 -</p>
+<p><img src="/2023/12/03/Java%E7%9A%84Cryptography/creating_mac.jpg" srcset="/img/loading.gif" lazyload alt="创建MAC"></p>
+<p>在Java中， <strong>javax.crypto</strong>包的<strong>Mac</strong>类提供了消息认证代码的功能。 按照以下步骤使用此类创建消息身份验证代码。</p>
+<h2 id="第1步-创建KeyGenerator对象"><a href="#第1步-创建KeyGenerator对象" class="headerlink" title="第1步:创建KeyGenerator对象"></a>第1步:创建KeyGenerator对象</h2><p><strong>KeyGenerator</strong>类提供<strong>getInstance()<strong>方法，该方法接受表示所需密钥生成算法的String变量，并返回生成密钥的</strong>KeyGenerator</strong>对象。</p>
+<p>使用<strong>getInstance()<strong>方法创建</strong>KeyGenerator</strong>对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating a KeyGenerator object</span><br><span class="hljs-type">KeyGenerator</span> <span class="hljs-variable">keyGen</span> <span class="hljs-operator">=</span> KeyGenerator.getInstance(<span class="hljs-string">&quot;DES&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第2步-创建SecureRandom对象"><a href="#第2步-创建SecureRandom对象" class="headerlink" title="第2步:创建SecureRandom对象"></a>第2步:创建SecureRandom对象</h2><p><strong>java.Security</strong>包的<strong>SecureRandom</strong>类提供了一个强大的随机数生成器，用于在Java中生成随机数。 实例化此类，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating a SecureRandom object</span><br><span class="hljs-type">SecureRandom</span> <span class="hljs-variable">secRandom</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SecureRandom</span>();<br></code></pre></td></tr></table></figure>
+
+<h2 id="第3步-初始化KeyGenerator"><a href="#第3步-初始化KeyGenerator" class="headerlink" title="第3步:初始化KeyGenerator"></a>第3步:初始化KeyGenerator</h2><p><strong>KeyGenerator</strong>类提供了一个名为<strong>init()<strong>方法，此方法接受</strong>SecureRandom</strong>对象并初始化当前的<strong>KeyGenerator</strong> 。</p>
+<p>使用此方法初始化在上一步中创建的KeyGenerator对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Initializing the KeyGenerator</span><br>keyGen.init(secRandom);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第4步-生成密钥"><a href="#第4步-生成密钥" class="headerlink" title="第4步:生成密钥"></a>第4步:生成密钥</h2><p>使用<strong>KeyGenerator</strong>类的**generateKey()**方法生成密钥，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating/Generating a key</span><br><span class="hljs-type">Key</span> <span class="hljs-variable">key</span> <span class="hljs-operator">=</span> keyGen.generateKey();<br></code></pre></td></tr></table></figure>
+
+<h2 id="第5步-初始化Mac对象"><a href="#第5步-初始化Mac对象" class="headerlink" title="第5步:初始化Mac对象"></a>第5步:初始化Mac对象</h2><p>Mac类的**init()**方法接受Key对象并使用给定的键初始化当前的Mac对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Initializing the Mac object</span><br>mac.init(key);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第6步-完成mac操作"><a href="#第6步-完成mac操作" class="headerlink" title="第6步:完成mac操作"></a>第6步:完成mac操作</h2><p>Mac类的**doFinal()**方法用于完成Mac操作。 将所需的数据以字节数组的形式传递给此方法，并完成操作，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Computing the Mac</span><br><span class="hljs-type">String</span> <span class="hljs-variable">msg</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(<span class="hljs-string">&quot;Hi how are you&quot;</span>);<br><span class="hljs-type">byte</span>[] bytes = msg.getBytes();<br><span class="hljs-type">byte</span>[] macResult = mac.doFinal(bytes);<br></code></pre></td></tr></table></figure>
+
+<h3 id="例子-Example-1"><a href="#例子-Example-1" class="headerlink" title="例子 (Example)"></a>例子 (Example)</h3><p>以下示例演示如何使用JCA生成消息验证代码（MAC）。 在这里，我们收到一条简单的消息“你好，你好”，并为该消息生成一个Mac。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.security.Key;<br><span class="hljs-keyword">import</span> java.security.SecureRandom;<br><span class="hljs-keyword">import</span> javax.crypto.KeyGenerator;<br><span class="hljs-keyword">import</span> javax.crypto.Mac;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MacSample</span> &#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String args[])</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>      <span class="hljs-comment">//Creating a KeyGenerator object</span><br>      <span class="hljs-type">KeyGenerator</span> <span class="hljs-variable">keyGen</span> <span class="hljs-operator">=</span> KeyGenerator.getInstance(<span class="hljs-string">&quot;DES&quot;</span>);<br>      <span class="hljs-comment">//Creating a SecureRandom object</span><br>      <span class="hljs-type">SecureRandom</span> <span class="hljs-variable">secRandom</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SecureRandom</span>();<br>      <span class="hljs-comment">//Initializing the KeyGenerator</span><br>      keyGen.init(secRandom);<br>      <span class="hljs-comment">//Creating/Generating a key</span><br>      <span class="hljs-type">Key</span> <span class="hljs-variable">key</span> <span class="hljs-operator">=</span> keyGen.generateKey();	 <br>      <span class="hljs-comment">//Creating a Mac object</span><br>      <span class="hljs-type">Mac</span> <span class="hljs-variable">mac</span> <span class="hljs-operator">=</span> Mac.getInstance(<span class="hljs-string">&quot;HmacSHA256&quot;</span>);<br>      <span class="hljs-comment">//Initializing the Mac object</span><br>      mac.init(key);<br>      <span class="hljs-comment">//Computing the Mac</span><br>      <span class="hljs-type">String</span> <span class="hljs-variable">msg</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(<span class="hljs-string">&quot;Hi how are you&quot;</span>);<br>      <span class="hljs-type">byte</span>[] bytes = msg.getBytes();      <br>      <span class="hljs-type">byte</span>[] macResult = mac.doFinal(bytes);<br>      System.out.println(<span class="hljs-string">&quot;Mac result:&quot;</span>);<br>      System.out.println(<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(macResult));     <br>   &#125;<br>&#125;<br><br><span class="hljs-comment">//Mac result:</span><br><span class="hljs-comment">//HÖ„^ÇƒÎ_Utbh…?š_üzØSSÜh_ž_œa0ŽV?</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Java-Cryptography-Keys"><a href="#Java-Cryptography-Keys" class="headerlink" title="Java Cryptography - Keys"></a>Java Cryptography - Keys</h1><p>密码系统是加密技术及其附带基础设施的实现，以提供信息安全服务。 密码系统也称为<strong>cipher system</strong> 。</p>
+<p>基本密码系统的各种组件是**Plaintext, Encryption Algorithm, Ciphertext, Decryption Algorithm,**加密密钥和解密密钥。</p>
+<p>Where,</p>
+<ul>
+<li><strong>Encryption Key</strong>是发件人已知的值。 发送方将加密密钥与明文一起输入加密算法，以便计算密文。</li>
+<li><strong>Decryption Key</strong>是接收方已知的值。 解密密钥与加密密钥有关，但并不总是与之相同。 接收器将解密密钥与密文一起输入到解密算法中以便计算明文。</li>
+</ul>
+<p>基本上，基于加密 - 解密算法的类型，存在两种类型的密钥&#x2F;密码系统。</p>
+<h2 id="对称密钥加密"><a href="#对称密钥加密" class="headerlink" title="对称密钥加密"></a>对称密钥加密</h2><p>使用<strong>same keys are used for encrypting and decrypting</strong>信息的加密过程称为对称密钥加密。</p>
+<p>对称密码系统的研究被称为<strong>symmetric cryptography</strong> 。 对称密码系统有时也称为<strong>secret key cryptosystems</strong> 。</p>
+<p>以下是对称密钥加密的一些常见示例 -</p>
+<ul>
+<li>数字加密标准（DES）</li>
+<li>三重DES（3DES）</li>
+<li>IDEA</li>
+<li>BLOWFISH</li>
+</ul>
+<h2 id="非对称密钥加密"><a href="#非对称密钥加密" class="headerlink" title="非对称密钥加密"></a>非对称密钥加密</h2><p>使用<strong>different keys are used for encrypting and decrypting the information</strong>的加密过程称为非对称密钥加密。 尽管密钥是不同的，但它们在数学上是相关的，因此通过解密密文来检索明文是可行的。</p>
+<h1 id="Java-Cryptography-Storing-keys"><a href="#Java-Cryptography-Storing-keys" class="headerlink" title="Java Cryptography - Storing keys"></a>Java Cryptography - Storing keys</h1><p>使用&#x2F;生成的密钥和证书存储在称为密钥库的数据库中。 默认情况下，此数据库存储在名为**.keystore**的文件中。</p>
+<p>您可以使用<strong>java.security</strong>包的<strong>KeyStore</strong>类访问此数据库的内容。 它管理三个不同的条目，即PrivateKeyEntry，SecretKeyEntry，TrustedCertificateEntry。</p>
+<ul>
+<li>PrivateKeyEntry</li>
+<li>SecretKeyEntry</li>
+<li>TrustedCertificateEntry</li>
+</ul>
+<h2 id="在密钥库中存储密钥"><a href="#在密钥库中存储密钥" class="headerlink" title="在密钥库中存储密钥"></a>在密钥库中存储密钥</h2><p>在本节中，我们将学习如何在密钥库中存储密钥。 要在密钥库中存储密钥，请按照以下步骤操作。</p>
+<h3 id="第1步-创建KeyStore对象"><a href="#第1步-创建KeyStore对象" class="headerlink" title="第1步:创建KeyStore对象"></a>第1步:创建KeyStore对象</h3><p><strong>java.security</strong>包的<strong>KeyStore</strong>类的**getInstance()**方法接受表示密钥库类型的字符串值，并返回KeyStore对象。</p>
+<p>使用**getInstance()**方法创建KeyStore类的对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating the KeyStore object</span><br><span class="hljs-type">KeyStore</span> <span class="hljs-variable">keyStore</span> <span class="hljs-operator">=</span> KeyStore.getInstance(<span class="hljs-string">&quot;JCEKS&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h3 id="第2步-加载KeyStore对象"><a href="#第2步-加载KeyStore对象" class="headerlink" title="第2步:加载KeyStore对象"></a>第2步:加载KeyStore对象</h3><p>KeyStore类的**load()**方法接受表示密钥库文件的FileInputStream对象和指定KeyStore密码的String参数。</p>
+<p>通常，KeyStore存储在名为<strong>cacerts</strong>的文件中，位于<strong>C:&#x2F;Program Files&#x2F;Java&#x2F;jre1.8.0_101&#x2F;lib&#x2F;security&#x2F;</strong> ，其默认密码为<strong>changeit</strong> ，使用**load()**方法加载它，如图所示下面。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Loading the KeyStore object</span><br><span class="hljs-type">char</span>[] password = <span class="hljs-string">&quot;changeit&quot;</span>.toCharArray();<br><span class="hljs-type">String</span> <span class="hljs-variable">path</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;C:/Program Files/Java/jre1.8.0_101/lib/security/cacerts&quot;</span>;<br>java.io.<span class="hljs-type">FileInputStream</span> <span class="hljs-variable">fis</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(path);<br>keyStore.load(fis, password);<br></code></pre></td></tr></table></figure>
+
+<h3 id="第3步-创建KeyStore-ProtectionParameter对象"><a href="#第3步-创建KeyStore-ProtectionParameter对象" class="headerlink" title="第3步:创建KeyStore.ProtectionParameter对象"></a>第3步:创建KeyStore.ProtectionParameter对象</h3><p>实例化KeyStore.ProtectionParameter，如下所示</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating the KeyStore.ProtectionParameter object</span><br>KeyStore.<span class="hljs-type">ProtectionParameter</span> <span class="hljs-variable">protectionParam</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyStore</span>.PasswordProtection(password);<br></code></pre></td></tr></table></figure>
+
+<h3 id="第4步-创建一个SecretKey对象"><a href="#第4步-创建一个SecretKey对象" class="headerlink" title="第4步:创建一个SecretKey对象"></a>第4步:创建一个SecretKey对象</h3><p>通过实例化其Sub类<strong>SecretKeySpec</strong>创建<strong>SecretKey</strong> （接口）对象。 在实例化时，您需要将密码和算法作为参数传递给其构造函数，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating SecretKey object</span><br><span class="hljs-type">SecretKey</span> <span class="hljs-variable">mySecretKey</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SecretKeySpec</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(keyPassword).getBytes(), <span class="hljs-string">&quot;DSA&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h3 id="第5步-创建一个SecretKeyEntry对象"><a href="#第5步-创建一个SecretKeyEntry对象" class="headerlink" title="第5步:创建一个SecretKeyEntry对象"></a>第5步:创建一个SecretKeyEntry对象</h3><p>通过传递在上面步骤中创建的<strong>SecretKey</strong>对象来创建<strong>SecretKeyEntry</strong>类的对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating SecretKeyEntry object</span><br>KeyStore.<span class="hljs-type">SecretKeyEntry</span> <span class="hljs-variable">secretKeyEntry</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyStore</span>.SecretKeyEntry(mySecretKey);<br></code></pre></td></tr></table></figure>
+
+<h3 id="步骤6-设置KeyStore的条目"><a href="#步骤6-设置KeyStore的条目" class="headerlink" title="步骤6:设置KeyStore的条目"></a>步骤6:设置KeyStore的条目</h3><p><strong>KeyStore</strong>类的**setEntry()**方法接受表示密钥库条目别名的String参数， <strong>SecretKeyEntry</strong>对象，ProtectionParameter对象，并将条目存储在给定别名下。</p>
+<p>使用**setEntry()**方法将条目设置为密钥库，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Set the entry to the keystore</span><br>keyStore.setEntry(<span class="hljs-string">&quot;secretKeyAlias&quot;</span>, secretKeyEntry, protectionParam);<br></code></pre></td></tr></table></figure>
+
+<p><strong>Example</strong></p>
+<p>以下示例将密钥存储到“cacerts”文件（Windows 10操作系统）中存在的密钥库中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.FileInputStream;<br><span class="hljs-keyword">import</span> java.security.KeyStore;<br><span class="hljs-keyword">import</span> javax.crypto.SecretKey;<br><span class="hljs-keyword">import</span> javax.crypto.spec.SecretKeySpec;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">StoringIntoKeyStore</span>&#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String args[])</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>      <span class="hljs-comment">//Creating the KeyStore object</span><br>      <span class="hljs-type">KeyStore</span> <span class="hljs-variable">keyStore</span> <span class="hljs-operator">=</span> KeyStore.getInstance(<span class="hljs-string">&quot;JCEKS&quot;</span>);<br>      <span class="hljs-comment">//Loading the KeyStore object</span><br>      <span class="hljs-type">char</span>[] password = <span class="hljs-string">&quot;changeit&quot;</span>.toCharArray();<br>      <span class="hljs-type">String</span> <span class="hljs-variable">path</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;C:/Program Files/Java/jre1.8.0_101/lib/security/cacerts&quot;</span>;<br>      java.io.<span class="hljs-type">FileInputStream</span> <span class="hljs-variable">fis</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(path);<br>      keyStore.load(fis, password);<br>      <span class="hljs-comment">//Creating the KeyStore.ProtectionParameter object</span><br>      KeyStore.<span class="hljs-type">ProtectionParameter</span> <span class="hljs-variable">protectionParam</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyStore</span>.PasswordProtection(password);<br>      <span class="hljs-comment">//Creating SecretKey object</span><br>      <span class="hljs-type">SecretKey</span> <span class="hljs-variable">mySecretKey</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SecretKeySpec</span>(<span class="hljs-string">&quot;myPassword&quot;</span>.getBytes(), <span class="hljs-string">&quot;DSA&quot;</span>);<br>      <span class="hljs-comment">//Creating SecretKeyEntry object</span><br>      KeyStore.<span class="hljs-type">SecretKeyEntry</span> <span class="hljs-variable">secretKeyEntry</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyStore</span>.SecretKeyEntry(mySecretKey);<br>      keyStore.setEntry(<span class="hljs-string">&quot;secretKeyAlias&quot;</span>, secretKeyEntry, protectionParam);<br>      <span class="hljs-comment">//Storing the KeyStore object</span><br>      java.io.<span class="hljs-type">FileOutputStream</span> <span class="hljs-variable">fos</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>      fos = <span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.io.FileOutputStream(<span class="hljs-string">&quot;newKeyStoreName&quot;</span>);<br>      keyStore.store(fos, password);<br>      System.out.println(<span class="hljs-string">&quot;data stored&quot;</span>);<br>   &#125;<br>&#125;<br><br><span class="hljs-comment">//上述程序生成以下输出 -</span><br><span class="hljs-comment">//System.out.println(&quot;data stored&quot;);</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Java-Cryptography-Retrieving-keys"><a href="#Java-Cryptography-Retrieving-keys" class="headerlink" title="Java Cryptography - Retrieving keys"></a>Java Cryptography - Retrieving keys</h1><p>在本章中，我们将学习如何使用Java Cryptography从密钥库中检索密钥。</p>
+<p>要从密钥库中检索密钥，请按照以下步骤操作。</p>
+<h2 id="第1步-创建KeyStore对象-1"><a href="#第1步-创建KeyStore对象-1" class="headerlink" title="第1步:创建KeyStore对象"></a>第1步:创建KeyStore对象</h2><p><strong>java.security</strong>包的<strong>KeyStore</strong>类的**getInstance()**方法接受表示密钥库类型的字符串值，并返回KeyStore对象。</p>
+<p>使用此方法创建KeyStore类的对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating the KeyStore object</span><br><span class="hljs-type">KeyStore</span> <span class="hljs-variable">keyStore</span> <span class="hljs-operator">=</span> KeyStore.getInstance(<span class="hljs-string">&quot;JCEKS&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第2步-加载KeyStore对象-1"><a href="#第2步-加载KeyStore对象-1" class="headerlink" title="第2步:加载KeyStore对象"></a>第2步:加载KeyStore对象</h2><p>KeyStore类的<strong>load()<strong>方法接受表示密钥库文件的</strong>FileInputStream</strong>对象和指定KeyStore密码的String参数。</p>
+<p>通常，KeyStore存储在名为<strong>cacerts</strong>的文件中，位于<strong>C:&#x2F;Program Files&#x2F;Java&#x2F;jre1.8.0_101&#x2F;lib&#x2F;security&#x2F;</strong> ，其默认密码为<strong>changeit</strong> ，使用**load()**方法加载它，如图所示下面。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Loading the KeyStore object</span><br><span class="hljs-type">char</span>[] password = <span class="hljs-string">&quot;changeit&quot;</span>.toCharArray();<br><span class="hljs-type">String</span> <span class="hljs-variable">path</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;C:/Program Files/Java/jre1.8.0_101/lib/security/cacerts&quot;</span>;<br>java.io.<span class="hljs-type">FileInputStream</span> <span class="hljs-variable">fis</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(path);<br>keyStore.load(fis, password);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第3步-创建KeyStore-ProtectionParameter对象-1"><a href="#第3步-创建KeyStore-ProtectionParameter对象-1" class="headerlink" title="第3步:创建KeyStore.ProtectionParameter对象"></a>第3步:创建KeyStore.ProtectionParameter对象</h2><p>实例化KeyStore.ProtectionParameter，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating the KeyStore.ProtectionParameter object</span><br>KeyStore.<span class="hljs-type">ProtectionParameter</span> <span class="hljs-variable">protectionParam</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyStore</span>.PasswordProtection(password);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第4步-创建一个SecretKey对象-1"><a href="#第4步-创建一个SecretKey对象-1" class="headerlink" title="第4步:创建一个SecretKey对象"></a>第4步:创建一个SecretKey对象</h2><p>通过实例化其Sub类<strong>SecretKeySpec</strong>创建<strong>SecretKey</strong> （接口）对象。 在实例化时，您需要将密码和算法作为参数传递给其构造函数，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating SecretKey object</span><br><span class="hljs-type">SecretKey</span> <span class="hljs-variable">mySecretKey</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SecretKeySpec</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(keyPassword).getBytes(), <span class="hljs-string">&quot;DSA&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第5步-创建一个SecretKeyEntry对象-1"><a href="#第5步-创建一个SecretKeyEntry对象-1" class="headerlink" title="第5步:创建一个SecretKeyEntry对象"></a>第5步:创建一个SecretKeyEntry对象</h2><p>通过传递在上面步骤中创建的<strong>SecretKey</strong>对象来创建<strong>SecretKeyEntry</strong>类的对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating SecretKeyEntry object</span><br>KeyStore.<span class="hljs-type">SecretKeyEntry</span> <span class="hljs-variable">secretKeyEntry</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyStore</span>.SecretKeyEntry(mySecretKey);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第6步-设置KeyStore的条目"><a href="#第6步-设置KeyStore的条目" class="headerlink" title="第6步:设置KeyStore的条目"></a>第6步:设置KeyStore的条目</h2><p><strong>KeyStore</strong>类的**setEntry()**方法接受表示密钥库条目别名的String参数， <strong>SecretKeyEntry</strong>对象，ProtectionParameter对象，并将条目存储在给定别名下。</p>
+<p>使用**setEntry()**方法将条目设置为密钥库，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Set the entry to the keystore</span><br>keyStore.setEntry(<span class="hljs-string">&quot;secretKeyAlias&quot;</span>, secretKeyEntry, protectionParam);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第7步-创建KeyStore-SecretKeyEntry对象"><a href="#第7步-创建KeyStore-SecretKeyEntry对象" class="headerlink" title="第7步:创建KeyStore.SecretKeyEntry对象"></a>第7步:创建KeyStore.SecretKeyEntry对象</h2><p>KeyStore类的<strong>getEntry()<strong>方法接受别名（String参数），并将ProtectionParameter类的对象作为参数，并返回</strong>KeyStoreEntry</strong>对象，然后将其转换为<strong>KeyStore.SecretKeyEntry</strong>对象。</p>
+<p>通过将必需键的别名和前面步骤中创建的保护参数对象传递给**getEntry()**方法，创建KeyStore.SecretKeyEntry类的对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating the KeyStore.SecretKeyEntry object</span><br>KeyStore.<span class="hljs-type">SecretKeyEntry</span> <span class="hljs-variable">secretKeyEnt</span> <span class="hljs-operator">=</span> (KeyStore.SecretKeyEntry)keyStore.getEntry(<span class="hljs-string">&quot;secretKeyAlias&quot;</span>, protectionParam);<br></code></pre></td></tr></table></figure>
+
+<h2 id="步骤8-创建检索到的条目的密钥对象"><a href="#步骤8-创建检索到的条目的密钥对象" class="headerlink" title="步骤8:创建检索到的条目的密钥对象"></a>步骤8:创建检索到的条目的密钥对象</h2><p><strong>SecretKeyEntry</strong>类的**getSecretKey()**方法返回一个SecretKey对象。 使用此方法创建一个SecretKey对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating SecretKey object</span><br><span class="hljs-type">SecretKey</span> <span class="hljs-variable">mysecretKey</span> <span class="hljs-operator">=</span> secretKeyEnt.getSecretKey();      <br>System.out.println(mysecretKey);<br></code></pre></td></tr></table></figure>
+
+<h3 id="例子-Example-2"><a href="#例子-Example-2" class="headerlink" title="例子 (Example)"></a>例子 (Example)</h3><p>以下示例显示了如何从密钥库中检索密钥。 在这里，我们将密钥存储在密钥库中，该密钥库位于“cacerts”文件（Windows 10操作系统）中，检索它，并显示它的一些属性，例如用于生成密钥的算法，以及格式检索到的密钥。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.FileInputStream;<br><span class="hljs-keyword">import</span> java.security.KeyStore;<br><span class="hljs-keyword">import</span> java.security.KeyStore.ProtectionParameter;<br><span class="hljs-keyword">import</span> java.security.KeyStore.SecretKeyEntry;<br><span class="hljs-keyword">import</span> javax.crypto.SecretKey;<br><span class="hljs-keyword">import</span> javax.crypto.spec.SecretKeySpec;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RetrievingFromKeyStore</span>&#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String args[])</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>      <span class="hljs-comment">//Creating the KeyStore object</span><br>      <span class="hljs-type">KeyStore</span> <span class="hljs-variable">keyStore</span> <span class="hljs-operator">=</span> KeyStore.getInstance(<span class="hljs-string">&quot;JCEKS&quot;</span>);<br>      <span class="hljs-comment">//Loading the the KeyStore object</span><br>      <span class="hljs-type">char</span>[] password = <span class="hljs-string">&quot;changeit&quot;</span>.toCharArray();<br>      java.io.<span class="hljs-type">FileInputStream</span> <span class="hljs-variable">fis</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(<br>         <span class="hljs-string">&quot;C:/Program Files/Java/jre1.8.0_101/lib/security/cacerts&quot;</span>);<br>      keyStore.load(fis, password);<br>      <span class="hljs-comment">//Creating the KeyStore.ProtectionParameter object</span><br>      <span class="hljs-type">ProtectionParameter</span> <span class="hljs-variable">protectionParam</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">KeyStore</span>.PasswordProtection(password);<br>      <span class="hljs-comment">//Creating SecretKey object</span><br>      <span class="hljs-type">SecretKey</span> <span class="hljs-variable">mySecretKey</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SecretKeySpec</span>(<span class="hljs-string">&quot;myPassword&quot;</span>.getBytes(), <span class="hljs-string">&quot;DSA&quot;</span>);<br>      <span class="hljs-comment">//Creating SecretKeyEntry object</span><br>      <span class="hljs-type">SecretKeyEntry</span> <span class="hljs-variable">secretKeyEntry</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SecretKeyEntry</span>(mySecretKey);<br>      keyStore.setEntry(<span class="hljs-string">&quot;secretKeyAlias&quot;</span>, secretKeyEntry, protectionParam);<br>      <span class="hljs-comment">//Storing the KeyStore object</span><br>      java.io.<span class="hljs-type">FileOutputStream</span> <span class="hljs-variable">fos</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>      fos = <span class="hljs-keyword">new</span> <span class="hljs-title class_">java</span>.io.FileOutputStream(<span class="hljs-string">&quot;newKeyStoreName&quot;</span>);<br>      keyStore.store(fos, password);<br>      <span class="hljs-comment">//Creating the KeyStore.SecretKeyEntry object</span><br>      <span class="hljs-type">SecretKeyEntry</span> <span class="hljs-variable">secretKeyEnt</span> <span class="hljs-operator">=</span> (SecretKeyEntry)keyStore.getEntry(<span class="hljs-string">&quot;secretKeyAlias&quot;</span>, protectionParam);<br>      <span class="hljs-comment">//Creating SecretKey object</span><br>      <span class="hljs-type">SecretKey</span> <span class="hljs-variable">mysecretKey</span> <span class="hljs-operator">=</span> secretKeyEnt.getSecretKey();      <br>      System.out.println(<span class="hljs-string">&quot;Algorithm used to generate key : &quot;</span>+mysecretKey.getAlgorithm());   <br>      System.out.println(<span class="hljs-string">&quot;Format used for the key: &quot;</span>+mysecretKey.getFormat());<br>   &#125;<br>&#125;<br><br><span class="hljs-comment">//Algorithm used to generate key: DSA</span><br><span class="hljs-comment">//Format of the key: RAW</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Java-Cryptography-KeyGenerator"><a href="#Java-Cryptography-KeyGenerator" class="headerlink" title="Java Cryptography - KeyGenerator"></a>Java Cryptography - KeyGenerator</h1><p>Java提供了<strong>KeyGenerator</strong>类，该类用于生成密钥，此类的对象是可重用的。</p>
+<p>要使用KeyGenerator类生成密钥，请按照以下步骤操作。</p>
+<h2 id="第1步-创建KeyGenerator对象-1"><a href="#第1步-创建KeyGenerator对象-1" class="headerlink" title="第1步:创建KeyGenerator对象"></a>第1步:创建KeyGenerator对象</h2><p><strong>KeyGenerator</strong>类提供**getInstance()**方法，该方法接受表示所需密钥生成算法的String变量，并返回生成密钥的KeyGenerator对象。</p>
+<p>使用<strong>getInstance()<strong>方法创建</strong>KeyGenerator</strong>对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating a KeyGenerator object</span><br><span class="hljs-type">KeyGenerator</span> <span class="hljs-variable">keyGen</span> <span class="hljs-operator">=</span> KeyGenerator.getInstance(<span class="hljs-string">&quot;DES&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第2步-创建SecureRandom对象-1"><a href="#第2步-创建SecureRandom对象-1" class="headerlink" title="第2步:创建SecureRandom对象"></a>第2步:创建SecureRandom对象</h2><p><strong>java.Security</strong>包的<strong>SecureRandom</strong>类提供了一个强大的随机数生成器，用于在Java中生成随机数。 实例化此类，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating a SecureRandom object</span><br><span class="hljs-type">SecureRandom</span> <span class="hljs-variable">secRandom</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SecureRandom</span>();<br></code></pre></td></tr></table></figure>
+
+<h2 id="第3步-初始化KeyGenerator-1"><a href="#第3步-初始化KeyGenerator-1" class="headerlink" title="第3步:初始化KeyGenerator"></a>第3步:初始化KeyGenerator</h2><p><strong>KeyGenerator</strong>类提供了一个名为<strong>init()<strong>方法，此方法接受SecureRandom对象并初始化当前的</strong>KeyGenerator</strong> 。</p>
+<p>使用**init()<strong>方法</strong>init()**在上一步中创建的KeyGenerator对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Initializing the KeyGenerator</span><br>keyGen.init(secRandom);<br></code></pre></td></tr></table></figure>
+
+<h3 id="例子-Example-3"><a href="#例子-Example-3" class="headerlink" title="例子 (Example)"></a>例子 (Example)</h3><p>下面的示例演示了使用<strong>javax.crypto</strong>包的KeyGenerator类生成密钥的密钥。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> javax.crypto.Cipher;<br><span class="hljs-keyword">import</span> javax.crypto.KeyGenerator;<br><span class="hljs-keyword">import</span> java.security.Key;<br><span class="hljs-keyword">import</span> java.security.SecureRandom;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">KeyGeneratorExample</span> &#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String args[])</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>      <span class="hljs-comment">//Creating a KeyGenerator object</span><br>      <span class="hljs-type">KeyGenerator</span> <span class="hljs-variable">keyGen</span> <span class="hljs-operator">=</span> KeyGenerator.getInstance(<span class="hljs-string">&quot;DES&quot;</span>);<br>      <span class="hljs-comment">//Creating a SecureRandom object</span><br>      <span class="hljs-type">SecureRandom</span> <span class="hljs-variable">secRandom</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SecureRandom</span>();<br>      <span class="hljs-comment">//Initializing the KeyGenerator</span><br>      keyGen.init(secRandom);<br>      <span class="hljs-comment">//Creating/Generating a key</span><br>      <span class="hljs-type">Key</span> <span class="hljs-variable">key</span> <span class="hljs-operator">=</span> keyGen.generateKey();<br>      System.out.println(key);      <br>      <span class="hljs-type">Cipher</span> <span class="hljs-variable">cipher</span> <span class="hljs-operator">=</span> Cipher.getInstance(<span class="hljs-string">&quot;DES/ECB/PKCS5Padding&quot;</span>);      <br>      cipher.init(cipher.ENCRYPT_MODE, key);      <br>      <span class="hljs-type">String</span> <span class="hljs-variable">msg</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(<span class="hljs-string">&quot;Hi how are you&quot;</span>);<br>      <span class="hljs-type">byte</span>[] bytes = cipher.doFinal(msg.getBytes());      <br>      System.out.println(bytes);      <br>   &#125;<br>&#125;<br><span class="hljs-comment">//com.sun.crypto.provider.DESKey@18629</span><br><span class="hljs-comment">//[B@2ac1fdc4</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Java-Cryptography-KeyPairGenerator"><a href="#Java-Cryptography-KeyPairGenerator" class="headerlink" title="Java Cryptography - KeyPairGenerator"></a>Java Cryptography - KeyPairGenerator</h1><p>Java提供了<strong>KeyPairGenerator</strong>类。 此类用于生成公钥和私钥对。 要使用<strong>KeyPairGenerator</strong>类生成密钥，请按照以下步骤操作。</p>
+<h2 id="第1步-创建KeyPairGenerator对象"><a href="#第1步-创建KeyPairGenerator对象" class="headerlink" title="第1步:创建KeyPairGenerator对象"></a>第1步:创建KeyPairGenerator对象</h2><p><strong>KeyPairGenerator</strong>类提供**getInstance()**方法，该方法接受表示所需密钥生成算法的String变量，并返回生成密钥的KeyPairGenerator对象。</p>
+<p>使用<strong>getInstance()<strong>方法创建</strong>KeyPairGenerator</strong>对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating KeyPair generator object</span><br><span class="hljs-type">KeyPairGenerator</span> <span class="hljs-variable">keyPairGen</span> <span class="hljs-operator">=</span> KeyPairGenerator.getInstance(<span class="hljs-string">&quot;DSA&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第2步-初始化KeyPairGenerator对象"><a href="#第2步-初始化KeyPairGenerator对象" class="headerlink" title="第2步:初始化KeyPairGenerator对象"></a>第2步:初始化KeyPairGenerator对象</h2><p><strong>KeyPairGenerator</strong>类提供了一个名为**initialize()**方法，该方法用于初始化密钥对生成器。 此方法接受表示密钥大小的整数值。</p>
+<p>使用此方法初始化在上一步中创建的KeyPairGenerator对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Initializing the KeyPairGenerator</span><br>keyPairGen.initialize(<span class="hljs-number">2048</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第3步-生成KeyPairGenerator"><a href="#第3步-生成KeyPairGenerator" class="headerlink" title="第3步:生成KeyPairGenerator"></a>第3步:生成KeyPairGenerator</h2><p>您可以使用<strong>KeyPairGenerator</strong>类的<strong>generateKeyPair()<strong>方法生成</strong>KeyPair</strong> 。 使用此方法生成密钥对，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Generate the pair of keys</span><br><span class="hljs-type">KeyPair</span> <span class="hljs-variable">pair</span> <span class="hljs-operator">=</span> keyPairGen.generateKeyPair();<br></code></pre></td></tr></table></figure>
+
+<h2 id="第4步-获取私钥-公钥"><a href="#第4步-获取私钥-公钥" class="headerlink" title="第4步:获取私钥&#x2F;公钥"></a>第4步:获取私钥&#x2F;公钥</h2><p>您可以使用**getPrivate()**方法从生成的KeyPair对象中获取私钥，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Getting the private key from the key pair</span><br><span class="hljs-type">PrivateKey</span> <span class="hljs-variable">privKey</span> <span class="hljs-operator">=</span> pair.getPrivate();<br></code></pre></td></tr></table></figure>
+
+<p>您可以使用**getPublic()**方法从生成的KeyPair对象获取公钥，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Getting the public key from the key pair</span><br><span class="hljs-type">PublicKey</span> <span class="hljs-variable">publicKey</span> <span class="hljs-operator">=</span> pair.getPublic();<br></code></pre></td></tr></table></figure>
+
+<h3 id="例子-Example-4"><a href="#例子-Example-4" class="headerlink" title="例子 (Example)"></a>例子 (Example)</h3><p>下面的示例演示了使用<strong>javax.crypto</strong>包的KeyPairGenerator类生成密钥的密钥。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.security.KeyPair;<br><span class="hljs-keyword">import</span> java.security.KeyPairGenerator;<br><span class="hljs-keyword">import</span> java.security.PrivateKey;<br><span class="hljs-keyword">import</span> java.security.PublicKey;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">KeyPairGenertor</span> &#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String args[])</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>      <span class="hljs-comment">//Creating KeyPair generator object</span><br>      <span class="hljs-type">KeyPairGenerator</span> <span class="hljs-variable">keyPairGen</span> <span class="hljs-operator">=</span> KeyPairGenerator.getInstance(<span class="hljs-string">&quot;DSA&quot;</span>);<br>      <span class="hljs-comment">//Initializing the KeyPairGenerator</span><br>      keyPairGen.initialize(<span class="hljs-number">2048</span>);<br>      <span class="hljs-comment">//Generating the pair of keys</span><br>      <span class="hljs-type">KeyPair</span> <span class="hljs-variable">pair</span> <span class="hljs-operator">=</span> keyPairGen.generateKeyPair();<br>      <span class="hljs-comment">//Getting the private key from the key pair</span><br>      <span class="hljs-type">PrivateKey</span> <span class="hljs-variable">privKey</span> <span class="hljs-operator">=</span> pair.getPrivate();   <br>      <span class="hljs-comment">//Getting the public key from the key pair</span><br>      <span class="hljs-type">PublicKey</span> <span class="hljs-variable">publicKey</span> <span class="hljs-operator">=</span> pair.getPublic(); <br>      System.out.println(<span class="hljs-string">&quot;Keys generated&quot;</span>);<br>   &#125;<br>&#125;<br><br><span class="hljs-comment">//Keys generated</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Java-Cryptography-Creating-Signature"><a href="#Java-Cryptography-Creating-Signature" class="headerlink" title="Java Cryptography - Creating Signature"></a>Java Cryptography - Creating Signature</h1><p>数字签名允许我们验证签名的作者，日期和时间，验证消息内容。 它还包括用于其他功能的身份验证功能。</p>
+<p><img src="/2023/12/03/Java%E7%9A%84Cryptography/creating_signature.jpg" srcset="/img/loading.gif" lazyload alt="创建签名"></p>
+<h2 id="数字签名的优点"><a href="#数字签名的优点" class="headerlink" title="数字签名的优点"></a>数字签名的优点</h2><p>在本节中，我们将了解要求使用数字签名的不同原因。 将数字签名实施到通信有几个原因 -</p>
+<h3 id="身份验证-Authentication"><a href="#身份验证-Authentication" class="headerlink" title="身份验证 (Authentication)"></a>身份验证 (Authentication)</h3><p>数字签名有助于验证消息来源。 例如，如果银行的分支机构向中央办公室发送消息，请求更改帐户余额。 如果中央办公室无法验证从授权来源发送的消息，则执行此类请求可能是一个严重的错误。</p>
+<h3 id="完整性-Integrity"><a href="#完整性-Integrity" class="headerlink" title="完整性 (Integrity)"></a>完整性 (Integrity)</h3><p>邮件签名后，邮件中的任何更改都将使签名无效。</p>
+<h3 id="Non-repudiation"><a href="#Non-repudiation" class="headerlink" title="Non-repudiation"></a>Non-repudiation</h3><p>通过此属性，任何已签署某些信息的实体都不能在以后拒绝签名。</p>
+<h2 id="创建数字签名"><a href="#创建数字签名" class="headerlink" title="创建数字签名"></a>创建数字签名</h2><p>现在让我们学习如何创建数字签名。 您可以按照以下步骤使用Java创建数字签名。</p>
+<h3 id="第1步-创建KeyPairGenerator对象-1"><a href="#第1步-创建KeyPairGenerator对象-1" class="headerlink" title="第1步:创建KeyPairGenerator对象"></a>第1步:创建KeyPairGenerator对象</h3><p><strong>KeyPairGenerator</strong>类提供**getInstance()**方法，该方法接受表示所需密钥生成算法的String变量，并返回生成密钥的KeyPairGenerator对象。</p>
+<p>使用<strong>getInstance()<strong>方法创建</strong>KeyPairGenerator</strong>对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating KeyPair generator object</span><br><span class="hljs-type">KeyPairGenerator</span> <span class="hljs-variable">keyPairGen</span> <span class="hljs-operator">=</span> KeyPairGenerator.getInstance(<span class="hljs-string">&quot;DSA&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h3 id="第2步-初始化KeyPairGenerator对象-1"><a href="#第2步-初始化KeyPairGenerator对象-1" class="headerlink" title="第2步:初始化KeyPairGenerator对象"></a>第2步:初始化KeyPairGenerator对象</h3><p><strong>KeyPairGenerator</strong>类提供了一个名为**initialize()**方法，该方法用于初始化密钥对生成器。 此方法接受表示密钥大小的整数值。</p>
+<p>使用**initialize()<strong>方法</strong>initialize()**在上一步中创建的KeyPairGenerator对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Initializing the KeyPairGenerator</span><br>keyPairGen.initialize(<span class="hljs-number">2048</span>);<br></code></pre></td></tr></table></figure>
+
+<h3 id="第3步-生成KeyPairGenerator-1"><a href="#第3步-生成KeyPairGenerator-1" class="headerlink" title="第3步:生成KeyPairGenerator"></a>第3步:生成KeyPairGenerator</h3><p>您可以使用<strong>generateKeyPair()<strong>方法生成</strong>KeyPair</strong> 。 使用**generateKeyPair()**方法生成密钥对，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Generate the pair of keys</span><br><span class="hljs-type">KeyPair</span> <span class="hljs-variable">pair</span> <span class="hljs-operator">=</span> keyPairGen.generateKeyPair();<br></code></pre></td></tr></table></figure>
+
+<h3 id="第4步-从对中获取私钥"><a href="#第4步-从对中获取私钥" class="headerlink" title="第4步:从对中获取私钥"></a>第4步:从对中获取私钥</h3><p>您可以使用**getPrivate()**方法从生成的KeyPair对象中获取私钥。</p>
+<p>使用**getPrivate()**方法获取私钥，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Getting the private key from the key pair</span><br><span class="hljs-type">PrivateKey</span> <span class="hljs-variable">privKey</span> <span class="hljs-operator">=</span> pair.getPrivate();  <br></code></pre></td></tr></table></figure>
+
+<h3 id="第5步-创建签名对象"><a href="#第5步-创建签名对象" class="headerlink" title="第5步:创建签名对象"></a>第5步:创建签名对象</h3><p><strong>Signature</strong>类的**getInstance()**方法接受表示所需签名算法的字符串参数，并返回相应的Signature对象。</p>
+<p>使用**getInstance()**方法创建Signature类的对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating a Signature object</span><br><span class="hljs-type">Signature</span> <span class="hljs-variable">sign</span> <span class="hljs-operator">=</span> Signature.getInstance(<span class="hljs-string">&quot;SHA256withDSA&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h3 id="第6步-初始化Signature对象"><a href="#第6步-初始化Signature对象" class="headerlink" title="第6步:初始化Signature对象"></a>第6步:初始化Signature对象</h3><p>Signature类的<strong>initSign()<strong>方法接受</strong>PrivateKey</strong>对象并初始化当前的Signature对象。</p>
+<p>使用**initSign()**方法初始化在上一步中创建的Signature对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Initialize the signature</span><br>sign.initSign(privKey);<br></code></pre></td></tr></table></figure>
+
+<h3 id="第7步-将数据添加到Signature对象"><a href="#第7步-将数据添加到Signature对象" class="headerlink" title="第7步:将数据添加到Signature对象"></a>第7步:将数据添加到Signature对象</h3><p>Signature类的**update()**方法接受表示要签名或验证的数据的字节数组，并使用给定的数据更新当前对象。</p>
+<p>通过以字节数组的形式将要签名的数据传递给**update()<strong>方法来</strong>update()**初始化的Signature对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">byte</span>[] bytes = <span class="hljs-string">&quot;Hello how are you&quot;</span>.getBytes();      <br><span class="hljs-comment">//Adding data to the signature</span><br>sign.update(bytes);<br></code></pre></td></tr></table></figure>
+
+<h3 id="第8步-计算签名"><a href="#第8步-计算签名" class="headerlink" title="第8步:计算签名"></a>第8步:计算签名</h3><p><strong>Signature</strong>类的**sign()**方法返回更新数据的签名字节。</p>
+<p>使用**sign()**方法计算签名，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Calculating the signature</span><br><span class="hljs-type">byte</span>[] signature = sign.sign();<br></code></pre></td></tr></table></figure>
+
+<p><strong>Example</strong></p>
+<p>以下Java程序接受来自用户的消息并为给定消息生成数字签名。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.security.KeyPair;<br><span class="hljs-keyword">import</span> java.security.KeyPairGenerator;<br><span class="hljs-keyword">import</span> java.security.PrivateKey;<br><span class="hljs-keyword">import</span> java.security.Signature;<br><span class="hljs-keyword">import</span> java.util.Scanner;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CreatingDigitalSignature</span> &#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String args[])</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>      <span class="hljs-comment">//Accepting text from user</span><br>      <span class="hljs-type">Scanner</span> <span class="hljs-variable">sc</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Scanner</span>(System.in);<br>      System.out.println(<span class="hljs-string">&quot;Enter some text&quot;</span>);<br>      <span class="hljs-type">String</span> <span class="hljs-variable">msg</span> <span class="hljs-operator">=</span> sc.nextLine();<br>      <span class="hljs-comment">//Creating KeyPair generator object</span><br>      <span class="hljs-type">KeyPairGenerator</span> <span class="hljs-variable">keyPairGen</span> <span class="hljs-operator">=</span> KeyPairGenerator.getInstance(<span class="hljs-string">&quot;DSA&quot;</span>);<br>      <span class="hljs-comment">//Initializing the key pair generator</span><br>      keyPairGen.initialize(<span class="hljs-number">2048</span>);<br>      <span class="hljs-comment">//Generate the pair of keys</span><br>      <span class="hljs-type">KeyPair</span> <span class="hljs-variable">pair</span> <span class="hljs-operator">=</span> keyPairGen.generateKeyPair();<br>      <span class="hljs-comment">//Getting the private key from the key pair</span><br>      <span class="hljs-type">PrivateKey</span> <span class="hljs-variable">privKey</span> <span class="hljs-operator">=</span> pair.getPrivate();<br>      <span class="hljs-comment">//Creating a Signature object</span><br>      <span class="hljs-type">Signature</span> <span class="hljs-variable">sign</span> <span class="hljs-operator">=</span> Signature.getInstance(<span class="hljs-string">&quot;SHA256withDSA&quot;</span>);<br>      <span class="hljs-comment">//Initialize the signature</span><br>      sign.initSign(privKey);<br>      <span class="hljs-type">byte</span>[] bytes = <span class="hljs-string">&quot;msg&quot;</span>.getBytes();<br>      <span class="hljs-comment">//Adding data to the signature</span><br>      sign.update(bytes);<br>      <span class="hljs-comment">//Calculating the signature</span><br>      <span class="hljs-type">byte</span>[] signature = sign.sign();<br>      <span class="hljs-comment">//Printing the signature</span><br>      System.out.println(<span class="hljs-string">&quot;Digital signature for given text: &quot;</span>+<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(signature, <span class="hljs-string">&quot;UTF8&quot;</span>));<br>   &#125;<br>&#125;<br><br><span class="hljs-comment">//Enter some text</span><br><span class="hljs-comment">//Hi how are you</span><br><span class="hljs-comment">//Digital signature for given text: 0=@gRD???-?.???? /yGL?i??a!?</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Java-Cryptography-Verifying-Signature"><a href="#Java-Cryptography-Verifying-Signature" class="headerlink" title="Java Cryptography - Verifying Signature"></a>Java Cryptography - Verifying Signature</h1><p>您可以使用Java创建数字签名，并按照以下步骤进行验证。</p>
+<h2 id="第1步-创建KeyPairGenerator对象-2"><a href="#第1步-创建KeyPairGenerator对象-2" class="headerlink" title="第1步:创建KeyPairGenerator对象"></a>第1步:创建KeyPairGenerator对象</h2><p><strong>KeyPairGenerator</strong>类提供**getInstance()**方法，该方法接受表示所需密钥生成算法的String变量，并返回生成密钥的KeyPairGenerator对象。</p>
+<p>使用<strong>getInstance()<strong>方法创建</strong>KeyPairGenerator</strong>对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating KeyPair generator object</span><br><span class="hljs-type">KeyPairGenerator</span> <span class="hljs-variable">keyPairGen</span> <span class="hljs-operator">=</span> KeyPairGenerator.getInstance(<span class="hljs-string">&quot;DSA&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第2步-初始化KeyPairGenerator对象-2"><a href="#第2步-初始化KeyPairGenerator对象-2" class="headerlink" title="第2步:初始化KeyPairGenerator对象"></a>第2步:初始化KeyPairGenerator对象</h2><p><strong>KeyPairGenerator</strong>类提供了一个名为**initialize()**方法的方法。 此方法用于初始化密钥对生成器。 此方法接受表示密钥大小的整数值。</p>
+<p>使用**initialize()<strong>方法</strong>initialize()**在上一步中创建的KeyPairGenerator对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Initializing the KeyPairGenerator</span><br>keyPairGen.initialize(<span class="hljs-number">2048</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第3步-生成KeyPairGenerator-2"><a href="#第3步-生成KeyPairGenerator-2" class="headerlink" title="第3步:生成KeyPairGenerator"></a>第3步:生成KeyPairGenerator</h2><p>您可以使用<strong>generateKeyPair()<strong>方法生成</strong>KeyPair</strong> 。 使用此方法生成密钥对，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Generate the pair of keys</span><br><span class="hljs-type">KeyPair</span> <span class="hljs-variable">pair</span> <span class="hljs-operator">=</span> keyPairGen.generateKeyPair();<br></code></pre></td></tr></table></figure>
+
+<h2 id="第4步-从对中获取私钥-1"><a href="#第4步-从对中获取私钥-1" class="headerlink" title="第4步:从对中获取私钥"></a>第4步:从对中获取私钥</h2><p>您可以使用**getPrivate()**方法从生成的KeyPair对象中获取私钥。</p>
+<p>使用**getPrivate()**方法获取私钥，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Getting the private key from the key pair</span><br><span class="hljs-type">PrivateKey</span> <span class="hljs-variable">privKey</span> <span class="hljs-operator">=</span> pair.getPrivate(); <br></code></pre></td></tr></table></figure>
+
+<h2 id="第5步-创建签名对象-1"><a href="#第5步-创建签名对象-1" class="headerlink" title="第5步:创建签名对象"></a>第5步:创建签名对象</h2><p><strong>Signature</strong>类的**getInstance()**方法接受表示所需签名算法的字符串参数，并返回相应的Signature对象。</p>
+<p>使用**getInstance()**方法创建Signature类的对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating a Signature object</span><br><span class="hljs-type">Signature</span> <span class="hljs-variable">sign</span> <span class="hljs-operator">=</span> Signature.getInstance(<span class="hljs-string">&quot;SHA256withDSA&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第6步-初始化Signature对象-1"><a href="#第6步-初始化Signature对象-1" class="headerlink" title="第6步:初始化Signature对象"></a>第6步:初始化Signature对象</h2><p>Signature类的<strong>initSign()<strong>方法接受</strong>PrivateKey</strong>对象并初始化当前的Signature对象。</p>
+<p>使用**initSign()**方法初始化在上一步中创建的Signature对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Initialize the signature</span><br>sign.initSign(privKey);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第7步-将数据添加到Signature对象-1"><a href="#第7步-将数据添加到Signature对象-1" class="headerlink" title="第7步:将数据添加到Signature对象"></a>第7步:将数据添加到Signature对象</h2><p>Signature类的**update()**方法接受表示要签名或验证的数据的字节数组，并使用给定的数据更新当前对象。</p>
+<p>通过以字节数组的形式将要签名的数据传递给**update()<strong>方法来</strong>update()**初始化的Signature对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">byte</span>[] bytes = <span class="hljs-string">&quot;Hello how are you&quot;</span>.getBytes();      <br><span class="hljs-comment">//Adding data to the signature</span><br>sign.update(bytes);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第8步-计算签名-1"><a href="#第8步-计算签名-1" class="headerlink" title="第8步:计算签名"></a>第8步:计算签名</h2><p><strong>Signature</strong>类的**sign()**方法返回更新数据的签名字节。</p>
+<p>使用sign（）方法计算签名，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Calculating the signature</span><br><span class="hljs-type">byte</span>[] signature = sign.sign();<br></code></pre></td></tr></table></figure>
+
+<h2 id="第9步-初始化签名对象以进行验证"><a href="#第9步-初始化签名对象以进行验证" class="headerlink" title="第9步:初始化签名对象以进行验证"></a>第9步:初始化签名对象以进行验证</h2><p>要验证Signature对象，首先需要使用<strong>initVerify()<strong>方法对其进行初始化，该方法接受</strong>PublicKey</strong>对象。</p>
+<p>因此，使用**initVerify()**方法初始化Signature对象以进行验证，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Initializing the signature</span><br>sign.initVerify(pair.getPublic());<br></code></pre></td></tr></table></figure>
+
+<h2 id="第10步-更新要验证的数据"><a href="#第10步-更新要验证的数据" class="headerlink" title="第10步:更新要验证的数据"></a>第10步:更新要验证的数据</h2><p>使用更新方法使用要验证的数据更新初始化（用于验证）对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Update the data to be verified</span><br>sign.update(bytes);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第11步-验证签名"><a href="#第11步-验证签名" class="headerlink" title="第11步:验证签名"></a>第11步:验证签名</h2><p>Signature类的**verify()**方法接受另一个签名对象并使用当前签名对象进行验证。 如果匹配发生，则返回true，否则返回false。</p>
+<p>使用此方法验证签名，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Verify the signature</span><br><span class="hljs-type">boolean</span> <span class="hljs-variable">bool</span> <span class="hljs-operator">=</span> sign.verify(signature);<br></code></pre></td></tr></table></figure>
+
+<h3 id="例子-Example-5"><a href="#例子-Example-5" class="headerlink" title="例子 (Example)"></a>例子 (Example)</h3><p>以下Java程序接受来自用户的消息，为给定消息生成数字签名并进行验证。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.security.KeyPair;<br><span class="hljs-keyword">import</span> java.security.KeyPairGenerator;<br><span class="hljs-keyword">import</span> java.security.PrivateKey;<br><span class="hljs-keyword">import</span> java.security.Signature;<br><span class="hljs-keyword">import</span> java.util.Scanner;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SignatureVerification</span> &#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String args[])</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>      <span class="hljs-comment">//Creating KeyPair generator object</span><br>      <span class="hljs-type">KeyPairGenerator</span> <span class="hljs-variable">keyPairGen</span> <span class="hljs-operator">=</span> KeyPairGenerator.getInstance(<span class="hljs-string">&quot;DSA&quot;</span>);<br>      <span class="hljs-comment">//Initializing the key pair generator</span><br>      keyPairGen.initialize(<span class="hljs-number">2048</span>);<br>      <span class="hljs-comment">//Generate the pair of keys</span><br>      <span class="hljs-type">KeyPair</span> <span class="hljs-variable">pair</span> <span class="hljs-operator">=</span> keyPairGen.generateKeyPair();<br>      <span class="hljs-comment">//Getting the privatekey from the key pair</span><br>      <span class="hljs-type">PrivateKey</span> <span class="hljs-variable">privKey</span> <span class="hljs-operator">=</span> pair.getPrivate();<br>      <span class="hljs-comment">//Creating a Signature object</span><br>      <span class="hljs-type">Signature</span> <span class="hljs-variable">sign</span> <span class="hljs-operator">=</span> Signature.getInstance(<span class="hljs-string">&quot;SHA256withDSA&quot;</span>);<br>      <span class="hljs-comment">//Initializing the signature</span><br>      sign.initSign(privKey);<br>      <span class="hljs-type">byte</span>[] bytes = <span class="hljs-string">&quot;Hello how are you&quot;</span>.getBytes();<br>      <span class="hljs-comment">//Adding data to the signature</span><br>      sign.update(bytes);<br>      <span class="hljs-comment">//Calculating the signature</span><br>      <span class="hljs-type">byte</span>[] signature = sign.sign();      <br>      <span class="hljs-comment">//Initializing the signature</span><br>      sign.initVerify(pair.getPublic());<br>      sign.update(bytes);<br>      <span class="hljs-comment">//Verifying the signature</span><br>      <span class="hljs-type">boolean</span> <span class="hljs-variable">bool</span> <span class="hljs-operator">=</span> sign.verify(signature);<br>      <span class="hljs-keyword">if</span>(bool) &#123;<br>         System.out.println(<span class="hljs-string">&quot;Signature verified&quot;</span>);   <br>      &#125; <span class="hljs-keyword">else</span> &#123;<br>         System.out.println(<span class="hljs-string">&quot;Signature failed&quot;</span>);<br>      &#125;<br>   &#125;<br>&#125;<br><br><span class="hljs-comment">//Signature verified</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Java-Cryptography-Encrypting-Data"><a href="#Java-Cryptography-Encrypting-Data" class="headerlink" title="Java Cryptography - Encrypting Data"></a>Java Cryptography - Encrypting Data</h1><p>您可以使用<strong>javax.crypto</strong>包的Cipher类加密给定数据。 按照下面给出的步骤使用Java加密给定的数据。</p>
+<h2 id="第1步-创建KeyPairGenerator对象-3"><a href="#第1步-创建KeyPairGenerator对象-3" class="headerlink" title="第1步:创建KeyPairGenerator对象"></a>第1步:创建KeyPairGenerator对象</h2><p><strong>KeyPairGenerator</strong>类提供**getInstance()**方法，该方法接受表示所需密钥生成算法的String变量，并返回生成密钥的KeyPairGenerator对象。</p>
+<p>使用<strong>getInstance()<strong>方法创建</strong>KeyPairGenerator</strong>对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating KeyPair generator object</span><br><span class="hljs-type">KeyPairGenerator</span> <span class="hljs-variable">keyPairGen</span> <span class="hljs-operator">=</span> KeyPairGenerator.getInstance(<span class="hljs-string">&quot;DSA&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第2步-初始化KeyPairGenerator对象-3"><a href="#第2步-初始化KeyPairGenerator对象-3" class="headerlink" title="第2步:初始化KeyPairGenerator对象"></a>第2步:初始化KeyPairGenerator对象</h2><p><strong>KeyPairGenerator</strong>类提供了一个名为**initialize()**方法，该方法用于初始化密钥对生成器。 此方法接受表示密钥大小的整数值。</p>
+<p>使用**initialize()<strong>方法</strong>initialize()**在上一步中创建的KeyPairGenerator对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Initializing the KeyPairGenerator</span><br>keyPairGen.initialize(<span class="hljs-number">2048</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第3步-生成KeyPairGenerator-3"><a href="#第3步-生成KeyPairGenerator-3" class="headerlink" title="第3步:生成KeyPairGenerator"></a>第3步:生成KeyPairGenerator</h2><p>您可以使用<strong>KeyPairGenerator</strong>类的<strong>generateKeyPair()<strong>方法生成</strong>KeyPair</strong> 。 使用此方法生成密钥对，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Generate the pair of keys</span><br><span class="hljs-type">KeyPair</span> <span class="hljs-variable">pair</span> <span class="hljs-operator">=</span> keyPairGen.generateKeyPair();<br></code></pre></td></tr></table></figure>
+
+<h2 id="第4步-获取公钥"><a href="#第4步-获取公钥" class="headerlink" title="第4步:获取公钥"></a>第4步:获取公钥</h2><p>您可以使用<strong>getPublic()<strong>方法从生成的</strong>KeyPair</strong>对象获取公钥，如下所示。</p>
+<p>使用此方法获取公钥，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Getting the public key from the key pair</span><br><span class="hljs-type">PublicKey</span> <span class="hljs-variable">publicKey</span> <span class="hljs-operator">=</span> pair.getPublic();<br></code></pre></td></tr></table></figure>
+
+<h2 id="第5步-创建一个Cipher对象"><a href="#第5步-创建一个Cipher对象" class="headerlink" title="第5步:创建一个Cipher对象"></a>第5步:创建一个Cipher对象</h2><p><strong>Cipher</strong>类的**getInstance()**方法接受表示所需转换的String变量，并返回实现给定转换的Cipher对象。</p>
+<p>使用**getInstance()**方法创建Cipher对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating a Cipher object</span><br><span class="hljs-type">Cipher</span> <span class="hljs-variable">cipher</span> <span class="hljs-operator">=</span> Cipher.getInstance(<span class="hljs-string">&quot;RSA/ECB/PKCS1Padding&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第6步-初始化Cipher对象"><a href="#第6步-初始化Cipher对象" class="headerlink" title="第6步:初始化Cipher对象"></a>第6步:初始化Cipher对象</h2><p><strong>Cipher</strong>类的**init()**方法接受两个参数，一个表示操作模式的整数参数（加密&#x2F;解密）和一个表示公钥的Key对象。</p>
+<p>使用**init()**方法初始化Cypher对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Initializing a Cipher object</span><br>cipher.init(Cipher.ENCRYPT_MODE, publicKey);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第7步-将数据添加到Cipher对象"><a href="#第7步-将数据添加到Cipher对象" class="headerlink" title="第7步:将数据添加到Cipher对象"></a>第7步:将数据添加到Cipher对象</h2><p>Cipher类的**update()**方法接受表示要加密的数据的字节数组，并使用给定的数据更新当前对象。</p>
+<p>通过以字节数组的形式将数据传递给**update()<strong>方法来</strong>update()**初始化的Cipher对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Adding data to the cipher</span><br><span class="hljs-type">byte</span>[] input = <span class="hljs-string">&quot;Welcome to IoWiki&quot;</span>.getBytes();	  <br>cipher.update(input);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第8步-加密数据"><a href="#第8步-加密数据" class="headerlink" title="第8步:加密数据"></a>第8步:加密数据</h2><p>Cipher类的**doFinal()**方法完成加密操作。 因此，使用此方法完成加密，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Encrypting the data</span><br><span class="hljs-type">byte</span>[] cipherText = cipher.doFinal();<br></code></pre></td></tr></table></figure>
+
+<h3 id="例子-Example-6"><a href="#例子-Example-6" class="headerlink" title="例子 (Example)"></a>例子 (Example)</h3><p>以下Java程序接受来自用户的文本，使用RSA算法对其进行加密，并打印给定文本的加密格式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.security.KeyPair;<br><span class="hljs-keyword">import</span> java.security.KeyPairGenerator;<br><span class="hljs-keyword">import</span> java.security.Signature;<br><span class="hljs-keyword">import</span> javax.crypto.BadPaddingException;<br><span class="hljs-keyword">import</span> javax.crypto.Cipher;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CipherSample</span> &#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String args[])</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>      <span class="hljs-comment">//Creating a Signature object</span><br>      <span class="hljs-type">Signature</span> <span class="hljs-variable">sign</span> <span class="hljs-operator">=</span> Signature.getInstance(<span class="hljs-string">&quot;SHA256withRSA&quot;</span>);<br>      <span class="hljs-comment">//Creating KeyPair generator object</span><br>      <span class="hljs-type">KeyPairGenerator</span> <span class="hljs-variable">keyPairGen</span> <span class="hljs-operator">=</span> KeyPairGenerator.getInstance(<span class="hljs-string">&quot;RSA&quot;</span>);<br>      <span class="hljs-comment">//Initializing the key pair generator</span><br>      keyPairGen.initialize(<span class="hljs-number">2048</span>);<br>      <span class="hljs-comment">//Generating the pair of keys</span><br>      <span class="hljs-type">KeyPair</span> <span class="hljs-variable">pair</span> <span class="hljs-operator">=</span> keyPairGen.generateKeyPair();      <br>      <span class="hljs-comment">//Creating a Cipher object</span><br>      <span class="hljs-type">Cipher</span> <span class="hljs-variable">cipher</span> <span class="hljs-operator">=</span> Cipher.getInstance(<span class="hljs-string">&quot;RSA/ECB/PKCS1Padding&quot;</span>);<br>      <span class="hljs-comment">//Initializing a Cipher object</span><br>      cipher.init(Cipher.ENCRYPT_MODE, pair.getPublic());<br>      <span class="hljs-comment">//Adding data to the cipher</span><br>      <span class="hljs-type">byte</span>[] input = <span class="hljs-string">&quot;Welcome to IoWiki&quot;</span>.getBytes();	  <br>      cipher.update(input);<br>      <span class="hljs-comment">//encrypting the data</span><br>      <span class="hljs-type">byte</span>[] cipherText = cipher.doFinal();	 <br>      System.out.println(<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(cipherText, <span class="hljs-string">&quot;UTF8&quot;</span>));<br>   &#125;<br>&#125;<br><br><span class="hljs-comment">//Encrypted Text: </span><br><span class="hljs-comment">// &quot;???:]J_?]???;Xl??????*@??u???r??=T&amp;???_?_??.??i?????(?$_f?zD??????ZGH??g???</span><br><span class="hljs-comment">//g?E:_??bz^??f?~o???t?&#125;??u=uzp\UI????Z??l[?G?3??Y?UAEfKT?f?O??N_?d__?????a_?15%?^?</span><br><span class="hljs-comment">//&#x27;p?_?$,9&quot;&#123;??^??y??_?t???,?W?PCW??~??[?$??????e????f?Y-Zi__??_??w?_?&amp;QT??`?`~?[?K_??_? ??</span><br></code></pre></td></tr></table></figure>
+
+<h1 id="Java-Cryptography-Decrypting-Data"><a href="#Java-Cryptography-Decrypting-Data" class="headerlink" title="Java Cryptography - Decrypting Data"></a>Java Cryptography - Decrypting Data</h1><p>您可以使用<strong>javax.crypto</strong>包的Cipher类解密加密数据。 按照下面给出的步骤使用Java解密给定数据。</p>
+<h2 id="第1步-创建KeyPairGenerator对象-4"><a href="#第1步-创建KeyPairGenerator对象-4" class="headerlink" title="第1步:创建KeyPairGenerator对象"></a>第1步:创建KeyPairGenerator对象</h2><p><strong>KeyPairGenerator</strong>类提供**getInstance()**方法，该方法接受表示所需密钥生成算法的String变量，并返回生成密钥的KeyPairGenerator对象。</p>
+<p>使用<strong>getInstance()<strong>方法创建</strong>KeyPairGenerator</strong>对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating KeyPair generator object</span><br><span class="hljs-type">KeyPairGenerator</span> <span class="hljs-variable">keyPairGen</span> <span class="hljs-operator">=</span> KeyPairGenerator.getInstance(<span class="hljs-string">&quot;DSA&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第2步-初始化KeyPairGenerator对象-4"><a href="#第2步-初始化KeyPairGenerator对象-4" class="headerlink" title="第2步:初始化KeyPairGenerator对象"></a>第2步:初始化KeyPairGenerator对象</h2><p><strong>KeyPairGenerator</strong>类提供了一个名为**initialize()**方法，该方法用于初始化密钥对生成器。 此方法接受表示密钥大小的整数值。</p>
+<p>使用**initialize()<strong>方法</strong>initialize()**在上一步中创建的KeyPairGenerator对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Initializing the KeyPairGenerator</span><br>keyPairGen.initialize(<span class="hljs-number">2048</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第3步-生成KeyPairGenerator-4"><a href="#第3步-生成KeyPairGenerator-4" class="headerlink" title="第3步:生成KeyPairGenerator"></a>第3步:生成KeyPairGenerator</h2><p>您可以使用<strong>KeyPairGenerator</strong>类的<strong>generateKeyPair()<strong>方法生成</strong>KeyPair</strong> 。 使用此方法生成密钥对，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Generate the pair of keys</span><br><span class="hljs-type">KeyPair</span> <span class="hljs-variable">pair</span> <span class="hljs-operator">=</span> keyPairGen.generateKeyPair();<br></code></pre></td></tr></table></figure>
+
+<h2 id="第4步-获取公钥-1"><a href="#第4步-获取公钥-1" class="headerlink" title="第4步:获取公钥"></a>第4步:获取公钥</h2><p>您可以使用**getPublic()**方法从生成的KeyPair对象获取公钥，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Getting the public key from the key pair</span><br><span class="hljs-type">PublicKey</span> <span class="hljs-variable">publicKey</span> <span class="hljs-operator">=</span> pair.getPublic();<br></code></pre></td></tr></table></figure>
+
+<h2 id="第5步-创建一个Cipher对象-1"><a href="#第5步-创建一个Cipher对象-1" class="headerlink" title="第5步:创建一个Cipher对象"></a>第5步:创建一个Cipher对象</h2><p><strong>Cipher</strong>类的**getInstance()**方法接受表示所需转换的String变量，并返回实现给定转换的Cipher对象。</p>
+<p>使用**getInstance()**方法创建Cipher对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Creating a Cipher object</span><br><span class="hljs-type">Cipher</span> <span class="hljs-variable">cipher</span> <span class="hljs-operator">=</span> Cipher.getInstance(<span class="hljs-string">&quot;RSA/ECB/PKCS1Padding&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第6步-初始化Cipher对象-1"><a href="#第6步-初始化Cipher对象-1" class="headerlink" title="第6步:初始化Cipher对象"></a>第6步:初始化Cipher对象</h2><p>Cipher类的**init()**方法接受两个参数</p>
+<ul>
+<li>表示操作模式的整数参数（加密&#x2F;解密）</li>
+<li>表示公钥的关键对象</li>
+</ul>
+<p>使用**init()**方法初始化Cypher对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Initializing a Cipher object</span><br>cipher.init(Cipher.ENCRYPT_MODE, publicKey);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第7步-将数据添加到Cipher对象-1"><a href="#第7步-将数据添加到Cipher对象-1" class="headerlink" title="第7步:将数据添加到Cipher对象"></a>第7步:将数据添加到Cipher对象</h2><p>Cipher类的**update()**方法接受表示要加密的数据的字节数组，并使用给定的数据更新当前对象。</p>
+<p>通过以字节数组的形式将数据传递给**update()<strong>方法来</strong>update()**初始化的Cipher对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Adding data to the cipher</span><br><span class="hljs-type">byte</span>[] input = <span class="hljs-string">&quot;Welcome to IoWiki&quot;</span>.getBytes();	  <br>cipher.update(input);<br></code></pre></td></tr></table></figure>
+
+<h2 id="第8步-加密数据-1"><a href="#第8步-加密数据-1" class="headerlink" title="第8步:加密数据"></a>第8步:加密数据</h2><p>Cipher类的**doFinal()**方法完成加密操作。 因此，使用此方法完成加密，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Encrypting the data</span><br><span class="hljs-type">byte</span>[] cipherText = cipher.doFinal();<br></code></pre></td></tr></table></figure>
+
+<h2 id="第9步-初始化Cipher对象以进行解密"><a href="#第9步-初始化Cipher对象以进行解密" class="headerlink" title="第9步:初始化Cipher对象以进行解密"></a>第9步:初始化Cipher对象以进行解密</h2><p>要解密前面步骤中加密的密码，您需要初始化它以进行解密。</p>
+<p>因此，通过传递参数Cipher.DECRYPT_MODE和PrivateKey对象来初始化密码对象，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Initializing the same cipher for decryption</span><br>cipher.init(Cipher.DECRYPT_MODE, pair.getPrivate());<br></code></pre></td></tr></table></figure>
+
+<h2 id="第10步-解密数据"><a href="#第10步-解密数据" class="headerlink" title="第10步:解密数据"></a>第10步:解密数据</h2><p>最后，使用**doFinal()**方法解密加密文本，如下所示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//Decrypting the text</span><br><span class="hljs-type">byte</span>[] decipheredText = cipher.doFinal(cipherText);<br></code></pre></td></tr></table></figure>
+
+<h3 id="例子-Example-7"><a href="#例子-Example-7" class="headerlink" title="例子 (Example)"></a>例子 (Example)</h3><p>以下Java程序接受来自用户的文本，使用RSA算法对其进行加密，打印给定文本的密码，解密密码并再次打印解密文本。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.security.KeyPair;<br><span class="hljs-keyword">import</span> java.security.KeyPairGenerator;<br><span class="hljs-keyword">import</span> java.security.Signature;<br><span class="hljs-keyword">import</span> javax.crypto.Cipher;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CipherDecrypt</span> &#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String args[])</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>	   <span class="hljs-comment">//Creating a Signature object</span><br>      <span class="hljs-type">Signature</span> <span class="hljs-variable">sign</span> <span class="hljs-operator">=</span> Signature.getInstance(<span class="hljs-string">&quot;SHA256withRSA&quot;</span>);<br>      <span class="hljs-comment">//Creating KeyPair generator object</span><br>      <span class="hljs-type">KeyPairGenerator</span> <span class="hljs-variable">keyPairGen</span> <span class="hljs-operator">=</span> KeyPairGenerator.getInstance(<span class="hljs-string">&quot;RSA&quot;</span>);<br>      <span class="hljs-comment">//Initializing the key pair generator</span><br>      keyPairGen.initialize(<span class="hljs-number">2048</span>);<br>      <span class="hljs-comment">//Generate the pair of keys</span><br>      <span class="hljs-type">KeyPair</span> <span class="hljs-variable">pair</span> <span class="hljs-operator">=</span> keyPairGen.generateKeyPair();   <br>      <span class="hljs-comment">//Getting the public key from the key pair</span><br>      <span class="hljs-type">PublicKey</span> <span class="hljs-variable">publicKey</span> <span class="hljs-operator">=</span> pair.getPublic();  <br>      <span class="hljs-comment">//Creating a Cipher object</span><br>      <span class="hljs-type">Cipher</span> <span class="hljs-variable">cipher</span> <span class="hljs-operator">=</span> Cipher.getInstance(<span class="hljs-string">&quot;RSA/ECB/PKCS1Padding&quot;</span>);<br>      <span class="hljs-comment">//Initializing a Cipher object</span><br>      cipher.init(Cipher.ENCRYPT_MODE, publicKey);<br>      <span class="hljs-comment">//Add data to the cipher</span><br>      <span class="hljs-type">byte</span>[] input = <span class="hljs-string">&quot;Welcome to IoWiki&quot;</span>.getBytes();	  <br>      cipher.update(input);<br>      <span class="hljs-comment">//encrypting the data</span><br>      <span class="hljs-type">byte</span>[] cipherText = cipher.doFinal();	 <br>      System.out.println( <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(cipherText, <span class="hljs-string">&quot;UTF8&quot;</span>));<br>      <span class="hljs-comment">//Initializing the same cipher for decryption</span><br>      cipher.init(Cipher.DECRYPT_MODE, pair.getPrivate());<br>      <span class="hljs-comment">//Decrypting the text</span><br>      <span class="hljs-type">byte</span>[] decipheredText = cipher.doFinal(cipherText);<br>      System.out.println(<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(decipheredText));<br>   &#125;<br>&#125;<br><br><span class="hljs-comment">//Encrypted Text:</span><br><span class="hljs-comment">//]/[?F3?D?p</span><br><span class="hljs-comment">//v?w?!?H???^?A??????P?u??FA?</span><br><span class="hljs-comment">//?</span><br><span class="hljs-comment">//???_?? ???_jMH-??&gt;??OP?&#x27;?j?_?n`</span><br><span class="hljs-comment">//?_??&#x27;`????o??_GL??g???g_f?????f|???LT?|?Vz_TDu#??\?&lt;b,,?$C2???Bq?#?lDB`??g,^??K?_?v???`&#125;</span><br><span class="hljs-comment">//?;LX?a?_5e???#???_?6?/B&amp;B_???^?__Ap^#_?q?IEh????_?,??*??]~_?_?D?</span><br><span class="hljs-comment">//_y???lp??a?P_U&#123;</span><br><span class="hljs-comment">//Decrypted Text:</span><br><span class="hljs-comment">//Welcome to IoWiki</span><br></code></pre></td></tr></table></figure>
+
+<p>参考：<a target="_blank" rel="noopener" href="https://iowiki.com/java_cryptography/java_cryptography_quick_guide.html">https://iowiki.com/java_cryptography/java_cryptography_quick_guide.html</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Java/" class="print-no-link">#Java</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Java的Cryptography</div>
+      <div>http://example.com/2023/12/03/Java的Cryptography/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Whhxy4</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年12月3日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/12/02/%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6Redis/" title="主从复制Redis">
+                        <span class="hidden-mobile">主从复制Redis</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

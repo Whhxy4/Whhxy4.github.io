@@ -1,0 +1,700 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Whhxy4">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="MISCosint附件得到一张图  根据公交车后面的广告永年，推断出河北邯郸永年区 然后根据酒店名去百度地图搜  得到位置，最后flag是HECTF{河北省邯郸市永年区太极广场} ezpcap打开流量包 观察到HTTP状态码两百 点开看到里面有个压缩包，加密了 翻翻tcp流量得到密码 1234SEVMTE9IRUNURlgyejBVbTIzUkY&#x3D;解出来HELLOHECTFX2z0Um23RF试了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HECTF2023">
+<meta property="og:url" content="http://example.com/2023/11/20/HECTF2023/index.html">
+<meta property="og:site_name" content="W火火">
+<meta property="og:description" content="MISCosint附件得到一张图  根据公交车后面的广告永年，推断出河北邯郸永年区 然后根据酒店名去百度地图搜  得到位置，最后flag是HECTF{河北省邯郸市永年区太极广场} ezpcap打开流量包 观察到HTTP状态码两百 点开看到里面有个压缩包，加密了 翻翻tcp流量得到密码 1234SEVMTE9IRUNURlgyejBVbTIzUkY&#x3D;解出来HELLOHECTFX2z0Um23RF试了">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/11/20/HECTF2023/1700390606369-4c309be9-77d7-45fa-80eb-5a1edebd97e0.png">
+<meta property="og:image" content="http://example.com/2023/11/20/HECTF2023/1700390704968-3d5a8d0f-bf54-4066-838e-3fe8f1a5066f.png">
+<meta property="og:image" content="http://example.com/2023/11/20/HECTF2023/image-20231119145343104.png">
+<meta property="og:image" content="http://example.com/2023/11/20/HECTF2023/image-20231119151705667.png">
+<meta property="og:image" content="http://example.com/2023/11/20/HECTF2023/image-20231119152048364.png">
+<meta property="og:image" content="http://example.com/2023/11/20/HECTF2023/1700390893450-6b49dd39-188f-4a79-8eed-aa081519dbee.png">
+<meta property="og:image" content="http://example.com/2023/11/20/HECTF2023/1700391157169-3c9c0b6b-3b94-4671-b574-ee91127fda75.png">
+<meta property="article:published_time" content="2023-11-20T10:39:06.000Z">
+<meta property="article:modified_time" content="2023-11-21T06:20:38.169Z">
+<meta property="article:author" content="Whhxy4">
+<meta property="article:tag" content="CTF-wp-Web&amp;Misc">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/11/20/HECTF2023/1700390606369-4c309be9-77d7-45fa-80eb-5a1edebd97e0.png">
+  
+  
+  
+  <title>HECTF2023 - W火火</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/css/macpanel.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.5","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>W火火</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="HECTF2023"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-11-20 18:39" pubdate>
+          2023年11月20日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">HECTF2023</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="MISC"><a href="#MISC" class="headerlink" title="MISC"></a>MISC</h1><h2 id="osint"><a href="#osint" class="headerlink" title="osint"></a>osint</h2><p>附件得到一张图</p>
+<p><img src="/2023/11/20/HECTF2023/1700390606369-4c309be9-77d7-45fa-80eb-5a1edebd97e0.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>根据公交车后面的广告永年，推断出河北邯郸永年区</p>
+<p>然后根据酒店名去百度地图搜</p>
+<p><img src="/2023/11/20/HECTF2023/1700390704968-3d5a8d0f-bf54-4066-838e-3fe8f1a5066f.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>得到位置，最后flag是HECTF{河北省邯郸市永年区太极广场}</p>
+<h2 id="ezpcap"><a href="#ezpcap" class="headerlink" title="ezpcap"></a>ezpcap</h2><p>打开流量包</p>
+<p>观察到HTTP状态码两百</p>
+<p>点开看到里面有个压缩包，加密了</p>
+<p>翻翻tcp流量得到密码</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">SEVMTE9IRUNURlgyejBVbTIzUkY</span><span class="hljs-operator">=</span><br>解出来<br>HELLOHECTFX2z0Um23RF<br>试了试密码是X2z0Um23RF<br></code></pre></td></tr></table></figure>
+
+<p>打开得到flag</p>
+<h2 id="斗地主"><a href="#斗地主" class="headerlink" title="斗地主"></a><strong>斗地主</strong></h2><p>小凯的身份证zsteg看到一张gif导出</p>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs gauss">zsteg -e 通道信息(b1,rgb,lsb,<span class="hljs-built_in">xy</span>) 源文件 &gt; 目标文件  <span class="hljs-meta">#提取隐藏文件</span><br>zsteg -e b1,rgb,lsb,<span class="hljs-built_in">xy</span> c2.png &gt; c2.gif<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/20/HECTF2023/image-20231119145343104.png" srcset="/img/loading.gif" lazyload alt="image-20231119145343104"></p>
+<p>s黑桃h红桃c草花d方块</p>
+<p>猜测按顺序作为密码，解密小凯的公文包</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dns">s2h2d2skckhqs10h10s9h9c9d9s6d<span class="hljs-number">6s5h4s3</span><br></code></pre></td></tr></table></figure>
+
+<p>两张png和一个地址</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>www.bilibili.com<span class="hljs-regexp">/video/</span>BV1Lj41187kx/<br></code></pre></td></tr></table></figure>
+
+<p>两张png各提取出一个zip</p>
+<p>猜测去b站查看每个人的牌，作为密码解密zip</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xl">c2sahacadahkdksjhjcjdjc10s8h8c8d8s7c7d7d5<br><br><br><span class="hljs-function"><span class="hljs-title">small</span> joker -&gt;</span> kaf<br><span class="hljs-function"><span class="hljs-title">big</span> joker -&gt;</span> wi1<br>注意wi1不是wil<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs llvm">wi<span class="hljs-number">1</span>kafsqcqdqd<span class="hljs-number">10</span>h<span class="hljs-number">7</span>h<span class="hljs-number">6</span><span class="hljs-keyword">c</span><span class="hljs-number">6</span>h<span class="hljs-number">5</span><span class="hljs-keyword">c</span><span class="hljs-number">5</span>s<span class="hljs-number">4</span><span class="hljs-keyword">c</span><span class="hljs-number">4</span>d<span class="hljs-number">4</span>h<span class="hljs-number">3</span><span class="hljs-keyword">c</span><span class="hljs-number">3</span>d<span class="hljs-number">3</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/20/HECTF2023/image-20231119151705667.png" srcset="/img/loading.gif" lazyload alt="image-20231119151705667"></p>
+<h2 id="真的有五位吗"><a href="#真的有五位吗" class="headerlink" title="真的有五位吗"></a>真的有五位吗</h2><p>开始的hint</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs">密码：<br></code></pre></td></tr></table></figure>
+
+<p>伪加密</p>
+<p>——&gt;</p>
+<p>hint</p>
+<figure class="highlight arcade"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs arcade">password の 前 四位是 __import__(<span class="hljs-string">&quot;datetime&quot;</span>).datetime.<span class="hljs-built_in">now</span>().<span class="hljs-built_in">year</span> , 那 后五位 呢?<br>会是字母吗？<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2023/11/20/HECTF2023/image-20231119152048364.png" srcset="/img/loading.gif" lazyload alt="image-20231119152048364"></p>
+<p>——&gt;</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs stata">放到txt只显示<br>hEcTF<br>内容是：<br>password 是：<span class="hljs-keyword">hE</span>​<span class="hljs-keyword">cT</span>‌F‏                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    吗？<br></code></pre></td></tr></table></figure>
+
+<p>解压得到flag</p>
+<h2 id="NT-M"><a href="#NT-M" class="headerlink" title="NT?M"></a><strong>NT?M</strong></h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/52882041">9步从pcap文件中提取并破解 NTLMv2 哈希 - 知乎 (zhihu.com)</a></p>
+<p>照着做</p>
+<figure class="highlight llvm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs llvm"><span class="hljs-symbol">username:</span>:domain:ServerChallenge:NTproofstr:NTLMV<span class="hljs-number">2</span> response(删去和NTproofstr相同部分)<br><span class="hljs-symbol">administrator:</span>:WIN<span class="hljs-number">2008</span>:<span class="hljs-number">8</span><span class="hljs-keyword">c</span><span class="hljs-number">6</span>ed<span class="hljs-number">1811</span>a<span class="hljs-number">3</span>f<span class="hljs-number">7</span>dae:<span class="hljs-number">231</span>ba<span class="hljs-number">3</span>ca<span class="hljs-number">5560858</span>acb<span class="hljs-number">0085e255</span>d<span class="hljs-number">8</span>d<span class="hljs-number">626</span>:<span class="hljs-number">0101000000000000e5</span>bf<span class="hljs-number">79e972</span>f<span class="hljs-number">7</span>d<span class="hljs-number">901</span>ba<span class="hljs-number">794888</span>efa<span class="hljs-number">8</span>b<span class="hljs-number">8e800000000020008004800410043004</span>b<span class="hljs-number">000100040044004300040010006800610063006</span>b<span class="hljs-number">002e0063006</span>f<span class="hljs-number">006</span>d<span class="hljs-number">0003001600440043002e006800610063006</span>b<span class="hljs-number">002e0063006</span>f<span class="hljs-number">006</span>d<span class="hljs-number">00050010006800610063006</span>b<span class="hljs-number">002e0063006</span>f<span class="hljs-number">006</span>d<span class="hljs-number">0007000800e5</span>bf<span class="hljs-number">79e972</span>f<span class="hljs-number">7</span>d<span class="hljs-number">9010600040002000000080030003000000000000000000000000030000046</span>fc<span class="hljs-number">5</span>f<span class="hljs-number">0</span>d<span class="hljs-number">124</span>bc<span class="hljs-number">9</span>b<span class="hljs-number">99</span>b<span class="hljs-number">5</span>b<span class="hljs-number">560</span><span class="hljs-keyword">c</span><span class="hljs-number">14</span>cd<span class="hljs-number">7</span><span class="hljs-keyword">c</span><span class="hljs-number">7e217</span>f<span class="hljs-number">08</span>f<span class="hljs-number">22</span>ef<span class="hljs-number">5</span>f<span class="hljs-number">223679</span>ec<span class="hljs-number">2</span><span class="hljs-keyword">c</span><span class="hljs-number">576230</span>fa<span class="hljs-number">30</span>a<span class="hljs-number">001000000000000000000000000000000000000900240063006900660073002</span>f<span class="hljs-number">003100390032002e003100360038002</span>e<span class="hljs-number">00310036002e0031003000000000000000000000000000</span><br><span class="hljs-symbol">administrator:</span>:WIN<span class="hljs-number">2008</span>:<span class="hljs-number">9</span>a<span class="hljs-number">88373</span>dbb<span class="hljs-number">4</span>f<span class="hljs-number">5e36</span>:<span class="hljs-number">4</span>eb<span class="hljs-number">74543</span>b<span class="hljs-number">9962</span>bb<span class="hljs-number">2</span>ca<span class="hljs-number">36e938909</span>bb<span class="hljs-number">930</span>:<span class="hljs-number">0101000000000000</span>d<span class="hljs-number">23</span><span class="hljs-keyword">c</span><span class="hljs-number">83</span>f<span class="hljs-number">972</span>f<span class="hljs-number">7</span>d<span class="hljs-number">9015e866</span>dc<span class="hljs-number">6343</span>b<span class="hljs-number">804400000000020008004800410043004</span>b<span class="hljs-number">000100040044004300040010006800610063006</span>b<span class="hljs-number">002e0063006</span>f<span class="hljs-number">006</span>d<span class="hljs-number">0003001600440043002e006800610063006</span>b<span class="hljs-number">002e0063006</span>f<span class="hljs-number">006</span>d<span class="hljs-number">00050010006800610063006</span>b<span class="hljs-number">002e0063006</span>f<span class="hljs-number">006</span>d<span class="hljs-number">0007000800</span>d<span class="hljs-number">23</span><span class="hljs-keyword">c</span><span class="hljs-number">83</span>f<span class="hljs-number">972</span>f<span class="hljs-number">7</span>d<span class="hljs-number">9010600040002000000080030003000000000000000000000000030000046</span>fc<span class="hljs-number">5</span>f<span class="hljs-number">0</span>d<span class="hljs-number">124</span>bc<span class="hljs-number">9</span>b<span class="hljs-number">99</span>b<span class="hljs-number">5</span>b<span class="hljs-number">560</span><span class="hljs-keyword">c</span><span class="hljs-number">14</span>cd<span class="hljs-number">7</span><span class="hljs-keyword">c</span><span class="hljs-number">7e217</span>f<span class="hljs-number">08</span>f<span class="hljs-number">22</span>ef<span class="hljs-number">5</span>f<span class="hljs-number">223679</span>ec<span class="hljs-number">2</span><span class="hljs-keyword">c</span><span class="hljs-number">576230</span>fa<span class="hljs-number">30</span>a<span class="hljs-number">001000000000000000000000000000000000000900240063006900660073002</span>f<span class="hljs-number">003100390032002e003100360038002</span>e<span class="hljs-number">00310036002e0031003000000000000000000000000000</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">hashcat -m 5600 <span class="hljs-string">&#x27;/home/kali/Desktop/crackme1.txt&#x27;</span> rockyou.txt<br></code></pre></td></tr></table></figure>
+
+<p>解了两次，第一次得到Admin@123，假的，没登录成功；第二次得到qwe123!@#，md5一下是6d57fdc7c6a3b74db25293ef98bc6479</p>
+<h2 id="风水先生"><a href="#风水先生" class="headerlink" title="风水先生"></a>风水先生</h2><p>给了一张有96个卦象的图片，以为是每张图片转二进制，然后重组八位</p>
+<p>看了wp才知道，易经64卦，每个卦象表示log264</p>
+<p>易经64卦，每个卦象表示log264</p>
+<p>找到对应的编号，转成二进制，然后八位一组</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># 6bit</span><br>bg = [<span class="hljs-number">21</span> ,<span class="hljs-number">35</span> ,<span class="hljs-number">9</span> ,<span class="hljs-number">22</span> ,<span class="hljs-number">28</span> ,<span class="hljs-number">53</span> ,<span class="hljs-number">36</span> ,<span class="hljs-number">50</span> ,<span class="hljs-number">14</span> ,<span class="hljs-number">23</span> ,<span class="hljs-number">17</span> ,<span class="hljs-number">26</span> ,<span class="hljs-number">20</span> ,<span class="hljs-number">52</span> ,<span class="hljs-number">8</span> ,<span class="hljs-number">48</span> ,<span class="hljs-number">24</span> ,<span class="hljs-number">39</span> ,<span class="hljs-number">37</span> ,<span class="hljs-number">2</span> ,<span class="hljs-number">18</span> ,<span class="hljs-number">21</span> ,<span class="hljs-number">9</span> ,<span class="hljs-number">21</span> ,<span class="hljs-number">19</span> ,<span class="hljs-number">37</span> ,<span class="hljs-number">21</span> ,<span class="hljs-number">18</span> ,<span class="hljs-number">27</span> ,<span class="hljs-number">39</span> ,<span class="hljs-number">13</span> ,<span class="hljs-number">57</span> ,<span class="hljs-number">19</span> ,<span class="hljs-number">38</span> ,<span class="hljs-number">53</span> ,<span class="hljs-number">17</span> ,<span class="hljs-number">30</span> ,<span class="hljs-number">21</span> ,<span class="hljs-number">41</span> ,<span class="hljs-number">45</span> ,<span class="hljs-number">17</span> ,<span class="hljs-number">23</span> ,<span class="hljs-number">29</span> ,<span class="hljs-number">13</span> ,<span class="hljs-number">20</span> ,<span class="hljs-number">51</span> ,<span class="hljs-number">0</span> ,<span class="hljs-number">53</span> ,<span class="hljs-number">19</span> ,<span class="hljs-number">37</span> ,<span class="hljs-number">17</span> ,<span class="hljs-number">25</span> ,<span class="hljs-number">13</span> ,<span class="hljs-number">20</span> ,<span class="hljs-number">49</span> ,<span class="hljs-number">23</span> ,<span class="hljs-number">20</span> ,<span class="hljs-number">23</span> ,<span class="hljs-number">33</span> ,<span class="hljs-number">15</span> ,<span class="hljs-number">17</span> ,<span class="hljs-number">6</span> ,<span class="hljs-number">29</span> ,<span class="hljs-number">52</span> ,<span class="hljs-number">19</span> ,<span class="hljs-number">35</span> ,<span class="hljs-number">9</span> ,<span class="hljs-number">18</span> ,<span class="hljs-number">27</span> ,<span class="hljs-number">5</span> ,<span class="hljs-number">37</span> ,<span class="hljs-number">57</span> ,<span class="hljs-number">12</span> ,<span class="hljs-number">3</span> ,<span class="hljs-number">13</span> ,<span class="hljs-number">15</span> ,<span class="hljs-number">17</span> ,<span class="hljs-number">52</span> ,<span class="hljs-number">21</span> ,<span class="hljs-number">55</span> ,<span class="hljs-number">19</span> ,<span class="hljs-number">38</span> ,<span class="hljs-number">41</span> ,<span class="hljs-number">39</span> ,<span class="hljs-number">12</span> ,<span class="hljs-number">4</span> ,<span class="hljs-number">57</span> ,<span class="hljs-number">45</span> ,<span class="hljs-number">19</span> ,<span class="hljs-number">23</span> ,<span class="hljs-number">33</span> ,<span class="hljs-number">25</span> ,<span class="hljs-number">12</span> ,<span class="hljs-number">36</span> ,<span class="hljs-number">40</span> ,<span class="hljs-number">57</span>]<br><span class="hljs-keyword">import</span> re<br><span class="hljs-keyword">def</span> <span class="hljs-title function_">split_string_by_length</span>(<span class="hljs-params">string, length</span>):<br>    pattern = <span class="hljs-string">&#x27;.&#123;%d&#125;&#x27;</span> % length<br>    result = re.findall(pattern, string)<br>    <span class="hljs-keyword">return</span> result<br><br>binary_ = <span class="hljs-string">&#x27;&#x27;</span><br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> bg:<br>    binary_ += (<span class="hljs-built_in">bin</span>(i)[<span class="hljs-number">2</span>:]).rjust(<span class="hljs-number">6</span>,<span class="hljs-string">&#x27;0&#x27;</span>)<br>binary_list = split_string_by_length(binary_,<span class="hljs-number">8</span>)<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> binary_list:<br>    <span class="hljs-built_in">print</span>(<span class="hljs-built_in">chr</span>(<span class="hljs-built_in">int</span>(i,<span class="hljs-number">2</span>)),end=<span class="hljs-string">&#x27;&#x27;</span>)<br><br><span class="hljs-comment"># 解base64</span><br><span class="hljs-comment"># Welcome to HECTF&#123;26d2fa01-9569-d188-7dec-78a06846c1cb&#125;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="咖啡宝贝"><a href="#咖啡宝贝" class="headerlink" title="咖啡宝贝"></a>咖啡宝贝</h2><p>得到一个txt文件，提示看图片猜成语，所得的成语每个字大写就是压缩包密码，这边没去猜，直接爆破四位大写字母</p>
+<p><img src="/2023/11/20/HECTF2023/1700390893450-6b49dd39-188f-4a79-8eed-aa081519dbee.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p>解压压缩包得到一个.class文件，去java在线网站反编译得到代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Evil</span> &#123;<br>   <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>      System.out.println(<span class="hljs-string">&quot;https://pan.baidu.com/s/1X5J3gAp17MDsW_1ojlTRZQ?pwd=hecf&quot;</span>);<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>访问百度网盘，得到24块二维码的区域图，手搓得到</p>
+<p><img src="/2023/11/20/HECTF2023/1700391157169-3c9c0b6b-3b94-4671-b574-ee91127fda75.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/CTF-wp-Web-Misc/" class="print-no-link">#CTF-wp-Web&Misc</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>HECTF2023</div>
+      <div>http://example.com/2023/11/20/HECTF2023/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Whhxy4</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年11月20日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2023/11/23/Phar%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" title="Phar 反序列化">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Phar 反序列化</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/11/19/SSRF/" title="SSRF">
+                        <span class="hidden-mobile">SSRF</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -30,7 +30,7 @@
 <meta property="og:image" content="http://example.com/2023/11/17/AWD%E6%80%BB%E7%BB%93/1700236055894.png">
 <meta property="og:image" content="http://example.com/2023/11/17/AWD%E6%80%BB%E7%BB%93/1700236101094.png">
 <meta property="article:published_time" content="2023-11-17T13:59:06.000Z">
-<meta property="article:modified_time" content="2023-11-17T15:59:52.373Z">
+<meta property="article:modified_time" content="2023-12-02T15:18:49.845Z">
 <meta property="article:author" content="Whhxy4">
 <meta property="article:tag" content="AWD">
 <meta name="twitter:card" content="summary_large_image">
@@ -70,6 +70,10 @@
     <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
   
 
+
+
+  
+<link rel="stylesheet" href="/css/macpanel.css">
 
 
 
@@ -227,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          25k 字
+          26k 字
         
       </span>
     
@@ -238,7 +242,7 @@
         
         
         
-          212 分钟
+          215 分钟
         
       </span>
     
@@ -479,9 +483,9 @@
 <p><img src="/2023/11/17/AWD%E6%80%BB%E7%BB%93/1700236055894.png" srcset="/img/loading.gif" lazyload alt="1700236055894"></p>
 <p>上传至服务器访问<br>再次查看.config.php文件内容，可以看到内容已无害</p>
 <p><img src="/2023/11/17/AWD%E6%80%BB%E7%BB%93/1700236101094.png" srcset="/img/loading.gif" lazyload alt="1700236101094"></p>
-<h3 id="监测攻击payload"><a href="#监测攻击payload" class="headerlink" title="监测攻击payload"></a>监测攻击payload</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">tail</span> -f *.<span class="hljs-built_in">log</span><br></code></pre></td></tr></table></figure>
+<h3 id="监测攻击payload"><a href="#监测攻击payload" class="headerlink" title="监测攻击payload"></a>监测攻击payload</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">tail</span> -f *.<span class="hljs-built_in">log</span><br>sudo find /var/www/html -<span class="hljs-built_in">type</span> f -path <span class="hljs-string">&quot;*.php&quot;</span> | xargs sed -i <span class="hljs-string">&quot;s/&lt;?php/&lt;?php\nrequire_once(&#x27;\/tmp\/waf.php&#x27;);\n/g&quot;</span><br><span class="hljs-comment">#意思就是查找需要加waf的目录下所有php文件，在头部添加一句，用require_once函数引入/tmp/waf.php文件。因为sed命令利用 / 区分文件中的原字符串和修改的字符串，所以我们要对 / 进行转义。类似于在单引号中再次使用单引号时我们也要用反斜杠转义。</span><br><br>find /var/www/html -<span class="hljs-built_in">type</span> f -name <span class="hljs-string">&quot;*.php&quot;</span> -<span class="hljs-built_in">exec</span> sed -i <span class="hljs-string">&quot;s/&lt;?php/&lt;?php\nrequire_once(&#x27;\/var\/www\/html\/waf.php&#x27;);\n/g&quot;</span> &#123;&#125; +<br></code></pre></td></tr></table></figure>
 
-<p>，看日志，不言而喻，抓他们的payload并利用</p>
+<p>看日志，不言而喻，抓他们的payload并利用</p>
 <h3 id="漏洞"><a href="#漏洞" class="headerlink" title="漏洞"></a>漏洞</h3><p>常见的漏洞包括SQL注入、文件包含、文件上传、命令执行等。</p>
 <h4 id="（1）sql注入漏洞"><a href="#（1）sql注入漏洞" class="headerlink" title="（1）sql注入漏洞"></a>（1）sql注入漏洞</h4><p>比赛一般没有防护（除非选手安装了防御脚本），可直接通过 <code>--sql-shell</code> 执行 <code>select load_file(‘/flag’);</code> 得到flag，也可以利用 <code>into outfile</code> 写木马维持权限。</p>
 <h4 id="（2）本地文件包含或目录遍历"><a href="#（2）本地文件包含或目录遍历" class="headerlink" title="（2）本地文件包含或目录遍历"></a>（2）本地文件包含或目录遍历</h4><p>直接通过 <code>../../../../../flag</code> 获取。</p>
@@ -553,6 +557,12 @@
                 <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2023/11/19/9%E6%AD%A5%E4%BB%8Epcap%E6%96%87%E4%BB%B6%E4%B8%AD%E6%8F%90%E5%8F%96%E5%B9%B6%E7%A0%B4%E8%A7%A3NTLMv2%E5%93%88%E5%B8%8C/" title="9步从pcap文件中提取并破解 NTLMv2 哈希">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">9步从pcap文件中提取并破解 NTLMv2 哈希</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">
